@@ -1,38 +1,38 @@
 <script>
-import Dashboard from './pages/Dashboard'
-import Pinned from './pages/Pinned'
-import Bookmarks from './pages/Bookmarks'
-import Profile from './pages/Profile'
+import Dashboard from './screens/Dashboard'
+import Browse from './screens/Browse'
+import Bookmarks from './screens/Bookmarks'
+import Profile from './screens/Profile'
 import './style/BoxShadow.js'
+
+let selectedTab = 0
 
 </script>
 
-<page>
-    <actionBar title="" flat="true"/>
-    <bottomNavigation>
+<page actionBarHidden={true}>
+    <bottomNavigation bind:selectedIndex={selectedTab}>
         <tabStrip>
             <tabStripItem>
-                <image src="font://&#xf015;" class="fas t-36"/>
+                <image src="~/assets/icons/homeDark.png" class="fas t-36"/>
             </tabStripItem>
             <tabStripItem>
-                <image src="font://&#xf5da;"  class="fas t-36"/>
+                <image src='~/assets/icons/newspaper.png'  class="fas t-36"/>
             </tabStripItem>
             <tabStripItem>
-                <image src="font://&#xf02e;"  class="fas t-36"/>
+                <image src='~/assets/icons/bookmark.png' class="fas t-36"/>
             </tabStripItem>
             <tabStripItem>
-                <image src="font://&#xf007;" class="fas t-36"/>
+                <image src='~/assets/icons/userDark.png' class="fas t-36"/>
             </tabStripItem>
         </tabStrip>
 
         <tabContentItem>
             <gridLayout>
                 <Dashboard/>
-            </gridLayout>
         </tabContentItem>
         <tabContentItem>
             <gridLayout>
-                <Pinned/>
+                <Browse/>
             </gridLayout>
         </tabContentItem>
         <tabContentItem>
@@ -53,5 +53,4 @@ tabStripItem{
     background-color: white;
     border: none;
 }
- 
 </style>

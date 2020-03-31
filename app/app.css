@@ -14,5 +14,46 @@ The imported CSS rules must precede all other types of rules.
 @import './font-awesome.css';
 
 *{
-    font-family: 'Times New Roman', Times, serif
+    font-family: 'Open Sans', sans-serif;
+    color: #232323;
 }
+
+/* TEXT STYLING */
+.white{
+    color: white;
+}
+.timesNewRoman{
+    font-family: 'Times New Roman', Times, serif;
+}
+.montserrat{
+    font-family: 'Montserrat';
+}
+.h1{
+    font-size: 20;
+    font-weight: 700;
+    letter-spacing: 0.1;
+    text-transform: uppercase;
+}
+
+.h3{
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* COMPONENT STYLING */
+.wrapper{
+    margin: 15;
+    width: 100%;
+}
+
+.topBar{
+    width: 100%;
+    flex-direction: row;
+    height: 60;
+    justify-content: center;
+}
+
+.image{
+    background-color: lightgray;
+}
+

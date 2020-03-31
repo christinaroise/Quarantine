@@ -11,10 +11,9 @@
 </stackLayout>
 
 <style>
-    .wrapper{
-        margin-bottom: 10;
-    }
     .h2{
+        margin: 15;
         font-weight: 600;
+        color: #232323;
     }
 </style>
