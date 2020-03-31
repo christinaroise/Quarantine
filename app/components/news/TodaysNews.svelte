@@ -1,6 +1,7 @@
 <script>
     import { onMount } from 'svelte'
     import { showModal } from 'svelte-native'
+    import { ApiService, ArticleService } from '~/service/Service'
     import Article from '~/modals/Article'
 
     const utilsModule = require('tns-core-modules/utils/utils')
@@ -9,39 +10,10 @@
 
     let articles = []
 
-    const getData = () => {
-        articles = []
-        const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${api_key}`
-        fetch(url)
-            .then( response => response.json() )
-            .then( json => {
-                articles = json.articles
-                // articles = articles.filter( a => !coronaRegExp.test(a.title))
-                // articles = articles.filter( a => !coronaRegExp.test(a.description))
-            })
-            .catch( error => console.log(error) )
-    } 
-
-    function trimTitle(title){
-        let string = title;  
-        let length = 35;
-        let trimmedString = string.substring(0, length); 
-
-        return trimmedString
-    }
-
-    function trimAuthor(author){
-        let string = author
-
-        if(string == null){
-            return "Author unknown"
-        }else{
-            const res = string.split(",")
-            return res[0]
-        }
-    }
-        onMount(() => {
-        getData()
+    onMount(() => {
+        ApiService.get(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${api_key}`).then(result => {
+            articles = result.articles
+        })
     })
 
     const showArticle = async (article) => {
@@ -69,8 +41,8 @@
                 <label class="sourceTag body" text='{article.source.name}'/>
             </absoluteLayout>
             <stackLayout>
-                <label textWrap="{true}" class='h4 timesNewRoman' text='{trimTitle(article.title)}...' />
-                <label class='body timesNewRoman' text='{trimAuthor(article.author)}'/>
+                <label textWrap="{true}" class='h4 timesNewRoman' text='{ArticleService.trimTitle(article.title)}...'/>
+                <label class='body timesNewRoman' text='{ArticleService.trimAuthor(article.author)}'/>
             </stackLayout>
         </stackLayout>
     {:else}
@@ -82,7 +54,7 @@
 
 <style>
     .h2{
-        margin-left: 10;
+        margin-left: 15;
     }
     .article{
         width: 166;

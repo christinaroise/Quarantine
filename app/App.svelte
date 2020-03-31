@@ -3,7 +3,6 @@ import Dashboard from './screens/Dashboard'
 import Browse from './screens/Browse'
 import Bookmarks from './screens/Bookmarks'
 import Profile from './screens/Profile'
-import './style/BoxShadow.js'
 
 import { registerNativeViewElement } from 'svelte-native/dom'
  
@@ -55,7 +54,6 @@ let selectedTab = 0
 </page>
 
 <style>
-
     tabStripItem{
         background-color: white;
         highlight-color:black;

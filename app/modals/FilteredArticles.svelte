@@ -1,6 +1,5 @@
 <script>
     import { closeModal } from 'svelte-native'
-    export let article
 </script>
 
 <frame>
