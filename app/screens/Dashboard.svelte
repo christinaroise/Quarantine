@@ -14,7 +14,8 @@
                 page: FilteredArticles,
                 props:{
                     article:article
-                }
+                },
+                fullscreen: false
             }
         )
     }
@@ -23,10 +24,10 @@
 
 </script>
 
-<stackLayout >
-    <stackLayout>
-       <stackLayout class="topBarWrapper">
-            <flexBoxLayout>
+<stackLayout>
+    <cardView shadowOffsetHeight="2" shadowOpacity="0.1" shadowRadius="8">
+        <stackLayout class="backgroundcolorWhite">
+            <flexBoxLayout class="topBarWrapper">
                 <label class="h1 header montserrat" text="NEWS" />
                 <!--
                 <flexBoxLayout class="icons">
@@ -35,37 +36,40 @@
                 </flexBoxLayout>
                 -->
             </flexBoxLayout>
-       </stackLayout>
-        <scrollView 
-        orientation="horizontal" 
-        scrollBarIndicatorVisible={false}>
-            <flexBoxLayout orientation="horizontal" >
-                <button 
-                on:tap={ () => showFiltered(article)} 
-                text="Business"/>
-                <button 
-                on:tap={ () => showFiltered(article)} 
-                text="Entertainment"/>
-                <button 
-                on:tap={ () => showFiltered(article)} 
-                text="General"/>
-                <button 
-                on:tap={ () => showFiltered(article)} 
-                text="Health"/>
-                <button 
-                on:tap={ () => showFiltered(article)} 
-                text="Science"/>
-                <button 
-                on:tap={ () => showFiltered(article)} 
-                text="Sports"/>
-                <button 
-                on:tap={ () => showFiltered(article)} 
-                text="Technology"/>
-            </flexBoxLayout>
-        </scrollView>
-    </stackLayout>
+            <stackLayout>
+                <scrollView 
+                orientation="horizontal" 
+                scrollBarIndicatorVisible={false}>
+                    <flexBoxLayout orientation="horizontal" >
+                        <button 
+                        on:tap={ () => showFiltered(article)} 
+                        text="Business"/>
+                        <button 
+                        on:tap={ () => showFiltered(article)} 
+                        text="Entertainment"/>
+                        <button 
+                        on:tap={ () => showFiltered(article)} 
+                        text="General"/>
+                        <button 
+                        on:tap={ () => showFiltered(article)} 
+                        text="Health"/>
+                        <button 
+                        on:tap={ () => showFiltered(article)} 
+                        text="Science"/>
+                        <button 
+                        on:tap={ () => showFiltered(article)} 
+                        text="Sports"/>
+                        <button 
+                        on:tap={ () => showFiltered(article)} 
+                        text="Technology"/>
+                    </flexBoxLayout>
+                </scrollView>
+            </stackLayout>
+        </stackLayout>
+    </cardView>
+        
     
-    <stackLayout class="wrapper">
+    <stackLayout class="wrapperDash">
         <scrollView scrollBarIndicatorVisible={false}>
             <stackLayout>
                 <TodaysWeather/>
@@ -77,20 +81,31 @@
 </stackLayout>
 
 <style>
+ cardView{
+     z-index: 10;
+ }
+    .backgroundcolorWhite{
+        background-color: white;
+    }
     .topBarWrapper{
         height: 80;
-        margin: 15;
-        margin-bottom: 0;
+        margin-top: 15;
+        margin-left: 15;
         vertical-align: bottom;
     }
     .header{
-        font-size: 28;
-        font-weight: 700;
+        font-size: 25;
+        font-weight: 800;
     }
     button{
-        color: #232323;
         margin: 1;
-        padding: 14
+        padding: 14;
+        padding-bottom: 30;
+        font-family: 'Times New Roman';
+        color: #232323;
+    }
+    .wrapperDash{
+        margin-bottom: 10;
     }
 
 </style>

@@ -68,46 +68,59 @@
         })
     })
 
+/* radius = 2;
+shadowOffsetWidth = 0;
+shadowOffsetHeight = 2;
+shadowColor = new Color('#000').ios
+shadowOpacity = 0.4;
+shadowRadius = 1; */
+
 </script>
 
 
-<flexBoxLayout class="weatherWrapper" >
-    <stackLayout class="icon">
-        <image class='icon' height="40" width="40" src='{currentIcon}' alt='cover' stretch='aspectFill'/> 
-    </stackLayout>
-    <stackLayout class="weatherContainer">
-        <flexBoxLayout class="weatherFlexInfo">
-            <stackLayout>
-                <label class="temp timesNewRoman" text='{currentTemp}°'/>   
-            </stackLayout>
-            <stackLayout  class="weather">
-                <label class="timesNewRoman" text='{currentWeather}'/>
-            </stackLayout>
-        </flexBoxLayout>
-        <label class="body timesNewRoman description" text='{currentDescription}'/>
-    </stackLayout>
-    <stackLayout class="locationContainer">
-        <label class="location timesNewRoman" text="Oslo, Norway"/>
-        <label class="body timesNewRoman" text='{today}, {time}' />
-    </stackLayout>
-</flexBoxLayout>
+<cardView radius="1" shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="5">
+    <flexBoxLayout class="weatherWrapper" >
+        <stackLayout class="icon">
+            <image class='icon' height="40" width="40" src='{currentIcon}' alt='cover' stretch='aspectFill'/> 
+        </stackLayout>
+        <stackLayout class="weatherContainer">
+            <flexBoxLayout class="weatherFlexInfo">
+                <stackLayout>
+                    <label class="temp timesNewRoman" text='{currentTemp}°'/>   
+                </stackLayout>
+                <stackLayout  class="weather">
+                    <label class="timesNewRoman" text='{currentWeather}'/>
+                </stackLayout>
+            </flexBoxLayout>
+            <label class="body timesNewRoman description" text='{currentDescription}'/>
+        </stackLayout>
+        <stackLayout class="locationContainer">
+            <label class="location timesNewRoman" text="Oslo, Norway"/>
+            <label class="body timesNewRoman" text='{today}, {time}' />
+        </stackLayout>
+    </flexBoxLayout>
+</cardView>
 
 
 <style>
-    .weatherWrapper{
-        flex-direction: row;
-        margin: 18;
-        padding: 20 10;
-        height: 120;
+    cardView{
+        margin: 30 15 30 15;
         align-items: center;
-        border-width: 1;
-        border-color: lightgray;
+        height: 100;
+    }
+    .weatherWrapper{
+        height: 100%;
+        align-items: center;
+        flex-direction: row;
+        background-color: white;
         border-radius: 10%;
+        padding: 20 10;
     }
     .icon{
         vertical-align: top;
         height: 100%;
-        padding-top: 8;
+        margin-top: 5;
+        margin-right: 5;
     }
 
     .weatherContainer{
@@ -135,8 +148,8 @@
         text-align: right;
         height: 100%;
         vertical-align: bottom;
-        margin-bottom: 20;
-        margin-right: 10;
+        padding-bottom: 8;
+        padding-right: 10;
     }
     .location{
         font-size: 15;

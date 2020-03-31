@@ -5,6 +5,12 @@ import Bookmarks from './screens/Bookmarks'
 import Profile from './screens/Profile'
 import './style/BoxShadow.js'
 
+import { registerNativeViewElement } from 'svelte-native/dom'
+ 
+registerNativeViewElement("cardView", () => 
+    require("@nstudio/nativescript-cardview").CardView
+)
+
 let selectedTab = 0
 
 </script>
@@ -49,8 +55,9 @@ let selectedTab = 0
 </page>
 
 <style>
-tabStripItem{
-    background-color: white;
-    border: none;
-}
+
+    tabStripItem{
+        background-color: white;
+        highlight-color:black;
+    }
 </style>

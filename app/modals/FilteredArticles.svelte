@@ -13,5 +13,7 @@
 </frame>
 
 <style>
-
+    .filteredWrapper{
+        background-color: rgba(128, 128, 128, 0.16);
+    }
 </style>
