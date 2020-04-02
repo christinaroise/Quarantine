@@ -64,3 +64,28 @@ The imported CSS rules must precede all other types of rules.
     background-color: lightgray;
 }
 
+.imageWhite{
+    background-color: white;
+}
+
+/* MARGIN */
+.marginLeft{
+    margin-left: 15;
+}
+.marginRight{
+    margin-right: 15;
+}
+
+/* BUTTON */
+.textBtn{
+    color: #232323;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 16;
+    text-align: right;
+}
+
+/* BACKGROUNDS */
+.backgroundcolorWhite{
+    background-color: white;
+}

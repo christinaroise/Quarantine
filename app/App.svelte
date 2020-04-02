@@ -1,9 +1,9 @@
 <script>
 import Dashboard from './screens/Dashboard'
+import { DashboardFunctions } from './screens/Dashboard'
 import Browse from './screens/Browse'
 import Bookmarks from './screens/Bookmarks'
 import Profile from './screens/Profile'
-
 import { registerNativeViewElement } from 'svelte-native/dom'
  
 registerNativeViewElement("cardView", () => 
@@ -11,7 +11,6 @@ registerNativeViewElement("cardView", () =>
 )
 
 let selectedTab = 0
-
 </script>
 
 <page actionBarHidden={true}>

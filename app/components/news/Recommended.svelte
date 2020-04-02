@@ -1,12 +1,14 @@
 <script>
     import { onMount } from 'svelte'
     import { showModal } from 'svelte-native'
-    import { ApiService, ArticleService } from '~/service/Service'
+    import { ArticleService } from '~/services/ArticleService'
+    import { ApiService } from '~/services/ApiService'
     import Article from '~/modals/Article'
 
     const utilsModule = require('tns-core-modules/utils/utils')
     const appSettings = require('tns-core-modules/application-settings')
-    const api_key = 'dc4286d2d7a04d47bb2ca997c66ecc73'
+    
+    const api_key = 'e840db49fb1f48c99a39a73ddf05c0a4' // 'dc4286d2d7a04d47bb2ca997c66ecc73'
 
     let articles = [] 
 
@@ -30,9 +32,9 @@
 </script>
 
 <stackLayout>
-    <label class="h2 timesNewRoman" text="Recommended"/>
+    <label class="h2 timesNewRoman marginLeft" text="Recommended"/>
     <scrollView orientation="horizontal" scrollBarIndicatorVisible={false}>
-        <stackLayout orientation="horizontal" class='articles'>  
+        <stackLayout orientation="horizontal" class='marginRight'>  
             {#each articles as article}
                 <stackLayout 
                 on:tap={ () => showArticle(article)} 
@@ -60,7 +62,6 @@
 
 <style>
     .h2{
-        margin-left: 15;
         font-weight: 600;
     }
     .article{

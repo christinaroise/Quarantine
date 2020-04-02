@@ -1,8 +1,11 @@
 <script>
     import { onMount } from 'svelte'
+    import { ApiService } from '~/services/ApiService'
+    import { WeatherService } from '~/services/WeatherService'
     //GeoLocation
     import * as geolocation from "nativescript-geolocation"
     import { Accuracy } from "tns-core-modules/ui/enums"
+    
 
     let currentWeather = ""
     let currentTemp = ""
@@ -27,7 +30,7 @@
                     currentIcon = '~/assets/weatherIcons/png/clearSky.png'
                 }else if(currentDescription == 'few clouds'){
                     currentIcon = '~/assets/weatherIcons/png/fewClouds.png'
-                }else if(currentDescription == 'scattered clouds'){
+                }else if(currentDescription == 'scattered clouds' || 'overcast clouds'){
                     currentIcon = '~/assets/weatherIcons/png/scatteredClouds.png'
                 }else if(currentDescription == 'broken clouds'){
                     currentIcon = '~/assets/weatherIcons/png/brokenClouds.png'
@@ -66,6 +69,11 @@
             var gg = geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.any, maximumAge: 5000, timeout: 20000 })
             console.log(gg.latitude)
         })
+
+
+          /*  ApiService.get(`https://api.openweathermap.org/data/2.5/weather?q=Oslo&units=metric&appid=${weather_api_key}`).then(result => {
+            articles = result.articles
+        }) */
     })
 
 /* radius = 2;

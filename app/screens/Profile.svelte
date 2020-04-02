@@ -81,19 +81,6 @@
         height: 30;
         margin: 8 0;
     }
-    .marginRight{
-        margin-right: 15;
-    }
-    .marginLeft{
-        margin-left: 15;
-    }
-    .textBtn{
-        color: #232323;
-        font-family: 'Open Sans', sans-serif;
-        font-weight: 600;
-        font-size: 16;
-        text-align: right;
-    }
     .filterWrapper{
         flex: 3;
     }

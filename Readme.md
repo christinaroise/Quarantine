@@ -5,11 +5,9 @@ This is a news App, developed during the COVID-19 lockdown, for iOS/Android that
 It uses the <a href='https://svelte-native.technology/docs'>svelte-native</a> framework to build a native application. Svelte-native is built on top of <a href="https://nativescript.ord">Nativescript</a>, so you need to go through the setup guide there in order to install the TNS CLI Tools.
 
 Other used add ons/plug ins: 
-<a href='https://fontawesome.com/docs'>Font Awesome</a>
-
-Weather icons are made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> and <a href="https://www.flaticon.com/authors/those-icons" title="Those Icons">Those Icons</a> from <a href="https://www.flaticon.com/"     title="Flaticon">www.flaticon.com</a></div><div>Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/"     title="Flaticon">www.flaticon.com</a>
-
-Montserrat from <a href='https://fonts.google.com'>Google Fonts</a>
+- Navbar icons are from <a href='https://fontawesome.com/docs'>Font Awesome</a>
+- Weather icons are made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a>, <a href="https://www.flaticon.com/authors/those-icons" title="Those Icons">Those Icons</a> and <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+- The fonts Open Sans and Montserrat are from <a href='https://fonts.google.com'>Google Fonts</a>
 
 
 ## Set up

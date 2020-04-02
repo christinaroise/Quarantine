@@ -1,27 +1,19 @@
-// Structure Diagram
-
-
-export const ApiService = {
-    get: function(url){
-        return new Promise( resolve => {
-            fetch(url)
-            .then( response => response.json() )
-            .then( response => {
-                console.log('got results')
-                if(response.fault){
-                    console.log(response.fault.faultstring)
-                }else{
-                    return resolve(response)
-                }
-            })         
-        });
-    }
-}
 
 export const ArticleService = {
+    filterArticles: function(category){
+        let cat = category
+        return cat
+    },
     trimTitle: function(title){
         let string = title;  
         let length = 35;
+        let trimmedString = string.substring(0, length); 
+
+        return trimmedString;
+    },
+    trimTitleMin: function(title){
+        let string = title;  
+        let length = 80;
         let trimmedString = string.substring(0, length); 
 
         return trimmedString;
