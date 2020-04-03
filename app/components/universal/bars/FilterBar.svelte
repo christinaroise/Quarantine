@@ -1,16 +1,19 @@
 <script>
     import { ApiService } from '~/services/ApiService'
+    import { FilterService } from '~/services/FilterService'
     import { ArticleService } from '~/services/ArticleService'
+    import { filterComponent } from '~/stores.js'
     import Dashboard from '~/screens/Dashboard'
 
-    const api_key = 'e840db49fb1f48c99a39a73ddf05c0a4' // 'dc4286d2d7a04d47bb2ca997c66ecc73'
+    const api_key = 'f015a847676d491f9b581d535c9361ac' 
+     // 'dc4286d2d7a04d47bb2ca997c66ecc73' 
+     // 'e840db49fb1f48c99a39a73ddf05c0a4' 
 
     export let value = [];
-    export let categoryIsTapped = false;
     
     function setArticlesByCategory(category){
-        categoryIsTapped = true
-        ApiService.get(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${api_key}`).then(result => {
+        $filterComponent = true
+        ApiService.get(`https://newsapi.org/v2/top-headlines?country=${FilterService.getCountryValue()}&category=${category}&apiKey=${api_key}`).then(result => {
             value = result.articles
         }) 
     }
@@ -57,24 +60,11 @@
 <style>
     .buttonLight{
         margin: 1;
-        padding-left: 10;
+        padding-left: 14;
         padding-right: 6;
+        padding-bottom: 10;
         font-family: 'Times New Roman';
         color: #232323;
     } 
-    .buttonDarkContainer{
-        margin: 5 5 15 5;
-    }
-    .buttonsDark{
-        background-color: #232323;
-        color: white;
-        font-family: 'Open Sans';
-        text-transform: capitalize;
-        font-weight: 500;
-        font-size: 16;
-        padding: 10 20;
-        height: 50;
-        border-radius: 10%;
-        margin: 8;
-    }     
+   
 </style>

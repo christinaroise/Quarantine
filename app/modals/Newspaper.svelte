@@ -1,9 +1,9 @@
 <script>
     import { closeModal } from 'svelte-native'
-    import { ApiServices } from '~/services/SourceService'
+    import { SourceServices } from '~/services/SourceService'
     import { ArticleService } from '~/services/ArticleService'
-    import TopBar from '~/components/universal/TopBar'
-    import ArticlesFullWidth from '~/components/news/ArticlesFullWidth'
+    import ElegantTopBar from '~/components/universal/bars/ElegantTopBar'
+    import PrimaryCard from '~/components/universal/cards/PrimaryCard'
     
     export let source
     export let articles 
@@ -11,10 +11,10 @@
 </script>
 
 <frame>
-    <page actionBarHidden={true}>
-        <stackLayout class="backgroundcolorWhite">
+    <page class="backgroundcolorWhite" actionBarHidden={true}>
+        <stackLayout>
             <cardView shadowOffsetHeight="2" shadowOpacity="0.1" shadowRadius="8">
-                <TopBar 
+                <ElegantTopBar 
                 leftIconSrc={'~/assets/icons/left-arrow.png'} 
                 onTap={() => closeModal()}
                 title={source.name}
@@ -23,11 +23,12 @@
             <scrollView scrollBarIndicatorVisible={false}>
                 <stackLayout class="articles">  
                     {#each articles as article}
-                        <ArticlesFullWidth 
-                        articleImgSrc={article.urlToImage}
-                        articleTitle={ArticleService.trimTitleMin(article.title)}
-                        articleAuthor={ArticleService.trimAuthor(article.author)}
-                        articleDescription={article.description}/>
+                        <PrimaryCard 
+                        btnTitle={'Like'}
+                        ImgSrc={article.urlToImage}
+                        Title={ArticleService.trimTitleMin(article.title)}
+                        Author={ArticleService.trimAuthor(article.author)}
+                        Description={article.description}/>
                     {:else}
                         <activityIndicator busy={true} />
                     {/each}

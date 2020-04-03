@@ -4,13 +4,8 @@
     import { FilterService } from '~/services/FilterService'
     import { SourceService } from '~/services/SourceService'
     import { ApiService } from '~/services/ApiService'
-
-    import TopBar from '../components/universal/bars/TopBar'
-    import FilterBar from '../components/universal/bars/FilterBar'
-    import Recommended from '../components/news/Recommended'
-    import SecondaryList from '~/components/universal/lists/SecondaryList'
-
     import Newspaper from '~/modals/Newspaper'
+    import SecondaryCard from '~/components/universal/cards/SecondaryCard'
 
     const utilsModule = require('tns-core-modules/utils/utils')
     const appSettings = require('tns-core-modules/application-settings')
@@ -44,16 +39,29 @@
             )
         })
     }
-
 </script>
 
 <stackLayout>
-    <TopBar  
-    title={'BROWSE'}/>
-    <scrollView>
-        <stackLayout>
-           <SecondaryList 
-           items={sources}/>
-        </stackLayout>
+    <scrollView scrollBarIndicatorVisible={false}>
+      <stackLayout class="newspaperContainer backgroundcolorWhite">
+          {#each sources as source}
+                <SecondaryCard 
+                    onTap={ () => showNewspaper(source) }
+                    btnTitle={'Follow'}
+                    imgSrc={`https://logo.clearbit.com/${SourceService.trimURL(source.url)}`}
+                    title={source.name}
+                    description={source.description}/> 
+            {:else}
+                <activityIndicator busy={true} />
+            {/each}
+      </stackLayout>
     </scrollView>
 </stackLayout>
+
+
+<style>
+    .newspaperContainer{
+        width: 100%;
+        justify-content: flex-end;
+    }
+</style>

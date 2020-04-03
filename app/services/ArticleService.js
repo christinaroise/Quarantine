@@ -1,10 +1,14 @@
 
+
 export const ArticleService = {
-    filterArticles: function(category){
-        let cat = category
-        return cat
+    trimTitleMax: function(title){
+        let string = title;  
+        let length = 30;
+        let trimmedString = string.substring(0, length); 
+
+        return trimmedString;
     },
-    trimTitle: function(title){
+    trimTitleMed: function(title){
         let string = title;  
         let length = 35;
         let trimmedString = string.substring(0, length); 

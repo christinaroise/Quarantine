@@ -1,70 +1,105 @@
 <script>
+    import {onMount} from 'svelte'
+    import {FilterService} from '~/services/FilterService'
+
+    let countryNumber = 0
+    let country = 'us'
+
+    $: {
+        country = countryNumber == 0 ? 'us' : 'no'
+    }
+
+    onMount(() => {
+        country = FilterService.getCountryValue()
+        console.log(country)
+        if(country == 'us'){
+            countryNumber = 0
+        }else{
+            countryNumber = 1
+        }
+    })
+
+    //returns OLD value. NEEDS TO BE FIXED
     
+    const onSelectedIndexChange = (value) =>{
+        FilterService.setCountryEnabled(country)
+        console.log(value)
+    }
+
 </script>
 
 <page>
-    <flexBoxLayout class="wrapper">
+    <stackLayout>
         <flexBoxLayout class="topBar">
             <button text=""/>
             <label class="h1 title text-center montserrat" text="Filters" />
             <button class="textBtn" text="Clear"/>
         </flexBoxLayout>
+        <flexBoxLayout class="wrapper">
+            <stackLayout class="filterWrapper">
+                <stackLayout class="filterContainer">
+                    <label class="h3 montserrat marginLeft" text="Sort by"/>
+                        <flexBoxLayout class="borderBottom">
+                            <label class="filterLabel marginLeft" text="Newest"/>
+                            <stackLayout class="height">
+                                <switch checked="{true}" backgroundColor="#C8A374"/>
+                            </stackLayout>
+                        </flexBoxLayout>
+                        <flexBoxLayout class="borderBottom">
+                            <label class="filterLabel marginLeft" text="Most Popular"/>
+                            <stackLayout class="height">
+                                <switch checked="{false}" backgroundColor="#C8A374"/>
+                            </stackLayout>
+                        </flexBoxLayout>
+                </stackLayout>
 
-        <stackLayout class="filterWrapper">
             <stackLayout class="filterContainer">
-                <label class="h3 montserrat marginLeft" text="Sort by"/>
-                    <flexBoxLayout class="borderBottom">
-                        <label class="filterLabel marginLeft" text="Newest"/>
-                        <stackLayout class="height">
-                            <image class='marginRight' src='~/assets/icons/addColor.png'  alt='button'/>
-                        </stackLayout>
-                    </flexBoxLayout>
-                    <flexBoxLayout class="borderBottom">
-                        <label class="filterLabel marginLeft" text="Most Popular"/>
-                        <stackLayout class="height">
-                            <image class='marginRight' src='~/assets/icons/addColor.png'  alt='button'/>
-                        </stackLayout>
-                    </flexBoxLayout>
-            </stackLayout>
+                    <label class="h3 montserrat marginLeft" text="Filter by"/>
+                        <flexBoxLayout class="borderBottom">
+                            <label class="filterLabel marginLeft" text="Country"/>
+                            <segmentedBar
+                            bind:selectedIndex={countryNumber}
+                            on:selectedIndexChange="{(e) => { onSelectedIndexChange(e)
+                            }}"
+                            selectedBackgroundColor='#C8A374'
+                            backgroundColor='white'
+                            style=
+                                'margin: 10; 
+                                color: gray;
+                                font-family: Open Sans'>
+                            <segmentedBarItem title="Norway" />
+                            <segmentedBarItem title="USA" />
+                        </segmentedBar>
+                        </flexBoxLayout>
+                        <flexBoxLayout class="borderBottom">
+                            <label class="filterLabel marginLeft" text="COVID-19"/>
+                            <switch checked="{false}" backgroundColor="#C8A374"/>
+                        </flexBoxLayout>
+                        <flexBoxLayout class="borderBottom">
+                            <label class="filterLabel marginLeft" text="Donald Trump"/>
+                            <switch checked="{false}" backgroundColor="#C8A374"/>
+                        </flexBoxLayout>
+                </stackLayout>
 
-           <stackLayout class="filterContainer">
-                <label class="h3 montserrat marginLeft" text="Filter by"/>
+                <stackLayout  class="filterContainer">
+                    <label class="h3 montserrat marginLeft" text="Settings"/>
                     <flexBoxLayout class="borderBottom">
-                        <label class="filterLabel marginLeft" text="Country"/>
-                        <stackLayout class="height">
-                            <image class='marginRight' src='~/assets/icons/addColor.png'  alt='button'/>
-                        </stackLayout>
+                        <label class="filterLabel marginLeft" text="Language"/>
+                        <segmentedBar
+                            selectedBackgroundColor='#C8A374'
+                            backgroundColor='white'
+                            style=
+                                'margin: 10; 
+                                color: gray;
+                                font-family: Open Sans'>
+                            <segmentedBarItem title="NO" />
+                            <segmentedBarItem title="EN" />
+                        </segmentedBar>
                     </flexBoxLayout>
-                    <flexBoxLayout class="borderBottom">
-                        <label class="filterLabel marginLeft" text="COVID-19"/>
-                        <switch checked="{true}" backgroundColor="#C8A374"/>
-                    </flexBoxLayout>
-                    <flexBoxLayout class="borderBottom">
-                        <label class="filterLabel marginLeft" text="Donald Trump"/>
-                        <switch checked="{true}" backgroundColor="#C8A374"/>
-                    </flexBoxLayout>
+                </stackLayout>
             </stackLayout>
-
-            <stackLayout  class="filterContainer">
-                <label class="h3 montserrat marginLeft" text="Settings"/>
-                <flexBoxLayout class="borderBottom">
-                    <label class="filterLabel marginLeft" text="Language"/>
-                    <segmentedBar
-                        selectedBackgroundColor='#C8A374'
-                        backgroundColor='white'
-                        style=
-                            'margin: 10; 
-                            color: gray;
-                            font-family: Open Sans'>
-                        <segmentedBarItem title="NO" />
-                        <segmentedBarItem title="EN" />
-                    </segmentedBar>
-                </flexBoxLayout>
-            </stackLayout>
-        </stackLayout>
-
-        <button class="primaryBtn" text="Set changes"/>
-    </flexBoxLayout>
+        </flexBoxLayout>
+    </stackLayout>
 </page>
 
 <style>
@@ -73,6 +108,9 @@
     }
     .topBar{
         flex: 1;
+        height: 60;
+        margin: 10;
+        margin-bottom: 0;
     }
     .title{
         flex: 2;
@@ -87,23 +125,9 @@
     .filterContainer{
         margin-bottom: 30;
     }
-    .borderBottom{
-        border-bottom-width: 0.5;
-        border-bottom-color: lightgray;
-    }
     .filterLabel{
         flex: 1;
         font-weight: 500;
-    }
-    .primaryBtn{
-        height: 45;
-        font-family: 'Open Sans', sans-serif;
-        font-weight: 500;
-        font-size: 16;
-        text-transform: uppercase;
-        background-color: #C8A374;
-        color: white;
-        border-radius: 10%;
     }
 
 </style>

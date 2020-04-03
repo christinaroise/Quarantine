@@ -68,6 +68,11 @@ The imported CSS rules must precede all other types of rules.
     background-color: white;
 }
 
+.borderBottom{
+    border-bottom-width: 0.5;
+    border-bottom-color: lightgray;
+}
+
 /* MARGIN */
 .marginLeft{
     margin-left: 15;

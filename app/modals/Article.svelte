@@ -4,20 +4,20 @@
 </script>
 
 <frame>
-<page class="page">
-    <actionBar flat="true" class="actionbarContainer">
-        <flexBoxLayout class="wrapper">
-            <stackLayout>
-                <image on:tap={ () => closeModal() } width="20" src="~/assets/icons/left-arrow.png" class=" button fas icon1" />
-            </stackLayout>
-            <label class="title" text="Quarantine"/>
-            <stackLayout>
-                <image width="20" src="~/assets/icons/heart.png" class=" button fas icon1" />
-            </stackLayout>
-        </flexBoxLayout>
-    </actionBar>
-    <webView src='{article.url}' />
-</page>
+    <page class="page">
+        <actionBar flat="true" class="actionbarContainer">
+            <flexBoxLayout class="wrapper">
+                <stackLayout>
+                    <image on:tap={ () => closeModal() } width="20" src="~/assets/icons/left-arrow.png" class=" button fas icon1" />
+                </stackLayout>
+                <label class="title" text="Quarantine"/>
+                <stackLayout>
+                    <image width="20" src="~/assets/icons/heart.png" class=" button fas icon1" />
+                </stackLayout>
+            </flexBoxLayout>
+        </actionBar>
+        <webView src='{article.url}' />
+    </page>
 </frame>
 
 <style>
