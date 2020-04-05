@@ -1,4 +1,5 @@
 <script>
+    import {ArticleService} from '~/services/ArticleService'
     import SecondaryCardSmall from '~/components/universal/cards/SecondaryCardSmall'
     //`https://logo.clearbit.com/${SourceService.trimURL(source.url)}`
 
@@ -6,6 +7,7 @@
     
     export let cardOnTap
     export let items
+    
 </script>
 
 <stackLayout>
@@ -15,9 +17,9 @@
                 <SecondaryCardSmall 
                 onTap={cardOnTap}
                 imgSrc={item.urlToImg}
-                tagName={item.source.name}
-                title={item.title}
-                subtitle={item.author}/>
+                title={ArticleService.trimTitleMin(item.title) + '...'}
+                author={ArticleService.trimAuthor(item.author)}
+                description={item.description}/>
             {:else}
                 <activityIndicator busy={true} />
             {/each}

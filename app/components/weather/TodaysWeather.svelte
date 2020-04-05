@@ -22,7 +22,6 @@
         fetch(weatherURL)
             .then(result => result.json())
             .then(json =>{
-                console.log(json.weather)
                 currentWeather = json.weather[0].main
                 currentTemp = Math.round(json.main.temp)
                 currentDescription = json.weather[0].description
@@ -67,7 +66,6 @@
         setDayAndTime("en")
         geolocation.enableLocationRequest().then(() => {
             var gg = geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.any, maximumAge: 5000, timeout: 20000 })
-            console.log(gg.latitude)
         })
 
 

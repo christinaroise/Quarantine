@@ -12,7 +12,6 @@ export const SourceService = {
             domain = ''
         }
         domain = domain.replace('www.','')
-        //console.log(domain)
         return domain     
     }
 }

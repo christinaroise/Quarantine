@@ -1,21 +1,20 @@
 <script>
+    import { ModalService } from '~/services/ModalService'
     import { ArticleService } from '~/services/ArticleService'
     import SecondaryCardSmall from '~/components/universal/cards/SecondaryCardSmall'
 
     export let header
     export let items
 
-    export let cardOnTap
-
 </script>
 
 <stackLayout>
     <label class="h2 timesNewRoman marginLeft" text={header}/>
     <scrollView orientation="horizontal" scrollBarIndicatorVisible={false}>
-        <stackLayout orientation="horizontal" class='marginRight'>  
+        <stackLayout orientation="horizontal" class=' slider marginRight'>  
             {#each items as item}
                 <SecondaryCardSmall 
-                onTap={cardOnTap}
+                onTap={() => ModalService.showArticle(item)}
                 imgSrc={item.urlToImage}
                 tagName={item.source.name}
                 title={ArticleService.trimTitleMax(item.title) + '...'}
@@ -26,3 +25,9 @@
         </stackLayout>
     </scrollView>
 </stackLayout>
+
+<style>
+    .slider{
+        height: 200;
+    }
+</style>

@@ -5,17 +5,21 @@ export const FilterService = {
         appSettings.setString('type', value)
     },
     getSortValue: function(){
-        return appSettings.getString('type')
+        let value = appSettings.getBoolean('sortEnabled')
+        if(value != null){
+            return value
+        }else{
+            return false
+        }
     },
-    setCountryEnabled: function(value){
-        console.log("ÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆ DDDDDDDDDDDDDD")
+    setSelectedCountry: function(value){
         appSettings.setString('country', value)
         console.log(value)
     },
-    getCountryValue: function(){
+    getSelectedCountry: function(){
         let countryCode = 'us'
         let valueFromAppSettings = appSettings.getString('country')
-        if(valueFromAppSettings != null && valueFromAppSettings.length > 0){
+        if(valueFromAppSettings != null){
             return valueFromAppSettings
         }
         return countryCode
@@ -24,13 +28,23 @@ export const FilterService = {
         appSettings.setBoolean('covidEnabled', value)
     },
     isCovidEnabled: function(){
-        return appSettings.getBoolean('covidEnabled')
+        let value = appSettings.getBoolean('covidEnabled')
+        if(value != null){
+            return value
+        }else{
+            return false
+        }
     },
     setTrumpEnabled: function(value){
         appSettings.setBoolean('trumpEnabled', value)
     },
     isTrumpEnabled: function(){
-        return appSettings.setBoolean('trumpEnabled')
+        let value = appSettings.getBoolean('trumpEnabled')
+        if(value != null){
+            return value
+        }else{
+            return false
+        }
     },
     setLanguage: function(value){
         appSettings.setString('language', value)

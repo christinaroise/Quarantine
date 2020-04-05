@@ -3,7 +3,7 @@
 export const ArticleService = {
     trimTitleMax: function(title){
         let string = title;  
-        let length = 30;
+        let length = 32;
         let trimmedString = string.substring(0, length); 
 
         return trimmedString;

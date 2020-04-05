@@ -5,7 +5,7 @@
     export let tagName
     export let title
     export let subtitle
-    export let text
+    export let date
 
 </script>
 
@@ -22,7 +22,7 @@
                 <label class='body timesNewRoman' text='{subtitle}'/>
             </stackLayout>
             <stackLayout>
-                <label class="articleDate timesNewRoman" text='{text}'/>
+                <label class="articleDate timesNewRoman" text='{date}'/>
             </stackLayout>
         </flexBoxLayout>
     </stackLayout>
@@ -31,6 +31,7 @@
     .article{
         width: 235;
         margin-left: 15;
+        margin-bottom: 10;
         justify-content: space-between;
         background-color: white;
         border-radius: 5%;

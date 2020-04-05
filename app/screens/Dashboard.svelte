@@ -1,8 +1,10 @@
 <script>
-    import { filterComponent } from '~/stores.js'
+    import { filterComponent } from '~/services/stores.js'
+    import {onMount} from 'svelte'
     import { showModal } from 'svelte-native'
     import { ApiService } from '~/services/ApiService'
     import { ArticleService } from '~/services/ArticleService'
+    import { FilterService } from '~/services/FilterService'
     import PrimaryList from '~/components/universal/lists/PrimaryList'
     import TodaysWeather from '../components/weather/TodaysWeather'
     import PrimarySlider from '~/components/universal/sliders/PrimarySlider'
@@ -10,12 +12,31 @@
     import FilterBar from '../components/universal/bars/FilterBar'
 
     const utilsModule = require('tns-core-modules/utils/utils')
+    const appSettings = require('tns-core-modules/application-settings')
+    
+    const api_key = 'dc4286d2d7a04d47bb2ca997c66ecc73' 
+     // 'e840db49fb1f48c99a39a73ddf05c0a4' 
+     // 'f015a847676d491f9b581d535c9361ac'
 
-    let articles = [] 
+    let coronaRegExp = /\s*(\w*((C|c|K|k)ovid)|((C|c|K|k)orona)|((Q|q)uarantine)|((K|k)arantene)|((P|p)andemi)|((E|e)pidemi)|((V|v)irus)\w*)\s*/
+    let articles = []  
+
+    onMount(() => {
+        ApiService.get(`https://newsapi.org/v2/top-headlines?country=${FilterService.getSelectedCountry()}&apiKey=${api_key}`).then(result => {
+            articles = result.articles
+            if(FilterService.isCovidEnabled == true){
+                console.log('********************************')
+                console.log(isCovidEnabled)
+                articles = articles.filter( a => !coronaRegExp.test(a.title))
+                articles = articles.filter( a => !coronaRegExp.test(a.description)) 
+            }
+        }) 
+    }) 
 
     function setToDefault(){
         $filterComponent = false
     }
+
 
 </script>
 
@@ -76,7 +97,6 @@
         font-weight: 800;
     }
     .wrapperDash{
-        margin-bottom: 10;
         background-color: white;
     }
 

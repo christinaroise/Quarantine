@@ -25,8 +25,8 @@ class='article'>
     .article{
         width: 166;
         margin-left: 15;
+        margin-bottom: 10;
         justify-content: space-between;
-        background-color: white;
         border-radius: 5%;
     }
     .sourceTag{

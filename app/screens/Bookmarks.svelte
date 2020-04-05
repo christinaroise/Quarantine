@@ -4,7 +4,9 @@
     import { ArticleService } from '~/services/ArticleService'
     import TopBar from '~/components/universal/bars/TopBar'
     import ColumnList from '~/components/universal/lists/ColumnList'
-    import EmpytContainer from '~/components/universal/containers/EmptyContainer'
+    import EmptyContainer from '~/components/universal/containers/EmptyContainer'
+
+    let hasContent = false
 
     let sources = [] 
     let articles = [] 
@@ -14,6 +16,10 @@
 <stackLayout>
     <TopBar 
     title={'Bookmarks'}/>
-    <ColumnList
-    items={articles}/>
+    {#if hasContent == true}
+        <ColumnList
+        items={articles}/>
+    {:else}
+        <EmptyContainer/>
+    {/if}}
 </stackLayout>

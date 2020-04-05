@@ -1,49 +1,28 @@
 <script>
     import { onMount } from 'svelte'
-    import { showModal } from 'svelte-native'
     import { FilterService } from '~/services/FilterService'
     import { SourceService } from '~/services/SourceService'
     import { ApiService } from '~/services/ApiService'
 
     import TopBar from '../components/universal/bars/TopBar'
     import FilterBar from '../components/universal/bars/FilterBar'
-    import Recommended from '../components/news/Recommended'
     import SecondaryList from '~/components/universal/lists/SecondaryList'
 
-    import Newspaper from '~/modals/Newspaper'
 
     const utilsModule = require('tns-core-modules/utils/utils')
     const appSettings = require('tns-core-modules/application-settings')
     
-   const api_key = 'f015a847676d491f9b581d535c9361ac' 
+   const api_key = 'e840db49fb1f48c99a39a73ddf05c0a4' 
+     // 'f015a847676d491f9b581d535c9361ac' 
      // 'dc4286d2d7a04d47bb2ca997c66ecc73' 
-     // 'e840db49fb1f48c99a39a73ddf05c0a4' 
 
     let sources = []
-    let articles = []
 
     onMount(() => {
-        ApiService.get(`https://newsapi.org/v2/sources?country=${FilterService.getCountryValue()}&apiKey=${api_key}`).then(result => {
+        ApiService.get(`https://newsapi.org/v2/sources?country=${FilterService.getSelectedCountry()}&apiKey=${api_key}`).then(result => {
             sources = result.sources
         })
     })
-
-
-    const showNewspaper = async (source) => {
-        ApiService.get(`https://newsapi.org/v2/everything?domains=${SourceService.trimURL(source.url)}&apiKey=${api_key}`).then(result => {
-            console.log(result)
-            articles = result.articles
-            showModal(
-                {
-                    page: Newspaper,
-                    props:{
-                        source:source,
-                        articles: result.articles
-                    }
-                },
-            )
-        })
-    }
 
 </script>
 
@@ -52,7 +31,7 @@
     title={'BROWSE'}/>
     <scrollView>
         <stackLayout>
-           <SecondaryList 
+            <SecondaryList 
            items={sources}/>
         </stackLayout>
     </scrollView>

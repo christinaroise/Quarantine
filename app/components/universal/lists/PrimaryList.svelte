@@ -1,9 +1,9 @@
 <script>
+    import { ModalService } from '~/services/ModalService'
     import { ArticleService } from '~/services/ArticleService'
     import PrimaryCard from '~/components/universal/cards/PrimaryCard'
     //`https://logo.clearbit.com/${SourceService.trimURL(source.url)}`
     
-    export let cardOnTap
     export let items
 </script>
 
@@ -13,7 +13,7 @@
           {#each items as item}
                 <PrimaryCard 
                 btnTitle={'Like'}
-                onTap={cardOnTap}
+                onTap={() => ModalService.showArticle(item)}
                 imgSrc={item.urlToImage}
                 tagName={item.source.name}
                 title={ArticleService.trimTitleMin(item.title) + '...'}

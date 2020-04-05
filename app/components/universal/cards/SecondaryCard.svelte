@@ -1,5 +1,5 @@
 <script>
-    import FollowBtn from '../../buttons/FollowBtn'
+    // import FollowBtn from '../../buttons/FollowBtn'
 
     export let onTap
     export let imgSrc
@@ -10,12 +10,12 @@
 
 <flexBoxLayout 
 on:tap={onTap}
-class="article backgroundcolorWhite borderBottom">
+class="article backgroundcolorWhite">
     <flexBoxLayout class="imageContainer">
-        <image class='image rounded' src={imgSrc} alt='cover' stretch='aspectFill' />
+        <image class='icon rounded' src={imgSrc} alt='cover' stretch='aspectFit' />
     </flexBoxLayout>
     <stackLayout class="articleInfo">
-        <label textWrap="{true}" class='h4 timesNewRoman' text='{title}' />
+        <label textWrap="{true}" class='h4 timesNewRoman' text={title} />
         <label textWrap='{true}' class='body timesNewRoman' text={description}/>
     </stackLayout>
 </flexBoxLayout>
@@ -23,22 +23,33 @@ class="article backgroundcolorWhite borderBottom">
 
 <style>
     .article{
-        width: 100%;
-        height: 110;
+        width: 380;
         margin: 5;
+        height: 130;
     }
     .imageContainer{
-        width: 110;
+        width: 150;
         justify-content: center;
         vertical-align: center;
-        background-color: peachpuff;
-        margin: 20 10;
+        margin: 20 0 20 10;
+    }
+    .icon{
+        width: 70;
+    }
+    .h4{
+        padding-left: 17;
     }
     .articleInfo{
-        width: 90%;
-        padding: 10;
+        width: 350;
+        padding-left: 0;
         padding-bottom: 5;
         vertical-align: bottom;
+    }
+    .body{
+        width: 250;
+        margin: 0;
+        background-color: white;
+
     }
 </style>
 

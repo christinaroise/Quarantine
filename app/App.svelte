@@ -1,7 +1,7 @@
 <script>
 import Dashboard from './screens/Dashboard'
 import { DashboardFunctions } from './screens/Dashboard'
-import { filterComponent } from '~/stores.js'
+import { filterComponent } from '~/services/stores.js'
 import Browse from './screens/Browse'
 import Library from './screens/Library'
 import Bookmarks from './screens/Bookmarks'
@@ -16,6 +16,7 @@ let selectedTab = 0
 
 $: {
     $filterComponent = false
+    console.log(selectedTab)
     }
 
 </script>

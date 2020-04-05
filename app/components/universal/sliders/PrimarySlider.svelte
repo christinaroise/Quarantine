@@ -1,10 +1,12 @@
 <script>
+    import { ModalService } from '~/services/ModalService'
     import { ArticleService } from '~/services/ArticleService'
     import PrimaryCardSmall from '~/components/universal/cards/PrimaryCardSmall'
 
     export let header
     export let items
-    export let cardOnTap
+
+    // date={ArticleService.formatDate(item)}
 
 </script>
 
@@ -13,13 +15,13 @@
     <scrollView orientation="horizontal" scrollBarIndicatorVisible={false}>
         <stackLayout orientation="horizontal" class='marginRight'>  
             {#each items as item}
-            { console.log(item) }
                 <PrimaryCardSmall
-                onTap={cardOnTap}
+                onTap={() => ModalService.showArticle(item)}
                 imgSrc={item.urlToImage}
                 tagName={item.source.name}
                 title={ArticleService.trimTitleMed(item.title) + '...'}
-                subtitle={ArticleService.trimAuthor(item.author)}/>
+                subtitle={ArticleService.trimAuthor(item.author)}
+                />
             {:else}
                 <activityIndicator busy={true} />
             {/each}

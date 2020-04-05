@@ -3,10 +3,14 @@
     import { SourceServices } from '~/services/SourceService'
     import { ArticleService } from '~/services/ArticleService'
     import ElegantTopBar from '~/components/universal/bars/ElegantTopBar'
-    import PrimaryCard from '~/components/universal/cards/PrimaryCard'
+    import PrimaryList from '~/components/universal/lists/PrimaryList'
     
-    export let source
-    export let articles 
+    const utilsModule = require('tns-core-modules/utils/utils')
+    const appSettings = require('tns-core-modules/application-settings')
+
+    let articles = []
+
+    export let item
 
 </script>
 
@@ -17,23 +21,11 @@
                 <ElegantTopBar 
                 leftIconSrc={'~/assets/icons/left-arrow.png'} 
                 onTap={() => closeModal()}
-                title={source.name}
-                rightIconSrc={'~/assets/icons/heart.png'}/>/>
+                title={item.name}
+                rightIconSrc={'~/assets/icons/heart.png'}/>
             </cardView>
-            <scrollView scrollBarIndicatorVisible={false}>
-                <stackLayout class="articles">  
-                    {#each articles as article}
-                        <PrimaryCard 
-                        btnTitle={'Like'}
-                        ImgSrc={article.urlToImage}
-                        Title={ArticleService.trimTitleMin(article.title)}
-                        Author={ArticleService.trimAuthor(article.author)}
-                        Description={article.description}/>
-                    {:else}
-                        <activityIndicator busy={true} />
-                    {/each}
-                </stackLayout>
-            </scrollView>
+            <PrimaryList 
+            item={articles}/>
         </stackLayout>
     </page>
 </frame>

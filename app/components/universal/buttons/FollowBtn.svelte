@@ -1,10 +1,12 @@
 <script>
-
+    export let onTap
     export let title
 </script>
 
 <flexBoxLayout class="followBtn">
-    <button text={title}/>
+    <button 
+    on:tap={onTap}
+    text={title}/>
 </flexBoxLayout>
 
 <style>

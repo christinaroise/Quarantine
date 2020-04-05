@@ -1,15 +1,16 @@
 <script>
-    import FollowBtn from '../../buttons/FollowBtn'
+    import FollowBtn from '../buttons/FollowBtn'
 
     export let onTap
     export let imgSrc
     export let title
-    export let author
+    export let subtitle
     export let description
 
-    export let btnTitle
 
-</script>
+//    export let btnTitle
+
+</script> 
 
 <cardView 
 on:tap={onTap}
@@ -21,7 +22,7 @@ shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="8">
         </absoluteLayout>
     <stackLayout class="articleInfo">
         <label textWrap="{true}" class='h4 timesNewRoman' text='{title}' />
-        <label class='author body timesNewRoman' text={author}/>
+        <label class='author body timesNewRoman' text={subtitle}/>
         <label textWrap='{true}' class='body timesNewRoman' text={description}/>
     </stackLayout>
     </stackLayout>
