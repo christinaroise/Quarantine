@@ -20,6 +20,7 @@
         <ColumnList
         items={articles}/>
     {:else}
-        <EmptyContainer/>
+        <EmptyContainer
+        text="Your list is empty"/>
     {/if}}
 </stackLayout>

@@ -19,6 +19,7 @@ tns run [ios|android]
 ## Project structure [NOT CORRECT WILL EDIT LATER]
 This is a single page application.
 Everything is handled in app/App.svelte. This file...
-- fetches data from firestore in svelte onMount function
-- uses a scrollView to display the list of Items
-- you are not able to do anything further with the items - i.e delete, update or add - so the example just serves as a demo of how you can include firestore data in a simple app
+- fetches data from NewsApi and OpenWeather in svelte onMount function
+- uses a navigation bar to navigate between pages
+
+You are not able to do anything further with the items - i.e delete, update or add - so the example just serves as a demo of how you can include data in a simple app

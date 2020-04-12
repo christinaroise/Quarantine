@@ -1,7 +1,7 @@
 <script>
     import {onMount} from 'svelte'
     import {FilterService} from '~/services/FilterService'
-    import SwitchBar from '~/components/universal/bars/SwitchBar'
+    import TopBar from '~/components/universal/bars/TopBar'
 
     /*$: {
         country = countryNumber == 0 ? 'us' : 'no'
@@ -58,14 +58,12 @@
 
 </script>
 
-<page>
-    <stackLayout>
-        <flexBoxLayout class="topBar">
-            <button text=""/>
-            <label class="h1 title text-center montserrat" text="Filters" />
-            <button class="textBtn" text="Clear"/>
-        </flexBoxLayout>
-        <flexBoxLayout class="wrapper">
+
+<stackLayout>
+    <TopBar
+    title="Filters"/>
+    <scrollView>
+        <stackLayout class="wrapper">
             <stackLayout class="filterWrapper">
                 <stackLayout class="filterContainer">
                     <label class="h3 montserrat marginLeft" text="Sort by"/>
@@ -82,7 +80,6 @@
                         backgroundColor="#C8A374"/>
                     </flexBoxLayout>
                 </stackLayout>
-
             <stackLayout class="filterContainer">
                     <label class="h3 montserrat marginLeft" text="Filter by"/>
                         <flexBoxLayout class="borderBottom">
@@ -100,15 +97,21 @@
                                 <segmentedBarItem title="Norway" />
                             </segmentedBar>
                         </flexBoxLayout>
-                        <flexBoxLayout class="borderBottom">
-                            <label class="filterLabel marginLeft" text="COVID-19"/>
+                        <flexBoxLayout class="tile borderBottom">
+                            <stackLayout class="filterLabel marginLeft">
+                                <label text="COVID-19"/>
+                                <label class="body" text="Filters out any COVID-19 related content"/>
+                            </stackLayout>
                             <switch
                             bind:checked="{covidValue}"
                             on:checkedChange="{onCovidChange}"
                             backgroundColor="#C8A374"/>
                         </flexBoxLayout>
-                        <flexBoxLayout class="borderBottom">
-                            <label class="filterLabel marginLeft" text="Donald Trump"/>
+                        <flexBoxLayout class="tile borderBottom">
+                            <stackLayout class="filterLabel marginLeft">
+                                <label text="Donald Trump"/>
+                                <label class="body" text="Filters out any Trump related content"/>
+                            </stackLayout>
                             <switch 
                             bind:checked="{trumpValue}"
                             on:checkedChange="{onTrumpChange}"
@@ -118,37 +121,30 @@
 
                 <stackLayout  class="filterContainer">
                     <label class="h3 montserrat marginLeft" text="App settings"/>
-                      <flexBoxLayout class="borderBottom">
-                            <label class="filterLabel marginLeft" text="Language"/>
-                            <segmentedBar
-                            bind:selectedIndex={languageNumber} 
-                            on:selectedIndexChange="{onLanguageChange}"
+                    <flexBoxLayout class="tile borderBottom">
+                        <stackLayout class="filterLabel marginLeft">
+                            <label text="Language"/>
+                            <label class="body" text="More options to come"/>
+                        </stackLayout>
+                        <segmentedBar
                             selectedBackgroundColor='#C8A374'
-                            selectedColor="white"
-                            backgroundColor='white'
+                            color='white'
                             style=
                                 'margin: 10; 
-                                color: gray;
-                                font-family: Open Sans'>
-                                <segmentedBarItem title="English" />
-                                <segmentedBarItem title="Norwegian" />
-                            </segmentedBar>
-                        </flexBoxLayout>
+                                font-family: Open Sans
+                                border-radius: 10%;'>
+                            <segmentedBarItem title="English" />
+                        </segmentedBar>
+                    </flexBoxLayout>
                 </stackLayout>
             </stackLayout>
-        </flexBoxLayout>
-    </stackLayout>
-</page>
+        </stackLayout>
+    </scrollView>
+</stackLayout>
 
 <style>
     .wrapper{
         flex-direction: column;
-    }
-    .topBar{
-        flex: 1;
-        height: 60;
-        margin: 10;
-        margin-bottom: 0;
     }
     .title{
         flex: 2;
@@ -158,6 +154,10 @@
     }
     .filterContainer{
         margin-bottom: 30;
+    }
+    .body{
+        font-style: italic;
+        margin-bottom: 10;
     }
 
 </style>

@@ -1,3 +1,5 @@
+import { ApplicationSettings } from "tns-core-modules";
+const appSettings = require('tns-core-modules/application-settings')
 
 export const SourceService = {
     trimURL: function(path){
@@ -13,5 +15,8 @@ export const SourceService = {
         }
         domain = domain.replace('www.','')
         return domain     
+    },
+    addToLibrary: function(value){
+        appSettings.parse()
     }
 }

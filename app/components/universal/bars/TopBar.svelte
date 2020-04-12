@@ -1,5 +1,6 @@
 <script>
-export let onTap
+export let leftOnTap
+export let rightOnTap
 export let leftIconSrc
 export let rightIconSrc
 export let title
@@ -8,11 +9,13 @@ export let title
 
 <stackLayout>
     <flexBoxLayout class="topBarWrapper">
-        <stackLayout on:tap={onTap}>
+        <stackLayout 
+        on:tap={leftOnTap}>
             <image width="20" src='{leftIconSrc}' class=" button fas icon1" />
         </stackLayout>
         <label class="h1 montserrat" text='{title}'/>
-        <stackLayout>
+        <stackLayout
+        on:tap={rightOnTap}>
             <image width="20" src='{rightIconSrc}' class=" button fas icon1" />
         </stackLayout>
     </flexBoxLayout>

@@ -1,10 +1,10 @@
 <script>
-
+    export let text
 </script>
 
 
 <stackLayout class="emptyContainer">
-    <label class="text-centered body openSans" text="Your list is empty"/>
+    <label class="text-centered body openSans" text={text}/>
 </stackLayout>
 
 <style>

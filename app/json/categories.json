@@ -1,0 +1,20 @@
+[
+   {
+       "type": "Technology"
+   },
+   {
+        "type": "Entertainment"
+    },
+    {
+        "type": "Science"
+    },
+    {
+        "type": "Health"
+    },
+    {
+        "type": "Business"
+    },
+    {
+        "type": "Sports"
+    }
+]

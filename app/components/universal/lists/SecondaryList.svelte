@@ -6,9 +6,37 @@
     import SecondaryCard from '~/components/universal/cards/SecondaryCard'
     import addButton from '~/components/universal/buttons/addButton'
 
-    export let items
-</script>
+    const appSettings = require('tns-core-modules/application-settings')
 
+    export let items 
+
+    function addToLibrary(sourceItem){
+        if(appSettings.getString("SavedNewspapers") == null || appSettings.getString("SavedNewspapers").length == 0){
+            appSettings.setString("SavedNewspapers","[]")
+        }
+
+        let sourceList = appSettings.getString("SavedNewspapers")
+
+        let sourceListAsJson = pushNewSourceToList(sourceItem, sourceList)
+        
+        appSettings.setString("SavedNewspapers", JSON.stringify(sourceListAsJson))
+    }
+
+    function pushNewSourceToList(sourceItem, sourceListAsString){
+        let list = JSON.parse(sourceListAsString)
+        let doesExist = false
+        for(var i = 0; i < list.length; i ++){
+            if(list[i].name == sourceItem.name){
+                doesExist = true
+            }
+        }
+        if(!doesExist){
+            list.push(sourceItem)
+        }
+        return list
+    }
+</script>
+  
 <stackLayout>
     <scrollView scrollBarIndicatorVisible={false}>
       <stackLayout class="listContainer backgroundcolorWhite">
@@ -16,8 +44,7 @@
                 <scrollView 
                 orientation="horizontal" 
                 scrollBarIndicatorVisible={false}>
-                    <flexBoxLayout 
-                    class="tile" 
+                    <flexBoxLayout
                     orientation="horizontal">
                         <stackLayout
                         class="one">
@@ -27,8 +54,10 @@
                             title={item.name}
                             description={item.description}/> 
                         </stackLayout>
-                        <flexBoxLayout class="two">
-                            <button text="+"/>
+                        <flexBoxLayout class="buttonContainer">
+                            <button 
+                            on:Tap={() => addToLibrary(item)}
+                            text="+"/>
                         </flexBoxLayout>
                     </flexBoxLayout>
                 </scrollView>
@@ -43,22 +72,23 @@
 <style>
     .listContainer{
         width: 100%;
-        justify-content: flex-end;
     }
     .one{
         flex: 2;
     }
-    .two{
+    .buttonContainer{
         flex: 1;
-
-        margin: 5;
+        justify-content: flex-end;
+        margin: 15;
+        margin-right: 0;
+        background-color: #C8A374;
     }
     button{
         background-color: #C8A374;
-        width: 100;
+        width: 80;
         color: white;
-        font-size: 50;
-        font-weight: 300;
-        font-family: 'Open Sans'
+        font-size: 65;
+        font-weight: 200;
+        font-family: 'Open Sans';
     }
 </style>

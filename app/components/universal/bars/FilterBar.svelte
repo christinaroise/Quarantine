@@ -26,7 +26,7 @@
     orientation="horizontal" 
     scrollBarIndicatorVisible={false}>
         <flexBoxLayout orientation="horizontal" class="buttonDarkContainer">
-            <button 
+            <button
             on:Tap={ () => setArticlesByCategory('business')}
             class="buttonLight"
             text="Business"/>

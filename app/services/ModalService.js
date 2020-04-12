@@ -5,6 +5,8 @@ import { SourceService } from '~/services/SourceService'
 
 import Article from '~/modals/Article'
 import Newspaper from '~/modals/Newspaper'
+import ConfirmedModal from '~/modals/cardModals/ConfirmedModal'
+import FilterModal from '~/modals/cardModals/FilterModal'
 
 const utilsModule = require('tns-core-modules/utils/utils')
 const api_key = 'dc4286d2d7a04d47bb2ca997c66ecc73' 
@@ -34,6 +36,26 @@ export const ModalService = {
                 })
         })
     },
+    showConfirmedModal: async(item) => {
+        await showModal(
+            {
+                page: ConfirmedModal,
+                props:{
+                    source:item
+                },
+            }
+        )
+    },
+    showFilterModal: async(item) => {
+        await showModal(
+            {
+                page: FilterModal,
+                props:{
+                    source:item
+                },
+            }
+        )
+    }
 }
 
 

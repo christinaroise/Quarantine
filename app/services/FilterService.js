@@ -9,7 +9,7 @@ export const FilterService = {
         if(value != null){
             return value
         }else{
-            return false
+            return false 
         }
     },
     setSelectedCountry: function(value){
