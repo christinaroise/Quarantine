@@ -8,27 +8,25 @@
     const utilsModule = require('tns-core-modules/utils/utils')
     const appSettings = require('tns-core-modules/application-settings')
 
-    let articles = []
-
-    export let item
+    export let source
+    export let article
 
 </script>
 
-<frame>
-    <page class="backgroundcolorWhite" actionBarHidden={true}>
-        <stackLayout>
+
+        <stackLayout class="backgroundcolorWhite">
             <cardView shadowOffsetHeight="2" shadowOpacity="0.1" shadowRadius="8">
                 <ElegantTopBar 
                 leftIconSrc={'~/assets/icons/left-arrow.png'} 
                 onTap={() => closeModal()}
-                title={item.name}
+                title={source.name}
                 rightIconSrc={'~/assets/icons/heart.png'}/>
             </cardView>
             <PrimaryList 
-            item={articles}/>
+            items={article}/> 
         </stackLayout>
-    </page>
-</frame>
+
+
 
 <style>
     cardView{

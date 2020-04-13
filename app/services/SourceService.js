@@ -16,6 +16,16 @@ export const SourceService = {
         domain = domain.replace('www.','')
         return domain     
     },
+    trimURLSource: function(path){
+        let url = path;
+        let urlParts = url.replace('http://','').replace('https://','').split(/[/?#]/);
+        let domain = urlParts[0];
+        if(domain == 'espn.go.com'){
+            domain = 'espn.com'
+        }
+        domain = domain.replace('www.','')
+        return domain     
+    },
     addToLibrary: function(value){
         appSettings.parse()
     }

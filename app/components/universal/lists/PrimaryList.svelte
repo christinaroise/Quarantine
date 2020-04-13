@@ -18,7 +18,7 @@
                 tagName={item.source.name}
                 title={ArticleService.trimTitleMin(item.title) + '...'}
                 subtitle={ArticleService.trimAuthor(item.author)}
-                text={item.description}/>
+                description={item.description}/>
             {:else}
                 <activityIndicator busy={true} />
             {/each}

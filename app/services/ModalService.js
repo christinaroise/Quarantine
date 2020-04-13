@@ -26,14 +26,16 @@ export const ModalService = {
     },
     showNewspaper: async(item) => {
         ApiService.get(`https://newsapi.org/v2/everything?domains=${SourceService.trimURL(item.url)}&apiKey=${api_key}`).then(async result => {
-            articles = result.articles
+            let articles = result.articles
             await showModal(
                 {
                     page: Newspaper,
                     props:{
-                        article:articles
+                        article:articles,
+                        source: item
                     },
                 })
+            console.log(articles)
         })
     },
     showConfirmedModal: async(item) => {

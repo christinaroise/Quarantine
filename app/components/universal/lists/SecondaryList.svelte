@@ -20,6 +20,8 @@
         let sourceListAsJson = pushNewSourceToList(sourceItem, sourceList)
         
         appSettings.setString("SavedNewspapers", JSON.stringify(sourceListAsJson))
+
+        console.log(appSettings.getString("SavedNewspapers"))
     }
 
     function pushNewSourceToList(sourceItem, sourceListAsString){
@@ -32,6 +34,7 @@
         }
         if(!doesExist){
             list.push(sourceItem)
+            ModalService.showConfirmedModal(sourceItem)
         }
         return list
     }
