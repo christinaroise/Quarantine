@@ -3,6 +3,7 @@ export let onTap
 export let leftIconSrc
 export let rightIconSrc
 export let title
+export let rightOnTap
 
 </script>
 
@@ -12,7 +13,7 @@ export let title
             <image width="20" src='{leftIconSrc}' class=" button fas icon1" />
         </stackLayout>
         <label class="h1 timesNewRoman" text='{title}'/>
-        <stackLayout>
+        <stackLayout on:tap={rightOnTap}>
             <image width="20" src='{rightIconSrc}' class=" button fas icon1" />
         </stackLayout>
     </flexBoxLayout>

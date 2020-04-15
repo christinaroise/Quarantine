@@ -5,20 +5,32 @@
     export let imgSrc
     export let title
     export let description
+    export let btnOnTap
 
 </script>
 
-<flexBoxLayout 
-on:tap={onTap}
-class="article backgroundcolorWhite">
-    <flexBoxLayout class="imageContainer">
-        <image class='icon rounded' src={imgSrc} alt='cover' stretch='aspectFit' />
+<flexBoxLayout
+    orientation="horizontal">
+        <stackLayout
+        class="one">
+            <flexBoxLayout 
+            on:tap={onTap}
+            class="article backgroundcolorWhite">
+                <flexBoxLayout class="imageContainer">
+                    <image class='icon rounded' src={imgSrc} alt='cover' stretch='aspectFit' />
+                </flexBoxLayout>
+                <stackLayout class="articleInfo">
+                    <label textWrap="{true}" class='h4 timesNewRoman' text={title} />
+                    <label textWrap='{true}' class='body timesNewRoman' text={description}/>
+                </stackLayout>
+            </flexBoxLayout>
+        </stackLayout>
+        <flexBoxLayout class="buttonContainer">
+            <button 
+            on:Tap={btnOnTap}
+            text="+"/>
+        </flexBoxLayout>
     </flexBoxLayout>
-    <stackLayout class="articleInfo">
-        <label textWrap="{true}" class='h4 timesNewRoman' text={title} />
-        <label textWrap='{true}' class='body timesNewRoman' text={description}/>
-    </stackLayout>
-</flexBoxLayout>
 
 
 <style>
@@ -49,7 +61,24 @@ class="article backgroundcolorWhite">
         width: 250;
         margin: 0;
         background-color: white;
-
+    }
+    .one{
+        flex: 2;
+    }
+    .buttonContainer{
+        flex: 1;
+        justify-content: flex-end;
+        margin: 15;
+        margin-right: 0;
+        background-color: #C8A374;
+    }
+    button{
+        background-color: #C8A374;
+        width: 80;
+        color: white;
+        font-size: 65;
+        font-weight: 200;
+        font-family: 'Open Sans';
     }
 </style>
 

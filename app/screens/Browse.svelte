@@ -9,6 +9,7 @@
     import TopBar from '../components/universal/bars/TopBar'
     import Search from '../screens/Search'
     import Filter from '~/components/universal/containers/FilterContainer'
+    import FilterModal from '~/modals/cardModals/FilterModal'
     import SecondaryList from '~/components/universal/lists/SecondaryList'
 
 
@@ -23,7 +24,7 @@
     let filterContainer = false
  
     onMount(() => {
-        ApiService.get(`https://newsapi.org/v2/sources?country=${FilterService.getSelectedCountry()}&apiKey=${api_key}`).then(result => {
+        ApiService.get(`https://newsapi.org/v2/sources?&apiKey=${api_key}`).then(result => {
             sources = result.sources
         })
     })
@@ -43,20 +44,20 @@
 
 </script>
 
-
 <stackLayout class="backgroundColorWhite">
     <TopBar 
     leftIconSrc="~/assets/icons/search.png"
-    leftOnTap={() => goToSearch()}
+    leftOnTap={() => goToSearch(sources)}
     title={'BROWSE'}
     rightIconSrc="~/assets/icons/filter.png"
-    rightOnTap={() => showFilterContainer()}/>
+    rightOnTap={() => ModalService.showFilterModal()}/>
     <label class="OpenSans" text="Find newspapers from across the globe"/>
+    <!-- 
     {#if filterContainer}
-        <Filter/>
+        <FilterContainer/>
     {/if}
-   <!-- <FilterContainer/> --> 
-    <scrollView> 
+    --> 
+    <scrollView scrollBarIndicatorVisible={false}> 
         <stackLayout>
             <SecondaryList 
             items={sources}/>

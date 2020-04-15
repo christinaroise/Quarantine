@@ -17,9 +17,11 @@
                 textWrap="{true}"
                 text="has been added to your library"/>
             </stackLayout>
-            <RegularButton 
-            onTap={ () => closeModal() }
-            text="OK"/>
+            <flexBoxLayout class="buttonContainer">
+                <RegularButton 
+                onTap={ () => closeModal() }
+                text="OK"/>
+            </flexBoxLayout>
         </stackLayout>
     </flexBoxLayout>
 </cardView>
@@ -38,6 +40,9 @@
     }
     .textContent{
         padding: 15;
+    }
+    .buttonContainer{
+        width: 90%;
     }
 
 </style>

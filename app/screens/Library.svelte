@@ -20,20 +20,29 @@
      // 'e840db49fb1f48c99a39a73ddf05c0a4' 
      // 'f015a847676d491f9b581d535c9361ac' 
 
-    let hasContent = true
     let sourceList = []
-    let articles = [] 
+    let newspaperList = [] 
 
-    onMount(() => {
+    onMount(async () => {
+        if(appSettings.getString("SavedNewspapers") == null || appSettings.getString("SavedNewspapers").length == 0){
+            appSettings.setString("SavedNewspapers","[]")
+        }
+
         let sourceListAsString = appSettings.getString("SavedNewspapers")
         sourceList = JSON.parse(sourceListAsString)
-
         for(var i = 0; i < sourceList.length; i++){
-            ApiService.get(`https://newsapi.org/v2/everything?domains=${SourceService.trimURL(sourceList[i].url)}&apiKey=${api_key}`).then(result => {
-            sourceList[i].articles = result.articles
-            console.log(sourceList[i]);
-            }) 
+            var sourceName = ""
+            var customObj = {}
+
+            await ApiService.get(`https://newsapi.org/v2/everything?domains=${SourceService.trimURLSource(sourceList[i].url)}&apiKey=${api_key}`).then(result => {
+                    if(sourceList[i] != "undefined" && sourceList[i].name.length > 0){
+                        customObj.name = sourceList[i].name
+                        customObj.articles = result.articles
+                        newspaperList.push(customObj)
+                    }
+                }) 
         }
+        newspaperList = newspaperList
     })
 
     const showArticle = async (article) => {
@@ -45,21 +54,35 @@
                 }
             }
         )
-    }
+    } 
 </script>
 
 <stackLayout>
     <TopBar
     title="Library"/>
     <FilterBar/>
-        {#if hasContent}
-                {#each sourceList as source}
-                    <PrimarySlider
-                    header={source.name}
-                    items={articles}/>
-                {/each}
+        {#if sourceList}
+            <scrollView scrollBarIndicatorVisible={false}>
+                <stackLayout>
+                    {#each newspaperList as newspaper}
+                        <stackLayout class="container backgroundcolorWhite">
+                            
+                            <PrimarySlider
+                            header={newspaper.name}
+                            items={newspaper.articles}
+                            />
+                        </stackLayout>
+                    {/each}
+                </stackLayout>
+            </scrollView>
         {:else}
             <EmptyContainer
             text="Your list is empty"/>
         {/if}
 </stackLayout>
+
+<style>
+    .container{
+        padding-top: 15;
+    }
+</style>

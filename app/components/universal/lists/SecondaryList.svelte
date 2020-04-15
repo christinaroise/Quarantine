@@ -9,35 +9,6 @@
     const appSettings = require('tns-core-modules/application-settings')
 
     export let items 
-
-    function addToLibrary(sourceItem){
-        if(appSettings.getString("SavedNewspapers") == null || appSettings.getString("SavedNewspapers").length == 0){
-            appSettings.setString("SavedNewspapers","[]")
-        }
-
-        let sourceList = appSettings.getString("SavedNewspapers")
-
-        let sourceListAsJson = pushNewSourceToList(sourceItem, sourceList)
-        
-        appSettings.setString("SavedNewspapers", JSON.stringify(sourceListAsJson))
-
-        console.log(appSettings.getString("SavedNewspapers"))
-    }
-
-    function pushNewSourceToList(sourceItem, sourceListAsString){
-        let list = JSON.parse(sourceListAsString)
-        let doesExist = false
-        for(var i = 0; i < list.length; i ++){
-            if(list[i].name == sourceItem.name){
-                doesExist = true
-            }
-        }
-        if(!doesExist){
-            list.push(sourceItem)
-            ModalService.showConfirmedModal(sourceItem)
-        }
-        return list
-    }
 </script>
   
 <stackLayout>
@@ -47,22 +18,12 @@
                 <scrollView 
                 orientation="horizontal" 
                 scrollBarIndicatorVisible={false}>
-                    <flexBoxLayout
-                    orientation="horizontal">
-                        <stackLayout
-                        class="one">
-                            <SecondaryCard 
-                            onTap={async() => await ModalService.showNewspaper(item)}
-                            imgSrc={`https://logo.clearbit.com/${SourceService.trimURL(item.url)}`}
-                            title={item.name}
-                            description={item.description}/> 
-                        </stackLayout>
-                        <flexBoxLayout class="buttonContainer">
-                            <button 
-                            on:Tap={() => addToLibrary(item)}
-                            text="+"/>
-                        </flexBoxLayout>
-                    </flexBoxLayout>
+                    <SecondaryCard 
+                    onTap={async() => await ModalService.showNewspaper(item)}
+                    imgSrc={`https://logo.clearbit.com/${SourceService.trimURL(item.url)}`}
+                    title={item.name}
+                    description={item.description}
+                    btnOnTap={() => SourceService.addToLibrary(item)}/> 
                 </scrollView>
             {:else}
                 <activityIndicator busy={true} />
@@ -75,23 +36,5 @@
 <style>
     .listContainer{
         width: 100%;
-    }
-    .one{
-        flex: 2;
-    }
-    .buttonContainer{
-        flex: 1;
-        justify-content: flex-end;
-        margin: 15;
-        margin-right: 0;
-        background-color: #C8A374;
-    }
-    button{
-        background-color: #C8A374;
-        width: 80;
-        color: white;
-        font-size: 65;
-        font-weight: 200;
-        font-family: 'Open Sans';
     }
 </style>

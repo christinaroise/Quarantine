@@ -1,6 +1,6 @@
 <script>
     import { closeModal } from 'svelte-native'
-    import { SourceServices } from '~/services/SourceService'
+    import { SourceService } from '~/services/SourceService'
     import { ArticleService } from '~/services/ArticleService'
     import ElegantTopBar from '~/components/universal/bars/ElegantTopBar'
     import PrimaryList from '~/components/universal/lists/PrimaryList'
@@ -9,7 +9,7 @@
     const appSettings = require('tns-core-modules/application-settings')
 
     export let source
-    export let article
+    export let article 
 
 </script>
 
@@ -18,9 +18,10 @@
             <cardView shadowOffsetHeight="2" shadowOpacity="0.1" shadowRadius="8">
                 <ElegantTopBar 
                 leftIconSrc={'~/assets/icons/left-arrow.png'} 
-                onTap={() => closeModal()}
+                onTap={ () => closeModal() }
                 title={source.name}
-                rightIconSrc={'~/assets/icons/heart.png'}/>
+                rightIconSrc={'~/assets/icons/heart.png'}
+                rightOnTap={ () => SourceService.addToLibrary(source) }/>
             </cardView>
             <PrimaryList 
             items={article}/> 

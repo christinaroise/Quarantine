@@ -1,5 +1,7 @@
 <script>
     import {goBack} from 'svelte-native'
+    import { ModalService } from '~/services/ModalService'
+    import { SourceService } from '~/services/SourceService'
     import SecondaryCard from '~/components/universal/cards/SecondaryCard'
     import EmptyContainer from '~/components/universal/containers/EmptyContainer'
 
@@ -8,61 +10,40 @@
     let searchQuery = ""
     let sourceList = []
 
-
-    // $: searches = sources.filter( source => source.name.toLowerCase().includes(searchQuery.toLowerCase()) )
-
-    function onTextChanged(){
-        sourceList = []
-        sourceList = sources.filter( source => source.name.toLowerCase().includes(searchQuery.toLowerCase()) )
-
-        /*console.log("ÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆ")
-        console.log("ÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆ")
-        for(var i = 0; i < sourceList.length; i++){
-            console.log(sourceList[i].name)
-        }
-        console.log("ÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆ")*/
-    }
+    $: searches = sources.filter( source => source.name.toLowerCase().includes(searchQuery.toLowerCase()) )
 
 </script>
 
 
 <page>
     <stackLayout>
-        <searchBar hint="Search newspapers" bind:text={searchQuery} on:textChange="{onTextChanged}"/>
-        <scrollView> 
-        {#if sourceList}
-        {#each sourceList as search}
-        {console.log("ÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆ")}
-        {console.log("ÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆ")}
-            {console.log(search.name)}
-            {console.log("ÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆ")}
-                    <label text="{search.name}"/>
-         {/each}
-         {/if}
-           <!-- 
-            {#if searchQuery}
-                {#each searches as search}
-                    <label text="{search.name}"/>
+        <searchBar hint="Search newspapers" bind:text={searchQuery}/>
+                {#if searchQuery}
+                    <scrollView>
+                        <stackLayout class="container">
+                            {#each searches as search}
+                                <scrollView
+                                orientation="horizontal" 
+                                scrollBarIndicatorVisible={false}>
+                                    <SecondaryCard 
+                                    onTap={async() => await ModalService.showNewspaper(searches)}
+                                    imgSrc={`https://logo.clearbit.com/${SourceService.trimURL(search.url)}`}
+                                    title={search.name}
+                                    description={search.description}
+                                    btnOnTap={() => SourceService.addToLibrary(search)}/> 
+                                </scrollView>
+                            {:else}
+                                    <EmptyContainer
+                                    text="Shoot! It looks like {searchQuery} isn't available. Maybe double-check the spelling?"/>
+                            {/each}
+                        </stackLayout>
+                    </scrollView>   
                 {:else}
-                    <EmptyContainer
-                    text="No available options"/>
-                {/each}
-            {:else}
-                <EmptyContainer
-                    text="Looking for your favorite newspaper?"/>
-            {/if}
-
-            --> 
-        </scrollView>
+                        <EmptyContainer
+                        text="Start looking for your favorite newspaper"/>
+                {/if}
     </stackLayout>
 </page>
-
-<!--
-    <SecondaryCard 
-                        imgSrc={`https://logo.clearbit.com/${SourceService.trimURL(search.url)}`}
-                        title={search.name}
-                        description={search.description}/> 
--->
 
 <style>
     .searchContainer{
@@ -78,5 +59,15 @@
     .icon{
         margin: 5;
     }
-
+    .container{
+        height: 100%;
+    }
 </style>
+
+
+<!--   
+
+
+
+
+-->

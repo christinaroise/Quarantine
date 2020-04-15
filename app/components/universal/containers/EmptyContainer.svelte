@@ -4,12 +4,15 @@
 
 
 <stackLayout class="emptyContainer">
-    <label class="text-centered body openSans" text={text}/>
+    <label 
+    textWrap="{true}"
+    class="text-centered body openSans" 
+    text={text}/>
 </stackLayout>
 
 <style>
     .emptyContainer{
-        width: 100%;
+        width: 70%;
         height: 100%;
         vertical-align: center;
         text-align: center;

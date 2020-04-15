@@ -13,5 +13,6 @@ text="{text}"
         background-color: #C8A374;
         color: white;
         border-radius: 10%;
+        width: 100%;
     }
 </style>
