@@ -7,17 +7,24 @@
 
     let countryIsEnabled = false
     let categoryIsEnabled = false
+    let categoryBtnText="+"
+    let countryBtnText="+"
 
     function enableCategories(){
         categoryIsEnabled = !categoryIsEnabled
+        if(categoryBtnText=="+"){
+            categoryBtnText="-"
+        }else{
+            categoryBtnText="+"
+        }
     }
     function enableCountries(){
         countryIsEnabled = !countryIsEnabled
-    }
-
-    function changeText(args) {
-        var btn = args.object;
-        btn.text = "-";
+        if(countryBtnText=="+"){
+            countryBtnText="-"
+        }else{
+            countryBtnText="+"
+        }
     }
 
 </script>
@@ -39,7 +46,7 @@
                             <button 
                             id="showMoreBtn"
                             on:Tap={() => enableCountries() }
-                            text="+"/>
+                            text="{countryBtnText}"/>
                         </flexBoxLayout>
                         {#if countryIsEnabled}
                             <flexBoxLayout class="smallButtonContainer">
@@ -63,7 +70,7 @@
                             <button 
                             id="showMoreBtn"
                             on:Tap={() => enableCategories() }
-                            text="+"/>
+                            text="{categoryBtnText}"/>
                         </flexBoxLayout> 
                         {#if categoryIsEnabled}
                             <flexBoxLayout class="smallButtonContainer">

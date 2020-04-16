@@ -30,8 +30,8 @@
 
         let sourceListAsString = appSettings.getString("SavedNewspapers")
         sourceList = JSON.parse(sourceListAsString)
+
         for(var i = 0; i < sourceList.length; i++){
-            var sourceName = ""
             var customObj = {}
 
             await ApiService.get(`https://newsapi.org/v2/everything?domains=${SourceService.trimURLSource(sourceList[i].url)}&apiKey=${api_key}`).then(result => {
@@ -61,7 +61,7 @@
     <TopBar
     title="Library"/>
     <FilterBar/>
-        {#if sourceList}
+        {#if newspaperList && newspaperList.length > 0}
             <scrollView scrollBarIndicatorVisible={false}>
                 <stackLayout>
                     {#each newspaperList as newspaper}
