@@ -68,10 +68,8 @@ This is a multi page application.
 - getData functions can also be stored in stores.js. In other words: there's some cleaning up to do. 
 - Two jsons have been created, they hold the information about country names and code, and categories so to simplify the overall code. 
 - The Modals-folder are broken into smaller components in cardModal-folder and larger Modals that covers the entire screen. 
-- Most JavaScript is put in files under the services-foler as many components and screens share the same js. 
+- Most JavaScript is put in files under the services-folder as many components and screens share the same js. 
 
 You are not able to do anything further with the items - i.e delete, update or add - so the example just serves as a demo of how you can include data in a semi advanced app
-
-<image class='image rounded' width="300" src='~/assets/images/screenshots/dashScreenshot.png' alt='cover' stretch='aspectFill' />
 
 <a href="https://www.dropbox.com/s/i43wy7bzeov04dj/Screen%20Recording%202020-04-15%20at%2008.40.51.mov?dl=0">Link to demovideo of Quarantine News app</a>
