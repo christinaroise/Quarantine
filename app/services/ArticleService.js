@@ -31,6 +31,17 @@ export const ArticleService = {
             return res[0]
         }
     },
+    isCurrentDate: function(date) {
+        var todaysDate = new Date()
+        var str = date;
+        str = str.replace("T","-")
+        const res = str.split("-");
+        if(res[2] == todaysDate.getDate()){
+            return true
+        }else{
+            return false
+        }
+    },
     formatDate: function (date) {
         let str = date;
         let month = ""

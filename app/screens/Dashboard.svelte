@@ -1,6 +1,5 @@
 <script>
-    import { filterComponent } from '~/services/stores.js'
-    import {onMount} from 'svelte'
+    import { filterComponent, articles } from '~/services/stores.js'
     import { showModal } from 'svelte-native'
     import { ApiService } from '~/services/ApiService'
     import { ArticleService } from '~/services/ArticleService'
@@ -13,30 +12,12 @@
 
     const utilsModule = require('tns-core-modules/utils/utils')
     const appSettings = require('tns-core-modules/application-settings')
-    
-    const api_key = 'f015a847676d491f9b581d535c9361ac'
-     //'dc4286d2d7a04d47bb2ca997c66ecc73' 
-     // 'e840db49fb1f48c99a39a73ddf05c0a4' 
 
-    let coronaRegExp = /\s*(\w*((C|c|K|k)ovid)|((C|c|K|k)orona)|((Q|q)uarantine)|((K|k)arantene)|((P|p)andemi)|((E|e)pidemi)|((V|v)irus)\w*)\s*/
-    let articles = []  
-
-    onMount(() => {
-        ApiService.get(`https://newsapi.org/v2/top-headlines?country=${FilterService.getSelectedCountry()}&apiKey=${api_key}`).then(result => {
-            articles = result.articles
-            if(FilterService.isCovidEnabled == true){
-                console.log('********************************')
-                console.log(isCovidEnabled)
-                articles = articles.filter( a => !coronaRegExp.test(a.title))
-                articles = articles.filter( a => !coronaRegExp.test(a.description)) 
-            }
-        }) 
-    }) 
+    let todaysArticles = []
 
     function setToDefault(){
         $filterComponent = false
     }
-
 
 </script>
 
@@ -55,24 +36,24 @@
                 </flexBoxLayout>
                 -->
             </flexBoxLayout>
-            <FilterBar bind:value={articles}/>
+           <!-- <FilterBar bind:value={$articles.json()}/> --> 
         </stackLayout>
     </cardView>
 
     <stackLayout class="wrapperDash">
         <scrollView scrollBarIndicatorVisible={false}>
-            {#if $filterComponent == true}
+            {#if $filterComponent == true  && JSON.parse($articles.length > 0)}
                 <PrimaryList
-                items={articles}/>
-            {:else if $filterComponent == false}
+                items={$articles}/>
+            {:else if $filterComponent == false && JSON.parse($articles.length > 0)}
                 <stackLayout>
                     <TodaysWeather/>
                     <PrimarySlider
                     header='Recommended'
-                    items={articles}/>
+                    items={JSON.parse($articles)}/>
                     <SecondarySlider 
                     header="Today's news"
-                    items={articles}/>
+                    items={JSON.parse($articles)}/>
                 </stackLayout>
             {/if}
         </scrollView>

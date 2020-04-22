@@ -20,6 +20,7 @@
                 imgSrc={item.urlToImage}
                 tagName={item.source.name}
                 title={ArticleService.trimTitleMed(item.title) + '...'}
+                date={ArticleService.formatDate(item.publishedAt)}
                 subtitle={ArticleService.trimAuthor(item.author)}
                 />
             {:else}
