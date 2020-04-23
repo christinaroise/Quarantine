@@ -13,6 +13,7 @@
     <scrollView orientation="horizontal" scrollBarIndicatorVisible={false}>
         <stackLayout orientation="horizontal" class=' slider marginRight'>  
             {#each items as item}
+                <!--onTap is not yet universal-->
                 <SecondaryCardSmall 
                 onTap={() => ModalService.showArticle(item)}
                 imgSrc={item.urlToImage}

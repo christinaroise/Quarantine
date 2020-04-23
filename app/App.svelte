@@ -20,7 +20,6 @@ let selectedTab = 0
 
 $: {
     $filterComponent = false
-    $articles = ""
     console.log(selectedTab)
     }
 
@@ -29,6 +28,7 @@ onMount(async () => {
         $articles = res.articles
         todaysArticles = articles.filter(a => ArticleService.isCurrentDate(a.publishedAt))
     })
+        console.log($articles)
 })
 
 </script>
