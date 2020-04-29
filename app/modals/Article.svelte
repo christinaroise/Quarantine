@@ -12,11 +12,16 @@
                 </stackLayout>
                 <label class="title" text="Quarantine"/>
                 <stackLayout>
-                    <image width="20" src="~/assets/icons/heart.png" class=" button fas icon1" />
+                    <image width="20" src="~/assets/icons/more2.png" class=" button fas icon1" />
                 </stackLayout>
             </flexBoxLayout>
         </actionBar>
-        <webView src='{article.url}' />
+        <stackLayout class="optionsContainer">
+            <button text="Save"/>
+        </stackLayout>
+     <!-- 
+ <webView src='{article.url}' />
+     --> 
     </page>
 </frame>
 
@@ -32,8 +37,12 @@
         color: #232323;
         font-weight: 600;
     }
-    .button{
-        height: 100%;   
-        vertical-align: center;
+    .optionsContainer{
+        background-color: skyblue;
+        width: 100%;
+    }
+    button{
+        color: #232323;
+        font-family: 'montserrat';
     }
 </style>

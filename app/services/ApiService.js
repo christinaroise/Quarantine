@@ -1,5 +1,6 @@
-import { api_key, articles} from '~/services/stores.js'
+import { api_key } from '~/services/store.js'
 import { FilterService } from '~/services/FilterService'
+import { SourceService } from './SourceService.js'
 
 export const ApiService = {
     get: function(url){
@@ -15,6 +16,34 @@ export const ApiService = {
             })         
         });
     },
+    getNewspaperData: function(){
+        return new Promise( resolve =>{
+            fetch(`https://newsapi.org/v2/sources?&apiKey=${api_key}`)
+            .then( response => response.json() )
+            .then( response => {
+                if(response.fault){
+                    console.log(response.fault.faultstring)
+                }else{
+                    let sources = response
+                    return resolve(sources)
+                }
+            })
+        });
+    },
+    getNewspaperSourceData: function(item){
+        return new Promise( resolve => {
+            fetch(`https://newsapi.org/v2/everything?domains=${SourceService.trimURLSource(item.url)}&apiKey=${api_key}`)
+            .then( response => response.json() )
+            .then ( response => {
+                if(response.fault){
+                    console.log(response.fault.faultstring)
+                }else{
+                    let articles = response
+                    return resolve(articles)
+                }
+            })
+        }) 
+    },
     getTopHeadlinesData: function(){
         return new Promise( resolve => {
             fetch(`https://newsapi.org/v2/top-headlines?country=${FilterService.getSelectedCountry()}&apiKey=${api_key}`)
@@ -28,8 +57,6 @@ export const ApiService = {
                         topHeadlines = topHeadlines.filter( a => !coronaRegExp.test(a.title))
                         topHeadlines = topHeadlines.filter( a => !coronaRegExp.test(a.description)) 
                     }
-                
-                    articles.set(JSON.stringify(topHeadlines))
                     return resolve(topHeadlines)
                 }
             })         

@@ -17,7 +17,7 @@ on:tap={onTap}
 shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="8">
     <stackLayout class='article backgroundcolorWhite'>
         <absoluteLayout>
-            <image class='image rounded' width="100%" height='200' src={imgSrc} alt='cover' stretch='aspectFill' />
+            <image class='image' width="100%" height='200' src={imgSrc} alt='cover' stretch='aspectFill' />
             <!--<FollowBtn title={btnTitle}/>-->
         </absoluteLayout>
     <stackLayout class="articleInfo">
@@ -38,6 +38,10 @@ shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="8">
     }
     .author{
         font-style: italic;
+    }
+    .image{
+        border-top-left-radius: 10%;
+        border-top-right-radius: 10%;
     }
 </style>
 

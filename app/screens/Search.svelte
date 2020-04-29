@@ -26,7 +26,7 @@
                                 orientation="horizontal" 
                                 scrollBarIndicatorVisible={false}>
                                     <SecondaryCard 
-                                    onTap={async() => await ModalService.showNewspaper(searches)}
+                                    onTap={async() => await ModalService.showNewspaperModal(search)}
                                     imgSrc={`https://logo.clearbit.com/${SourceService.trimURL(search.url)}`}
                                     title={search.name}
                                     description={search.description}

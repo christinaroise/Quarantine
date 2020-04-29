@@ -1,5 +1,5 @@
 <script>
-    import { filterComponent, articles } from '~/services/stores.js'
+    import { filterComponent, articles, categories, dashboardFilterIsActive} from '~/services/store.js'
     import { showModal } from 'svelte-native'
     import { ApiService } from '~/services/ApiService'
     import { ArticleService } from '~/services/ArticleService'
@@ -13,11 +13,11 @@
     const utilsModule = require('tns-core-modules/utils/utils')
     const appSettings = require('tns-core-modules/application-settings')
 
-    let todaysArticles = []
-
     function setToDefault(){
         $filterComponent = false
     }
+
+    $dashboardFilterIsActive = true
 
 </script>
 
@@ -36,24 +36,26 @@
                 </flexBoxLayout>
                 -->
             </flexBoxLayout>
-           <!-- <FilterBar bind:value={$articles.json()}/> --> 
+            <FilterBar 
+            bind:value={$articles}
+            bind:setDashValue={$dashboardFilterIsActive}/>
         </stackLayout>
     </cardView>
 
     <stackLayout class="wrapperDash">
         <scrollView scrollBarIndicatorVisible={false}>
-            {#if $filterComponent == true  && JSON.parse($articles.length > 0)}
+            {#if $filterComponent == true  && $articles.length > 0}
                 <PrimaryList
                 items={$articles}/>
-            {:else if $filterComponent == false && JSON.parse($articles.length > 0)}
+            {:else if $filterComponent == false && $articles.length > 0}
                 <stackLayout>
                     <TodaysWeather/>
                     <PrimarySlider
                     header='Recommended'
-                    items={JSON.parse($articles)}/>
+                    items={$articles}/>
                     <SecondarySlider 
                     header="Today's news"
-                    items={JSON.parse($articles)}/>
+                    items={$articles}/> 
                 </stackLayout>
             {/if}
         </scrollView>

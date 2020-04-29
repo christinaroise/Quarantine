@@ -3,7 +3,7 @@
     import RegularButton from '~/components/universal/buttons/RegularButton'
     import SmallButton from '~/components/universal/buttons/SmallButton'
     import countries from '~/json/countries.json'
-    import categories from '~/json/categories.json'
+    import { categories } from '~/services/store'
 
     let countryIsEnabled = false
     let categoryIsEnabled = false
@@ -76,10 +76,10 @@
                             <flexBoxLayout class="smallButtonContainer">
                                 <scrollView scrollBarIndicatorVisible={false}>
                                     <wrapLayout>
-                                        {#each categories as category}
+                                        {#each $categories as category}
                                             <SmallButton 
                                             width="auto" 
-                                            text={category.type}/>
+                                            text={category}/>
                                         {:else}
                                             <label text="Ops!"/>
                                         {/each}

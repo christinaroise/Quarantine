@@ -1,72 +1,49 @@
 <script>
     import { onMount } from 'svelte'
-    import { api_key } from '~/services/stores.js'
+    import { api_key, sourceList, newspaperList, libraryFilterIsActive, filteredLibList, filterComponent } from '~/services/store'
     import { showModal } from 'svelte-native'
-    import { ApiService } from '~/services/ApiService'
-    import { FilterService } from '~/services/FilterService'
-    import { SourceService } from '~/services/SourceService'
-    import { ArticleService } from '~/services/ArticleService'
 
     import TopBar from '../components/universal/bars/TopBar'
     import FilterBar from '../components/universal/bars/FilterBar'
     import PrimarySlider from '~/components/universal/sliders/PrimarySlider'
     import EmptyContainer from '../components/universal/containers/EmptyContainer'
-
     import Article from '~/modals/Article'
 
-    const utilsModule = require('tns-core-modules/utils/utils')
-    const appSettings = require('tns-core-modules/application-settings')
-    
-   // const api_key = 'dc4286d2d7a04d47bb2ca997c66ecc73' 
-    // 'e840db49fb1f48c99a39a73ddf05c0a4' 
-    // 'f015a847676d491f9b581d535c9361ac' 
-
-    let sourceList = []
-    let newspaperList = [] 
-
-    onMount(async () => {
-        if(appSettings.getString("SavedNewspapers") == null || appSettings.getString("SavedNewspapers").length == 0){
-            appSettings.setString("SavedNewspapers","[]")
-        }
-
-        let sourceListAsString = appSettings.getString("SavedNewspapers")
-        sourceList = JSON.parse(sourceListAsString)
-
-        for(var i = 0; i < sourceList.length; i++){
-            var customObj = {}
-
-            await ApiService.get(`https://newsapi.org/v2/everything?domains=${SourceService.trimURLSource(sourceList[i].url)}&apiKey=${api_key}`).then(result => {
-                    if(sourceList[i] != "undefined" && sourceList[i].name.length > 0){
-                        customObj.name = sourceList[i].name
-                        customObj.articles = result.articles
-                        newspaperList.push(customObj)
-                    }
-                }) 
-        }
-        newspaperList = newspaperList
-    })
-
-    const showArticle = async (article) => {
-        await showModal(
-            {
-                page: Article,
-                props:{
-                    article:article
-                }
-            }
-        )
-    } 
+    $libraryFilterIsActive = true
+//background-color: #F3F3F3;
 </script>
 
 <stackLayout>
     <TopBar
     title="Library"/>
-    <FilterBar/>
-        {#if newspaperList && newspaperList.length > 0}
+    <FilterBar
+    bind:libList={$newspaperList}
+    bind:setLibraryValue={$libraryFilterIsActive}/>
+        {#if $filterComponent == true}
+           {#if $filteredLibList && $filteredLibList.length > 0}
             <scrollView scrollBarIndicatorVisible={false}>
-                <stackLayout>
-                    {#each newspaperList as newspaper}
-                        <stackLayout class="container backgroundcolorWhite"> <PrimarySlider
+                <stackLayout class="newspaperWrapper">
+                    {#each $filteredLibList as filteredLibList}
+                        <stackLayout class="newspaperContainer"> 
+                            <PrimarySlider
+                            header={filteredLibList.name}
+                            items={filteredLibList.articles}
+                            />
+                        </stackLayout>
+                    {/each}
+                </stackLayout>
+            </scrollView>
+            {:else}
+                <EmptyContainer
+                text="You don't follow any newspapers in this category"/>
+            {/if}
+        {:else if $filterComponent == false}
+             {#if $newspaperList && $newspaperList.length > 0}
+                <scrollView scrollBarIndicatorVisible={false}>
+                <stackLayout class="newspaperWrapper">
+                    {#each $newspaperList as newspaper}
+                        <stackLayout class="newspaperContainer"> 
+                            <PrimarySlider
                             header={newspaper.name}
                             items={newspaper.articles}
                             />
@@ -74,14 +51,21 @@
                     {/each}
                 </stackLayout>
             </scrollView>
-        {:else}
+            {:else}
             <EmptyContainer
-            text="Your list is empty"/>
+                text="Your list is empty"/>
+            {/if}
         {/if}
 </stackLayout>
 
 <style>
-    .container{
+    .newspaperContainer{
         padding-top: 15;
+    }
+    .newspaperWrapper:nth-child(odd){
+        background-color: #F3F3F3;
+    }
+    .newspaperWrapper:nth-child(even){
+        background-color: white;
     }
 </style>

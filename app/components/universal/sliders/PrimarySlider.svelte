@@ -6,8 +6,6 @@
     export let header
     export let items
 
-    // date={ArticleService.formatDate(item)}
-
 </script>
 
 <stackLayout>
@@ -17,9 +15,9 @@
             {#each items as item}
                 <PrimaryCardSmall
                 onTap={() => ModalService.showArticle(item)}
-                imgSrc={item.urlToImage}
+                imgSrc={item.urlToImage} 
                 tagName={item.source.name}
-                title={ArticleService.trimTitleMed(item.title) + '...'}
+                title={'...'}
                 date={ArticleService.formatDate(item.publishedAt)}
                 subtitle={ArticleService.trimAuthor(item.author)}
                 />

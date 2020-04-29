@@ -2,6 +2,7 @@
     import { onMount }  from 'svelte'
     import { ModalService } from '~/services/ModalService'
     import { FilterService } from '~/services/FilterService'
+    import { LocalStorage } from '~/services/LocalStorage'
     import { SourceService } from '~/services/SourceService'
     import SecondaryCard from '~/components/universal/cards/SecondaryCard'
     import addButton from '~/components/universal/buttons/addButton'
@@ -18,12 +19,12 @@
                 <scrollView 
                 orientation="horizontal" 
                 scrollBarIndicatorVisible={false}>
-                    <SecondaryCard 
-                    onTap={async() => await ModalService.showNewspaper(item)}
+                    <SecondaryCard  
+                    onTap={async() => await ModalService.showNewspaperModal(item)} 
                     imgSrc={`https://logo.clearbit.com/${SourceService.trimURL(item.url)}`}
                     title={item.name}
                     description={item.description}
-                    btnOnTap={() => SourceService.addToLibrary(item)}/> 
+                    btnOnTap={() => LocalStorage.addToLibrary(item)}/> 
                 </scrollView>
             {:else}
                 <activityIndicator busy={true} />

@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte'
+    import { sources } from '~/services/store.js'
     import { navigate }  from 'svelte-native'
     import { FilterService } from '~/services/FilterService'
     import { SourceService } from '~/services/SourceService'
@@ -16,24 +17,11 @@
     const utilsModule = require('tns-core-modules/utils/utils')
     const appSettings = require('tns-core-modules/application-settings')
     
-    const api_key = 'f015a847676d491f9b581d535c9361ac' 
-     // 'dc4286d2d7a04d47bb2ca997c66ecc73' 
-     // 'e840db49fb1f48c99a39a73ddf05c0a4' 
-
-    let sources = []
-    let filterContainer = false
- 
-    onMount(() => {
-        ApiService.get(`https://newsapi.org/v2/sources?&apiKey=${api_key}`).then(result => {
-            sources = result.sources
-        })
-    })
-    
     const goToSearch = async () => {
         navigate({
             page:Search,
             props:{
-                    sources: sources,
+                    sources: $sources,
                 }
         })
     }
@@ -42,25 +30,20 @@
         filterContainer = !filterContainer
     }
 
-</script>
+</script> 
 
 <stackLayout class="backgroundColorWhite">
     <TopBar 
     leftIconSrc="~/assets/icons/search.png"
-    leftOnTap={() => goToSearch(sources)}
+    leftOnTap={() => goToSearch($sources)}
     title={'BROWSE'}
     rightIconSrc="~/assets/icons/filter.png"
     rightOnTap={() => ModalService.showFilterModal()}/>
     <label class="OpenSans" text="Find newspapers from across the globe"/>
-    <!-- 
-    {#if filterContainer}
-        <FilterContainer/>
-    {/if}
-    --> 
     <scrollView scrollBarIndicatorVisible={false}> 
         <stackLayout>
             <SecondaryList 
-            items={sources}/>
+            items={$sources}/>
         </stackLayout>
     </scrollView>
 </stackLayout>

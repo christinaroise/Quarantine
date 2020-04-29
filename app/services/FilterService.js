@@ -1,3 +1,6 @@
+import { filterComponent, api_key } from './store.js'
+import { ApiService } from './ApiService.js'
+
 const appSettings = require('tns-core-modules/application-settings')
 
 export const FilterService = {
@@ -51,5 +54,11 @@ export const FilterService = {
     },
     getLanguage: function(){
         return appSettings.getString('language')
+    },
+    setArticlesByCategory: function(category){
+        filterComponent = true
+        ApiService.get(`https://newsapi.org/v2/top-headlines?country=${this.getSelectedCountry()}&category=${category}&apiKey=${api_key}`).then(result => {
+            value = result.articles
+        }) 
     }
 }

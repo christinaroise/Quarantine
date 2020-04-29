@@ -1,8 +1,10 @@
 <script>
 import { onMount } from 'svelte'
+import { navigate }  from 'svelte-native'
 import { ApiService } from '~/services/ApiService'
 import { ArticleService } from '~/services/ArticleService'
-import { filterComponent, articles} from '~/services/stores.js'
+import { filterComponent, dashboardFilterIsActive, libraryFilterIsActive, articles, sources, newspaperList, sourceList} from '~/services/store.js'
+import { LocalStorage } from '~/services/LocalStorage'
 
 import Dashboard from './screens/Dashboard'
 import Browse from './screens/Browse'
@@ -24,11 +26,16 @@ $: {
     }
 
 onMount(async () => {
+    console.log($libraryFilterIsActive)
     ApiService.getTopHeadlinesData().then((res)=>{
         $articles = res.articles
         todaysArticles = articles.filter(a => ArticleService.isCurrentDate(a.publishedAt))
-    })
-        console.log($articles)
+    }),
+    ApiService.getNewspaperData().then((res)=>{
+        $sources = res.sources
+    }),
+    $newspaperList = await LocalStorage.getLibraryList()
+    $sourceList = await LocalStorage.addToLibrary()
 })
 
 </script>
