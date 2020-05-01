@@ -15,8 +15,8 @@ Other used add-ons/plug-ins:
     - active-style color of icons in BottomNavigation
     - addToList buttons needs appropriate functions and styling
     - a lot of my code can be solved and minimize with store
-- Dashboard:
     - active-style on buttons in filterBar
+- Dashboard:
     - reset scroll position in filteredComponent(read: PrimaryList)
     - Recommended section
         - this will be run by the kind of newspapers and articles that are saved to localStorage
@@ -30,12 +30,11 @@ Other used add-ons/plug-ins:
         - Buttons need active-styling and added functions
         - cancle button different styling
 - Library: 
-    - filterBar is not yet activated
     - Newspapers should interchange background color
     - missing remove-from-list button
     - missing showNewspaper modal when tapping newspaper name
 - Bookmarks:
-    - Articles need to me saved to localStorage and shown in Bookmarks
+    - Articles need to be saved to localStorage and shown in Bookmarks
     - List of articles in bookmarks may need a new component as the styling will be different than previous lists. 
     - articles will have a showArticle Modal
     - add share/copy url button to articles

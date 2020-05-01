@@ -1,7 +1,6 @@
 <script>
     import { onMount }  from 'svelte'
     import { ModalService } from '~/services/ModalService'
-    import { FilterService } from '~/services/FilterService'
     import { LocalStorage } from '~/services/LocalStorage'
     import { SourceService } from '~/services/SourceService'
     import SecondaryCard from '~/components/universal/cards/SecondaryCard'

@@ -2,6 +2,7 @@
     import { closeModal } from 'svelte-native'
     import { LocalStorage } from '~/services/LocalStorage'
     import { ArticleService } from '~/services/ArticleService'
+    import { ModalService } from '~/services/ModalService'
     import { ApiService } from '~/services/ApiService'
     import ElegantTopBar from '~/components/universal/bars/ElegantTopBar'
     import PrimaryList from '~/components/universal/lists/PrimaryList'
@@ -11,6 +12,11 @@
 
     export let source
     export let articles
+
+    function openArticlesModal(item){
+            closeModal()
+            ModalService.showArticleModal(item)
+    }
 
 </script>
 
@@ -25,6 +31,7 @@
         rightOnTap={ () => LocalStorage.addToLibrary(source) }/>
     </cardView>
     <PrimaryList
+    onTap={ () => openArticlesModal() }
     items={articles}/>
 </stackLayout>
 

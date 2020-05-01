@@ -4,6 +4,7 @@ import Article from '~/modals/Article'
 import Newspaper from '~/modals/Newspaper'
 import ConfirmedModal from '~/modals/cardModals/ConfirmedModal'
 import FilterModal from '~/modals/cardModals/FilterModal'
+import OptionsModal from '~/modals/cardModals/OptionsModal'
 
 const utilsModule = require('tns-core-modules/utils/utils')
 
@@ -14,7 +15,7 @@ export const ModalService = {
                 page: Article,
                 props:{
                     article:item
-                },
+                }, 
             }
         )
     },
@@ -49,6 +50,13 @@ export const ModalService = {
                 props:{
                     source:item
                 },
+            }
+        )
+    },
+    showOptionsModal: async() => {
+        await showModal(
+            {
+                page: OptionsModal
             }
         )
     }

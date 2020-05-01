@@ -7,6 +7,18 @@ import { api_key, sourceList} from './store'
 const appSettings = require('tns-core-modules/application-settings')
 
 export const LocalStorage = {
+    addToLibrary: function(sourceItem){
+        console.log(appSettings.getString("SavedNewspapers"))
+        if(appSettings.getString("SavedNewspapers") == null || appSettings.getString("SavedNewspapers").length == 0 || appSettings.getString("SavedNewspapers") == "[null]"){
+            appSettings.setString("SavedNewspapers","[]")
+        }
+        let sourceList = appSettings.getString("SavedNewspapers")
+        let sourceListAsJson = this.pushNewSourceToList(sourceItem, sourceList)
+        
+        appSettings.setString("SavedNewspapers", JSON.stringify(sourceListAsJson))
+        
+        return JSON.parse(appSettings.getString("SavedNewspapers"))
+    },
     pushNewSourceToList: function(sourceItem, sourceListAsString){
         let list = JSON.parse(sourceListAsString)
         let doesExist = false
@@ -20,17 +32,6 @@ export const LocalStorage = {
             ModalService.showConfirmedModal(sourceItem)
         }
         return list
-    },
-    addToLibrary: function(sourceItem){
-        if(appSettings.getString("SavedNewspapers") == null || appSettings.getString("SavedNewspapers").length == 0){
-            appSettings.setString("SavedNewspapers","[]")
-        }
-        let sourceList = appSettings.getString("SavedNewspapers")
-        let sourceListAsJson = this.pushNewSourceToList(sourceItem, sourceList)
-        
-        appSettings.setString("SavedNewspapers", JSON.stringify(sourceListAsJson))
-        
-        return JSON.parse(appSettings.getString("SavedNewspapers"))
     },
     getLibraryList: async () => {
         if(appSettings.getString("SavedNewspapers") == null ||   appSettings.getString("SavedNewspapers").length == 0){

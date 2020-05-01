@@ -32,7 +32,7 @@
 
 </script> 
 
-<stackLayout class="backgroundColorWhite">
+<stackLayout>
     <TopBar 
     leftIconSrc="~/assets/icons/search.png"
     leftOnTap={() => goToSearch($sources)}
@@ -41,7 +41,7 @@
     rightOnTap={() => ModalService.showFilterModal()}/>
     <label class="OpenSans" text="Find newspapers from across the globe"/>
     <scrollView scrollBarIndicatorVisible={false}> 
-        <stackLayout>
+        <stackLayout class="backgroundcolorWhite">
             <SecondaryList 
             items={$sources}/>
         </stackLayout>
@@ -54,5 +54,6 @@
         width: 100%;
         text-align: center;
         color: gray;
+        padding-bottom: 15;
     }
 </style>

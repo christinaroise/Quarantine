@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte'
     import { api_key, sourceList, newspaperList, libraryFilterIsActive, filteredLibList, filterComponent } from '~/services/store'
-    import { showModal } from 'svelte-native'
+    import { ModalService } from '~/services/ModalService'
 
     import TopBar from '../components/universal/bars/TopBar'
     import FilterBar from '../components/universal/bars/FilterBar'
@@ -10,62 +10,59 @@
     import Article from '~/modals/Article'
 
     $libraryFilterIsActive = true
-//background-color: #F3F3F3;
 </script>
 
 <stackLayout>
-    <TopBar
-    title="Library"/>
-    <FilterBar
-    bind:libList={$newspaperList}
-    bind:setLibraryValue={$libraryFilterIsActive}/>
-        {#if $filterComponent == true}
-           {#if $filteredLibList && $filteredLibList.length > 0}
-            <scrollView scrollBarIndicatorVisible={false}>
-                <stackLayout class="newspaperWrapper">
-                    {#each $filteredLibList as filteredLibList}
-                        <stackLayout class="newspaperContainer"> 
-                            <PrimarySlider
-                            header={filteredLibList.name}
-                            items={filteredLibList.articles}
-                            />
-                        </stackLayout>
-                    {/each}
-                </stackLayout>
-            </scrollView>
-            {:else}
-                <EmptyContainer
-                text="You don't follow any newspapers in this category"/>
-            {/if}
-        {:else if $filterComponent == false}
-             {#if $newspaperList && $newspaperList.length > 0}
-                <scrollView scrollBarIndicatorVisible={false}>
-                <stackLayout class="newspaperWrapper">
-                    {#each $newspaperList as newspaper}
-                        <stackLayout class="newspaperContainer"> 
-                            <PrimarySlider
-                            header={newspaper.name}
-                            items={newspaper.articles}
-                            />
-                        </stackLayout>
-                    {/each}
-                </stackLayout>
-            </scrollView>
-            {:else}
+    <cardView shadowOffsetHeight="2" shadowOpacity="0.1" shadowRadius="8">
+        <stackLayout class="backgroundcolorWhite">
+            <TopBar
+            title="Library"/>
+            <FilterBar
+            bind:libList={$newspaperList}
+            bind:setLibraryValue={$libraryFilterIsActive}/>
+        </stackLayout>
+    </cardView>
+    {#if $filterComponent == true}
+        {#if $filteredLibList && $filteredLibList.length > 0}
+        <scrollView scrollBarIndicatorVisible={false}>
+            <stackLayout>
+                {#each $filteredLibList as filteredLibList}
+                    <stackLayout class="newspaperContainer borderBottom"> 
+                        <PrimarySlider
+                        header={filteredLibList.name}
+                        items={filteredLibList.articles}
+                        imgSrc={"~/assets/icons/more2.png"}/>
+                    </stackLayout>
+                {/each}
+            </stackLayout>
+        </scrollView>
+        {:else}
             <EmptyContainer
-                text="Your list is empty"/>
-            {/if}
+            text="You don't follow any newspapers in this category"/>
         {/if}
+    {:else if $filterComponent == false}
+            {#if $newspaperList && $newspaperList.length > 0}
+            <scrollView scrollBarIndicatorVisible={false}>
+            <stackLayout>
+                {#each $newspaperList as newspaper}
+                    <stackLayout class="newspaperContainer borderBottom"> 
+                        <PrimarySlider
+                        header={newspaper.name}
+                        items={newspaper.articles}
+                        imgSrc={"~/assets/icons/more2.png"}/>
+                    </stackLayout>
+                {/each}
+            </stackLayout>
+        </scrollView>
+        {:else}
+        <EmptyContainer
+            text="Your list is empty"/>
+        {/if}
+    {/if}
 </stackLayout>
 
 <style>
     .newspaperContainer{
         padding-top: 15;
-    }
-    .newspaperWrapper:nth-child(odd){
-        background-color: #F3F3F3;
-    }
-    .newspaperWrapper:nth-child(even){
-        background-color: white;
     }
 </style>

@@ -15,7 +15,7 @@
         class="one">
             <flexBoxLayout 
             on:tap={onTap}
-            class="article backgroundcolorWhite">
+            class="article">
                 <flexBoxLayout class="imageContainer">
                     <image class='icon rounded' src={imgSrc} alt='cover' stretch='aspectFit' />
                 </flexBoxLayout>
@@ -60,7 +60,6 @@
     .body{
         width: 250;
         margin: 0;
-        background-color: white;
     }
     .one{
         flex: 2;

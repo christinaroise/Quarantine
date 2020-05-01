@@ -3,13 +3,28 @@
     import { ArticleService } from '~/services/ArticleService'
     import PrimaryCardSmall from '~/components/universal/cards/PrimaryCardSmall'
 
-    export let header
+    export let header 
     export let items
+    export let iconOnTap
+    export let imgSrc
+
+    function hei(){
+        console.log('hei')
+    }
 
 </script>
 
 <stackLayout>
-    <label class="h2 timesNewRoman marginLeft" text="{header}"/>
+    <flexBoxLayout class="titleBar">
+        <label class="h2 timesNewRoman marginLeft" text="{header}"/>
+        <flexBoxLayout 
+        class="iconContainer"
+        on:tap={() => ModalService.showOptionsModal()}>
+            <image 
+            height="30" width="20" class="icon"
+            src={imgSrc}/>
+        </flexBoxLayout>
+    </flexBoxLayout>
     <scrollView orientation="horizontal" scrollBarIndicatorVisible={false}>
         <stackLayout orientation="horizontal" class='marginRight'>  
             {#each items as item}
@@ -17,7 +32,7 @@
                 onTap={() => ModalService.showArticle(item)}
                 imgSrc={item.urlToImage} 
                 tagName={item.source.name}
-                title={'...'}
+                title={ArticleService.trimTitleMed(item.title) + '...'}
                 date={ArticleService.formatDate(item.publishedAt)}
                 subtitle={ArticleService.trimAuthor(item.author)}
                 />
@@ -29,6 +44,16 @@
 </stackLayout>
 
 <style>
+    .titleBar > label{
+        flex: 1;
+    }
+    .iconContainer{
+        margin-right: 15;
+        height: 30;
+    }
+    .icon{
+        filter: invert(92%) sepia(0%) saturate(218%) hue-rotate(186deg) brightness(91%) contrast(96%);
+    }
     .h2{
         font-weight: 600;
     }

@@ -31,11 +31,10 @@
     <scrollView 
     orientation="horizontal" 
     scrollBarIndicatorVisible={false}>
-        <flexBoxLayout orientation="horizontal" class="buttonDarkContainer">
+        <flexBoxLayout orientation="horizontal">
             {#each $categories as category}
                 <button
                 on:Tap={() => setCategory(category)}
-                class="buttonLight"
                 text="{category}"/>
             {/each}}
         </flexBoxLayout>
@@ -43,13 +42,16 @@
 </stackLayout>
 
 <style>
-    .buttonLight{
+    button{
         margin: 1;
         padding-left: 14;
-        padding-right: 6;
+        padding-right: 14;
         padding-bottom: 10;
         font-family: 'Times New Roman';
         color: #232323;
     } 
-   
+    .active{
+        border-bottom-color: #232323;
+        border-bottom-width: 2;
+    }
 </style>
