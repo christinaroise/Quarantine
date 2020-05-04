@@ -14,36 +14,34 @@ Other used add-ons/plug-ins:
 - Universal:
     - active-style color of icons in BottomNavigation
     - addToList buttons needs appropriate functions and styling
-    - a lot of my code can be solved and minimize with store
-    - active-style on buttons in filterBar
 - Dashboard:
     - reset scroll position in filteredComponent(read: PrimaryList)
     - Recommended section
         - this will be run by the kind of newspapers and articles that are saved to localStorage
     - geoLocation does not fetch the device's position
+    - add Discover component
 - Browse:
     - Buttons need to change text or icon and color when source(newspaper) is added to Library
     - *BUG* showNewspaper(Modal) does not work on older ios devices..? 
-    - Search:
-        - showNewspaper modal does not currently work(issue lies in its prop, I believe)
-    - Filter:
-        - Buttons need active-styling and added functions
+    - Filtermodal:
+        - Buttons need active-styling
         - cancle button different styling
 - Library: 
-    - Newspapers should interchange background color
-    - missing remove-from-list button
-    - missing showNewspaper modal when tapping newspaper name
+    - missing working functions in optionsModal
 - Bookmarks:
     - Articles need to be saved to localStorage and shown in Bookmarks
     - List of articles in bookmarks may need a new component as the styling will be different than previous lists. 
     - articles will have a showArticle Modal
     - add share/copy url button to articles
-- Filters/Profile:
-    - functions on filterbuttons have not yet been made universal to all components in app. In other words they do not yet work. 
+- FilterBar:
+    - Buttons need active-styling
+    - add "all/reset" option to filterBar
 - Modals:
-    - modals in modals does not work (first modal needs to be force closed when second modal is activated) (Primarily in Newspaper.modal)
+    - modals in modals does not work (first modal needs to be force closed when second modal is activated). this link might be the answer:
+    https://play.nativescript.org/?template=play-ng&id=RbISYY&v=2
 - Android/iOS:
-    - I have not yet looked at the app on an Android so I expect there to be some changes that will be made due to the fact that I've mostly developed the app while using an iOS simulator
+    - Button styling on Android needs changing
+    - a few topBars need style changing on Android  
 
 ## Set up
 ```html

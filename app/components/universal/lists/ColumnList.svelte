@@ -11,7 +11,8 @@
 </script>
 
 <stackLayout>
-    <scrollView scrollBarIndicatorVisible={false}>
+    <scrollView
+    scrollBarIndicatorVisible={false}>
         <wrapLayout width="50%" class='listContainer backgroundcolorWhite'>  
             {#each items as item}
                 <SecondaryCardSmall 

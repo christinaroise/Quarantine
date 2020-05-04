@@ -8,7 +8,6 @@ const appSettings = require('tns-core-modules/application-settings')
 
 export const LocalStorage = {
     addToLibrary: function(sourceItem){
-        console.log(appSettings.getString("SavedNewspapers"))
         if(appSettings.getString("SavedNewspapers") == null || appSettings.getString("SavedNewspapers").length == 0 || appSettings.getString("SavedNewspapers") == "[null]"){
             appSettings.setString("SavedNewspapers","[]")
         }

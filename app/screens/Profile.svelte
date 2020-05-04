@@ -63,7 +63,7 @@
     <TopBar
     title="Filters"/>
     <scrollView>
-        <stackLayout class="wrapper">
+        <stackLayout class="heightAuto wrapper">
             <stackLayout class="filterWrapper">
                 <stackLayout class="filterContainer">
                     <label class="h3 montserrat marginLeft" text="Sort by"/>

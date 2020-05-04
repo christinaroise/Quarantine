@@ -81,6 +81,11 @@ The imported CSS rules must precede all other types of rules.
     margin-right: 15;
 }
 
+/* PADDING */ 
+.paddingRight{
+    padding-right: 15;
+}
+
 /* BUTTON */
 .textBtn{
     color: #232323;
@@ -103,3 +108,9 @@ background-color: #F3F3F3;
     flex: 1;
     font-weight: 500;
 }
+
+/* scrollView */
+.heightAuto{
+    height: auto;
+}
+

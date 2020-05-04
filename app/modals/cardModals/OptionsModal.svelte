@@ -9,7 +9,7 @@
     <stackLayout class="container">
         <stackLayout class="emptyContainer">
         </stackLayout>
-        <stackLayout class="card">
+        <stackLayout class="card backgroundcolorWhite">
             <flexBoxLayout class="filterWrapper flexColumn">
                 <stackLayout class="borderBottom">
                     <flexBoxLayout class="filterContainer">
@@ -56,16 +56,14 @@
 
 <style>
     .container{
-        width: 100%;
+        width: 380;
         height: 100%;
         border-radius: 10%;
         background-color: transparent;
         vertical-align: bottom;
-        padding: 10;
     }
     .card{
         flex: 2;
-        background-color: white;
         width: 100%;
         height: auto;
         border-top-left-radius: 10%;
@@ -88,8 +86,7 @@
         flex-direction: column;
     }
     .buttonContainer{
-        justify-content: space-evenly;
-        margin-bottom: 10;
+        margin: 20 10;
     }
 
 </style>

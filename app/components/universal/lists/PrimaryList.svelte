@@ -4,31 +4,32 @@
     import { ArticleService } from '~/services/ArticleService'
     import { inModal } from '~/services/store'
     import PrimaryCard from '~/components/universal/cards/PrimaryCard'
-    //`https://logo.clearbit.com/${SourceService.trimURL(source.url)}`
     
     export let items
+    export let value
 
-    function openArticle(item){
-        if($inModal == true){
+    const closeOrOpenModal= async(item) =>{
+        if($inModal == value){
             closeModal()
             let modalClosed = true
             if(modalClosed){
-                ModalService.showArticle(item)
+                await ModalService.showArticle(item)
             }
-        }if($inModal == false){
+        }if($inModal == value){
             ModalService.showArticle(item)
         }
     }
-
+    
 </script>
 
 <stackLayout>
-    <scrollView scrollBarIndicatorVisible={false}>
-      <stackLayout class="listContainer backgroundcolorWhite">
+    <scrollView
+    scrollBarIndicatorVisible={false}>
+      <stackLayout class="heightAuto listContainer backgroundcolorWhite">
           {#each items as item}
                 <PrimaryCard 
                 btnTitle={'Like'}
-                onTap={() => openArticle(item)}
+                onTap={() => closeOrOpenModal(item)}
                 imgSrc={item.urlToImage}
                 tagName={item.source.name}
                 title={ArticleService.trimTitleMin(item.title) + '...'}

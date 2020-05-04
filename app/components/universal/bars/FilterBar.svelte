@@ -10,18 +10,26 @@
     export let setLibraryValue = ""
     export let libList = []
 
+    function setCategoryInDash(category){
+        ApiService.get(`https://newsapi.org/v2/top-headlines?country=${FilterService.getSelectedCountry()}&category=${category}&apiKey=${api_key}`).then(result => {
+            value = result.articles
+        }) 
+    }
+    function setCategoryInLib(category){
+        let list = libList.filter( 
+            newspaper => newspaper.category.toLowerCase().includes(category.toLowerCase())
+        )
+        $filteredLibList = list
+    }
+
     function setCategory(category){
         if($dashboardFilterIsActive == setDashValue){
             $filterComponent = true
-            ApiService.get(`https://newsapi.org/v2/top-headlines?country=${FilterService.getSelectedCountry()}&category=${category}&apiKey=${api_key}`).then(result => {
-                value = result.articles
-            }) 
+            setCategoryInDash(category)
+
         }else if($libraryFilterIsActive == setLibraryValue){
             $filterComponent = true
-            let list = libList.filter( 
-                newspaper => newspaper.category.toLowerCase().includes(category.toLowerCase())
-            )
-            $filteredLibList = list
+            setCategoryInLib(category)
         }
     }
 
@@ -31,9 +39,10 @@
     <scrollView 
     orientation="horizontal" 
     scrollBarIndicatorVisible={false}>
-        <flexBoxLayout orientation="horizontal">
+        <flexBoxLayout  class="widthAuto" orientation="horizontal">
             {#each $categories as category}
                 <button
+                borderWidth="0"
                 on:Tap={() => setCategory(category)}
                 text="{category}"/>
             {/each}}
@@ -43,13 +52,13 @@
 
 <style>
     button{
+        border-width: 0;
         margin: 1;
         padding-left: 14;
         padding-right: 14;
-        padding-bottom: 10;
         font-family: 'Times New Roman';
         color: #232323;
-    } 
+    }
     .active{
         border-bottom-color: #232323;
         border-bottom-width: 2;

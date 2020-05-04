@@ -12,13 +12,14 @@
 </script>
   
 <stackLayout>
-    <scrollView scrollBarIndicatorVisible={false}>
+    <scrollView
+    scrollBarIndicatorVisible={false}>
       <stackLayout class="listContainer backgroundcolorWhite">
           {#each items as item }
                 <scrollView 
                 orientation="horizontal" 
                 scrollBarIndicatorVisible={false}>
-                    <SecondaryCard  
+                    <SecondaryCard
                     onTap={async() => await ModalService.showNewspaperModal(item)} 
                     imgSrc={`https://logo.clearbit.com/${SourceService.trimURL(item.url)}`}
                     title={item.name}

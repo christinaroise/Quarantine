@@ -22,12 +22,16 @@ export let rightOnTap
 
 <style>
     .topBarWrapper{
+        height: 9%;
+        width: 100%;
         text-align: center;
-        padding: 15;
+        padding: 15 20;
         vertical-align: center;
     }
     .h1{
         flex: 2;
+        font-size: 24;
         text-transform: capitalize;
+        text-align: center;
     }
 </style>

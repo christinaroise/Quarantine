@@ -85,7 +85,7 @@ shadowRadius = 1; */
 
 
 <cardView radius="1" shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="5">
-    <flexBoxLayout class="weatherWrapper" >
+    <flexBoxLayout class="weatherWrapper heightAuto">
         <stackLayout class="icon">
             <image class='icon' height="40" width="40" src='{currentIcon}' alt='cover' stretch='aspectFill'/> 
         </stackLayout>
@@ -115,12 +115,12 @@ shadowRadius = 1; */
         height: 100;
     }
     .weatherWrapper{
-        height: 100%;
+        height: auto;
         align-items: center;
         flex-direction: row;
         background-color: white;
         border-radius: 10%;
-        padding: 20 10;
+        padding-left: 10;
     }
     .icon{
         vertical-align: top;
@@ -146,6 +146,7 @@ shadowRadius = 1; */
         vertical-align: bottom; 
     }
     .description{
+        margin-bottom: 10;
         text-transform: capitalize;
     }
 
@@ -155,7 +156,7 @@ shadowRadius = 1; */
         height: 100%;
         vertical-align: bottom;
         padding-bottom: 8;
-        padding-right: 10;
+        padding-right: 15;
     }
     .location{
         font-size: 15;

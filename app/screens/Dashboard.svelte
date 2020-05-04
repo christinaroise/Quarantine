@@ -43,12 +43,14 @@
     </cardView>
 
     <stackLayout class="wrapperDash">
-        <scrollView scrollBarIndicatorVisible={false}>
+        <scrollView 
+        scrollBarIndicatorVisible={false}>
             {#if $filterComponent == true  && $articles.length > 0}
                 <PrimaryList
+                class="heightAuto"
                 items={$articles}/>
             {:else if $filterComponent == false && $articles.length > 0}
-                <stackLayout>
+                <stackLayout class="heightAuto">
                     <TodaysWeather/>
                     <PrimarySlider
                     header='Recommended'

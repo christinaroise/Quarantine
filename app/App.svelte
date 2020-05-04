@@ -26,7 +26,6 @@ $: {
     }
 
 onMount(async () => {
-    console.log($libraryFilterIsActive)
     ApiService.getTopHeadlinesData().then((res)=>{
         $articles = res.articles
         todaysArticles = articles.filter(a => ArticleService.isCurrentDate(a.publishedAt))

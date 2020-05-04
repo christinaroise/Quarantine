@@ -10,8 +10,10 @@
 
 <stackLayout>
     <label class="h2 timesNewRoman marginLeft" text={header}/>
-    <scrollView orientation="horizontal" scrollBarIndicatorVisible={false}>
-        <stackLayout orientation="horizontal" class='marginRight'>  
+    <scrollView 
+    orientation="horizontal" 
+    scrollBarIndicatorVisible={false}>
+        <stackLayout orientation="horizontal" class='widthAuto paddingRight'>  
             {#each items as item}
                 <!--onTap is not yet universal-->
                 <SecondaryCardSmall 

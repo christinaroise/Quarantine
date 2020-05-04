@@ -40,8 +40,9 @@
     rightIconSrc="~/assets/icons/filter.png"
     rightOnTap={() => ModalService.showFilterModal()}/>
     <label class="OpenSans" text="Find newspapers from across the globe"/>
-    <scrollView scrollBarIndicatorVisible={false}> 
-        <stackLayout class="backgroundcolorWhite">
+    <scrollView 
+    scrollBarIndicatorVisible={false}> 
+        <stackLayout class="widthAuto backgroundcolorWhite">
             <SecondaryList 
             items={$sources}/>
         </stackLayout>

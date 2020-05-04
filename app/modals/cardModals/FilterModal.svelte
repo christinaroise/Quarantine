@@ -50,8 +50,9 @@
                         </flexBoxLayout>
                         {#if countryIsEnabled}
                             <flexBoxLayout class="smallButtonContainer">
-                                <scrollView scrollBarIndicatorVisible={false}>
-                                    <wrapLayout>
+                                <scrollView 
+                                scrollBarIndicatorVisible={false}>
+                                    <wrapLayout class="heightAuto">
                                         {#each countries as country}
                                             <SmallButton 
                                             width="auto" 
@@ -74,8 +75,9 @@
                         </flexBoxLayout> 
                         {#if categoryIsEnabled}
                             <flexBoxLayout class="smallButtonContainer">
-                                <scrollView scrollBarIndicatorVisible={false}>
-                                    <wrapLayout>
+                                <scrollView
+                                scrollBarIndicatorVisible={false}>
+                                    <wrapLayout class="heightAuto">
                                         {#each $categories as category}
                                             <SmallButton 
                                             width="auto" 

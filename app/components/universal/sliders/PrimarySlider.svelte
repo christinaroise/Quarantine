@@ -25,8 +25,10 @@
             src={imgSrc}/>
         </flexBoxLayout>
     </flexBoxLayout>
-    <scrollView orientation="horizontal" scrollBarIndicatorVisible={false}>
-        <stackLayout orientation="horizontal" class='marginRight'>  
+    <scrollView 
+    orientation="horizontal" 
+    scrollBarIndicatorVisible={false}>
+        <stackLayout orientation="horizontal" class='widthAuto paddingRight'>  
             {#each items as item}
                 <PrimaryCardSmall
                 onTap={() => ModalService.showArticle(item)}

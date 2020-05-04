@@ -24,7 +24,7 @@ export let title
 
 <style>
     .topBarWrapper{
-        height: 60;
+        height: 10%;
         text-align: center;
         padding: 15;
         vertical-align: center;

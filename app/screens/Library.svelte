@@ -24,8 +24,9 @@
     </cardView>
     {#if $filterComponent == true}
         {#if $filteredLibList && $filteredLibList.length > 0}
-        <scrollView scrollBarIndicatorVisible={false}>
-            <stackLayout>
+        <scrollView 
+        scrollBarIndicatorVisible={false}>
+            <stackLayout class="heightAuto">
                 {#each $filteredLibList as filteredLibList}
                     <stackLayout class="newspaperContainer borderBottom"> 
                         <PrimarySlider
@@ -42,8 +43,9 @@
         {/if}
     {:else if $filterComponent == false}
             {#if $newspaperList && $newspaperList.length > 0}
-            <scrollView scrollBarIndicatorVisible={false}>
-            <stackLayout>
+            <scrollView 
+            scrollBarIndicatorVisible={false}>
+                <stackLayout class="heightAuto">
                 {#each $newspaperList as newspaper}
                     <stackLayout class="newspaperContainer borderBottom"> 
                         <PrimarySlider
