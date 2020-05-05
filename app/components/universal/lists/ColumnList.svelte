@@ -1,26 +1,29 @@
 <script>
-    import {ArticleService} from '~/services/ArticleService'
+    import { ArticleService } from '~/services/ArticleService'
     import SecondaryCardSmall from '~/components/universal/cards/SecondaryCardSmall'
-    //`https://logo.clearbit.com/${SourceService.trimURL(source.url)}`
 
     let sources = []
     
     export let cardOnTap
     export let items
+    export let imgSrc
     
 </script>
 
 <stackLayout>
     <scrollView
     scrollBarIndicatorVisible={false}>
-        <wrapLayout width="50%" class='listContainer backgroundcolorWhite'>  
+        <wrapLayout class='listContainer backgroundcolorWhite'>  
             {#each items as item}
-                <SecondaryCardSmall 
-                onTap={cardOnTap}
-                imgSrc={item.urlToImg}
-                title={ArticleService.trimTitleMin(item.title) + '...'}
-                author={ArticleService.trimAuthor(item.author)}
-                description={item.description}/>
+                <stackLayout
+                width="50%">
+                    <SecondaryCardSmall
+                    onTap={cardOnTap}
+                    imgSrc={item.urlToImage}
+                    title={ArticleService.trimTitleMax(item.title) + '...'}
+                    author={ArticleService.trimAuthor(item.author)}
+                    subtitle={ArticleService.trimAuthor(item.author)}/>
+                </stackLayout>
             {:else}
                 <activityIndicator busy={true} />
             {/each}
@@ -31,7 +34,7 @@
 
 <style>
     .listContainer{
-        width: 100%;
-        justify-content: flex-end;
+        width: auto;
+        vertical-align: center;
     }
 </style>

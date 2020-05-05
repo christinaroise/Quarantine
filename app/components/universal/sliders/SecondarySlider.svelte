@@ -16,12 +16,15 @@
         <stackLayout orientation="horizontal" class='widthAuto paddingRight'>  
             {#each items as item}
                 <!--onTap is not yet universal-->
-                <SecondaryCardSmall 
-                onTap={() => ModalService.showArticle(item)}
-                imgSrc={item.urlToImage}
-                tagName={item.source.name}
-                title={ArticleService.trimTitleMax(item.title)}
-                subtitle={ArticleService.trimAuthor(item.author)}/>
+                <stackLayout
+                class="paddingLeft">
+                    <SecondaryCardSmall 
+                    onTap={() => ModalService.showArticle(item)}
+                    imgSrc={item.urlToImage}
+                    tagName={item.source.name}
+                    title={ArticleService.trimTitleMax(item.title)}
+                    subtitle={ArticleService.trimAuthor(item.author)}/>
+                </stackLayout>
             {:else}
                 <activityIndicator busy={true} />
             {/each}

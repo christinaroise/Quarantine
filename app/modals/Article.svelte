@@ -1,19 +1,19 @@
 <script>
     import { closeModal } from 'svelte-native'
+    import { LocalStorage } from '~/services/LocalStorage'
+
     export let article
 
-    /*
+    let optionsContainer = false
 
-            {#if optionsContainer == true}
-            <flexBoxLayout class="optionsWrapper">
-                <stackLayout class="optionsContainer">
-                    <button text="Save to bookmarks"/>
-                    <button text="Copy link"/>
-                </stackLayout>
-            </flexBoxLayout>
-        {/if}
+    function isOptionsContainerActive(){
+        if(optionsContainer == false){
+            optionsContainer = true
+        }else if(optionsContainer == true){
+            optionsContainer = false
+        }
+    }
 
-        */
 </script>
 
 <frame>
@@ -25,11 +25,22 @@
                 </stackLayout>
                 <label class="title" text="Quarantine"/>
                     <stackLayout>
-                        <image width="20" src="~/assets/icons/more2.png" class=" button fas icon1" />
+                        <image on:tap={ () => isOptionsContainerActive() } width="20" src="~/assets/icons/more2.png" class=" button fas icon1" />
                     <stackLayout/>
             </flexBoxLayout>
         </actionBar>
-        <webView src='{article.url}' />
+        {#if optionsContainer == true}
+            <flexBoxLayout class="optionsWrapper">
+                <stackLayout class="optionsContainer">
+                    <button 
+                    on:tap={ () => LocalStorage.saveArticle(article) }
+                    text="Save to bookmarks"/>
+                    <button text="Copy link"/>
+                </stackLayout>
+            </flexBoxLayout>
+        {:else if optionsContainer == false}
+            <webView src='{article.url}' />
+        {/if}
     </page>
 </frame>
 
@@ -51,9 +62,9 @@
     }
     .optionsWrapper{
         width: 100%;
-        height: auto;
-        justify-content: flex-end;
-        
+        height: 90;
+        justify-content: flex-end; 
+        vertical-align: top;
     }
     .optionsContainer{
         background-color: white;

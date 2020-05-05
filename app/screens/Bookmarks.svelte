@@ -2,23 +2,23 @@
     import { ApiService } from '~/services/ApiService'
     import { FilterService } from '~/services/ApiService'
     import { ArticleService } from '~/services/ArticleService'
+    import { articles, bookmarkList } from '~/services/store'
     import TopBar from '~/components/universal/bars/TopBar'
     import ColumnList from '~/components/universal/lists/ColumnList'
     import EmptyContainer from '~/components/universal/containers/EmptyContainer'
 
-    let hasContent = false
-
-    let sources = [] 
-    let articles = [] 
+    let hasContent = true
+    //
 
 </script>
 
 <stackLayout>
     <TopBar 
     title={'Bookmarks'}/>
-    {#if hasContent == true}
+    {#if $bookmarkList && $bookmarkList.length > 0}
         <ColumnList
-        items={articles}/>
+        items={$bookmarkList}
+        imgSrc={"~/assets/icons/more2.png"}/>
     {:else}
         <EmptyContainer
         text="Your list is empty"/>

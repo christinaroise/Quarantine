@@ -24,7 +24,6 @@ class='article'>
 <style>
     .article{
         width: 166;
-        margin-left: 15;
         margin-bottom: 10;
         justify-content: space-between;
         border-radius: 5%;

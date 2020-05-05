@@ -8,10 +8,6 @@
     export let iconOnTap
     export let imgSrc
 
-    function hei(){
-        console.log('hei')
-    }
-
 </script>
 
 <stackLayout>

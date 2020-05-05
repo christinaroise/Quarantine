@@ -2,6 +2,7 @@
     import {goBack} from 'svelte-native'
     import { ModalService } from '~/services/ModalService'
     import { SourceService } from '~/services/SourceService'
+    import { LocalStorage } from '~/services/LocalStorage'
     import SecondaryCard from '~/components/universal/cards/SecondaryCard'
     import EmptyContainer from '~/components/universal/containers/EmptyContainer'
 
@@ -31,7 +32,7 @@
                                     imgSrc={`https://logo.clearbit.com/${SourceService.trimURL(search.url)}`}
                                     title={search.name}
                                     description={search.description}
-                                    btnOnTap={() => SourceService.addToLibrary(search)}/> 
+                                    btnOnTap={() => LocalStorage.addToLibrary(search)}/> 
                                 </scrollView>
                             {:else}
                                     <EmptyContainer

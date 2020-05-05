@@ -2,11 +2,12 @@ import { ApplicationSettings } from "tns-core-modules";
 import { ModalService } from './ModalService'
 import { SourceService } from './SourceService'
 import { ApiService } from './ApiService'
-import { api_key, sourceList} from './store'
+import { api_key, bookmarkList } from './store'
 
 const appSettings = require('tns-core-modules/application-settings')
 
 export const LocalStorage = {
+    //ADDS AND SHOWS NEWSPAPERS
     addToLibrary: function(sourceItem){
         if(appSettings.getString("SavedNewspapers") == null || appSettings.getString("SavedNewspapers").length == 0 || appSettings.getString("SavedNewspapers") == "[null]"){
             appSettings.setString("SavedNewspapers","[]")
@@ -54,5 +55,41 @@ export const LocalStorage = {
             }) 
         }
         return newspaperList  
-    }
+    },
+    //ADDS AND SHOWS ARTICLES
+    saveArticle: function(articleItem){
+        if(appSettings.getString("SavedArticles") == null || appSettings.getString("SavedArticles").length == 0 || appSettings.getString("SavedArticles") == "[null]"){
+            appSettings.setString("SavedArticles","[]")
+        }
+        let articleList = appSettings.getString("SavedArticles")
+        let articleListAsJson = this.pushNewSourceToList(articleItem, articleList)
+        
+        appSettings.setString("SavedArticles", JSON.stringify(articleListAsJson))
+        return  JSON.parse(appSettings.getString("SavedArticles"))
+    },
+    pushArticleToList: function(articleItem, articleListAsJson){
+        let list = JSON.parse(articleListAsJson)
+        let doesExist = false
+        for(var i = 0; i < list.length; i ++){
+            if(list[i].name == articleItem.name){
+                doesExist = true
+            }
+        }
+        if(!doesExist){
+            list.push(articleItem)
+            ModalService.showConfirmedModal(articleItem)
+            // THIS MODAL NEEDS WORK
+        }
+        return list
+    },
+    getBookmarks: async () => {
+        if(appSettings.getString("SavedArticles") == null ||   appSettings.getString("SavedArticles").length == 0){
+            appSettings.setString("SavedArticles","[]")
+        }
+    
+        let articleListAsJson = appSettings.getString("SavedArticles")
+        let bookmarkList = JSON.parse(articleListAsJson)
+
+        return bookmarkList  
+    },
 }

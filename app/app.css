@@ -85,6 +85,9 @@ The imported CSS rules must precede all other types of rules.
 .paddingRight{
     padding-right: 15;
 }
+.paddingLeft{
+    padding-left: 15;
+}
 
 /* BUTTON */
 .textBtn{

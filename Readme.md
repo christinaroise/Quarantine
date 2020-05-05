@@ -22,7 +22,6 @@ Other used add-ons/plug-ins:
     - add Discover component
 - Browse:
     - Buttons need to change text or icon and color when source(newspaper) is added to Library
-    - *BUG* showNewspaper(Modal) does not work on older ios devices..? 
     - Filtermodal:
         - Buttons need active-styling
         - cancle button different styling
