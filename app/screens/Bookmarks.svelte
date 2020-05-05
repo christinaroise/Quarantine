@@ -8,9 +8,8 @@
     import EmptyContainer from '~/components/universal/containers/EmptyContainer'
 
     let hasContent = true
-    //
 
-</script>
+</script> 
 
 <stackLayout>
     <TopBar 

@@ -1,58 +1,69 @@
 <script>
     import { closeModal } from 'svelte-native'
+    import { LocalStorage } from '~/services/LocalStorage'
+    import { bookmarkList } from '~/services/store'
     import RegularButton from '~/components/universal/buttons/RegularButton'
+
+    export let show
+    export let list 
+    export let article
 
 </script>
 
-
-<cardView shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="8">
-    <stackLayout class="container">
-        <stackLayout class="emptyContainer">
-        </stackLayout>
-        <stackLayout class="card backgroundcolorWhite">
-            <flexBoxLayout class="filterWrapper flexColumn">
-                <stackLayout class="borderBottom">
-                    <flexBoxLayout class="filterContainer">
-                            <flexBoxLayout 
-                            class="iconContainer">
-                                <image 
-                                height="30" width="20" class="icon"
-                                src={"~/assets/icons/book.png"}/>
+<frame actionBarHidden={true}>
+    <page>
+        <cardView shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="8">
+            <stackLayout class="container">
+                <stackLayout class="emptyContainer">
+                </stackLayout>
+                <stackLayout class="card backgroundcolorWhite">
+                    <flexBoxLayout class="filterWrapper flexColumn">
+                        <stackLayout class="borderBottom">
+                            <flexBoxLayout class="filterContainer">
+                                    <flexBoxLayout 
+                                    class="iconContainer">
+                                        <image 
+                                        height="30" width="20" class="icon"
+                                        src={"~/assets/icons/book.png"}/>
+                                    </flexBoxLayout>
+                                <button text="{show}"/>
                             </flexBoxLayout>
-                        <button text="Show more"/>
+                        </stackLayout>
+                        <stackLayout class="borderBottom">
+                            <flexBoxLayout class="filterContainer">
+                                <flexBoxLayout 
+                                class="iconContainer">
+                                    <image 
+                                    height="20" width="20" class="icon"
+                                    src={"~/assets/icons/share.png"}/>
+                                </flexBoxLayout>
+                                <button text="Copy link"/>
+                            </flexBoxLayout> 
+                        </stackLayout>
+                        <stackLayout>
+                            <flexBoxLayout class="filterContainer">
+                                <flexBoxLayout 
+                                class="iconContainer">
+                                    <image 
+                                    height="30" width="20" class="icon"
+                                    src={"~/assets/icons/delete.png"}/>
+                                </flexBoxLayout>
+                                <button 
+                                on:tap={() => LocalStorage.popArticleFromList(article, $bookmarkList)}
+                                text="Remove from {list}"/>
+                            </flexBoxLayout> 
+                        </stackLayout>
+                    </flexBoxLayout>
+                    <flexBoxLayout class="buttonContainer">
+                        <RegularButton 
+                        onTap={ () => closeModal() }
+                        text="Cancle"/>
                     </flexBoxLayout>
                 </stackLayout>
-                <stackLayout class="borderBottom">
-                    <flexBoxLayout class="filterContainer">
-                        <flexBoxLayout 
-                        class="iconContainer">
-                            <image 
-                            height="20" width="20" class="icon"
-                            src={"~/assets/icons/share.png"}/>
-                        </flexBoxLayout>
-                        <button text="Copy link"/>
-                    </flexBoxLayout> 
-                </stackLayout>
-                <stackLayout>
-                    <flexBoxLayout class="filterContainer">
-                        <flexBoxLayout 
-                        class="iconContainer">
-                            <image 
-                            height="30" width="20" class="icon"
-                            src={"~/assets/icons/delete.png"}/>
-                        </flexBoxLayout>
-                        <button text="Remove from library"/>
-                    </flexBoxLayout> 
-                </stackLayout>
-            </flexBoxLayout>
-            <flexBoxLayout class="buttonContainer">
-                <RegularButton 
-                onTap={ () => closeModal() }
-                text="Cancle"/>
-            </flexBoxLayout>
-        </stackLayout>
-    </stackLayout>
-</cardView>
+            </stackLayout>
+        </cardView>
+    </page>
+</frame>
 
 <style>
     .container{

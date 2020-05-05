@@ -1,11 +1,11 @@
 <script>
-    import { ModalService } from '~/services/ModalService'
     import { ArticleService } from '~/services/ArticleService'
+    import { ModalService } from '~/services/ModalService'
     import PrimaryCardSmall from '~/components/universal/cards/PrimaryCardSmall'
 
     export let header 
     export let items
-    export let iconOnTap
+    export let onTapIcon
     export let imgSrc
 
 </script>
@@ -15,7 +15,7 @@
         <label class="h2 timesNewRoman marginLeft" text="{header}"/>
         <flexBoxLayout 
         class="iconContainer"
-        on:tap={() => ModalService.showOptionsModal()}>
+        on:tap={onTapIcon}>
             <image 
             height="30" width="20" class="icon"
             src={imgSrc}/>

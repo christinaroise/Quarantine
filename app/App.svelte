@@ -34,19 +34,19 @@ $: {
     }
 
 onMount(async () => {
-    console.log('@@@@@@@@@@@@@@@@@@')
     ApiService.getTopHeadlinesData().then((res)=>{
         $articles = res.articles
         todaysArticles = articles.filter(a => ArticleService.isCurrentDate(a.publishedAt))
-    }),
+    })
+
     ApiService.getNewspaperData().then((res)=>{
         $sources = res.sources
-    }),
+    })
     $newspaperList = await LocalStorage.getLibraryList()
-    $sourceList = await LocalStorage.addToLibrary()
     $bookmarkList = await LocalStorage.getBookmarks()
-    console.log($bookmarkList)
-})
+    //theres an error in sourceList
+    $sourceList = await LocalStorage.getLibraryList()
+}) 
 
 </script>
 

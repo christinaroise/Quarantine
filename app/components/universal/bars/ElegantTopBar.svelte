@@ -1,37 +1,41 @@
 <script>
-export let onTap
+export let onTapLeft
 export let leftIconSrc
-export let rightIconSrc
 export let title
-export let rightOnTap
+export let onTapRight
+export let rightIconSrc
 
 </script>
 
-<stackLayout>
-    <flexBoxLayout class="topBarWrapper">
-        <stackLayout on:tap={onTap}>
-            <image width="20" src='{leftIconSrc}' class=" button fas icon1" />
+
+<actionBar flat="true" class="actionbarContainer">
+    <flexBoxLayout class="wrapper">
+        <stackLayout>
+            <image on:tap={onTapLeft} width="20" src='{leftIconSrc}' class=" button fas icon1" />
         </stackLayout>
-        <label class="h1 timesNewRoman" text='{title}'/>
-        <stackLayout on:tap={rightOnTap}>
-            <image width="20" src='{rightIconSrc}' class=" button fas icon1" />
-        </stackLayout>
+        <label class="title" text={title}/>
+            <stackLayout>
+                <image on:tap={onTapRight} width="20" src="{rightIconSrc}" class=" button fas icon1" />
+            <stackLayout/>
     </flexBoxLayout>
-</stackLayout>
+</actionBar>
 
 
 <style>
-    .topBarWrapper{
-        height: 9%;
+    .actionbarContainer{
         width: 100%;
-        text-align: center;
-        padding: 15 20;
         vertical-align: center;
     }
-    .h1{
-        flex: 2;
-        font-size: 24;
-        text-transform: capitalize;
-        text-align: center;
+    .title{
+        width: 85%;
+        text-align: center;       
+        font-family: 'Open Sans';
+        color: #232323;
+        font-weight: 600;
+    }
+    .button{
+        color: #232323;
+        font-family: 'montserrat';
+        height: 100%;
     }
 </style>

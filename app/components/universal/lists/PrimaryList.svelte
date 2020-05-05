@@ -6,19 +6,6 @@
     import PrimaryCard from '~/components/universal/cards/PrimaryCard'
     
     export let items
-    export let value
-
-    const closeOrOpenModal= async(item) =>{
-        if($inModal == value){
-            closeModal()
-            let modalClosed = true
-            if(modalClosed){
-                await ModalService.showArticle(item)
-            }
-        }if($inModal == value){
-            ModalService.showArticle(item)
-        }
-    }
     
 </script>
 
@@ -29,7 +16,7 @@
           {#each items as item}
                 <PrimaryCard 
                 btnTitle={'Like'}
-                onTap={() => closeOrOpenModal(item)}
+                onTap={() => ModalService.showArticle(item)}
                 imgSrc={item.urlToImage}
                 tagName={item.source.name}
                 title={ArticleService.trimTitleMin(item.title) + '...'}

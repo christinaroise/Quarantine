@@ -14,30 +14,28 @@
     const utilsModule = require('tns-core-modules/utils/utils')
     const appSettings = require('tns-core-modules/application-settings')
 
-    $inModal = true
+    let optionsContainer = false
+
+    function isOptionsContainerActive(){
+        if(optionsContainer == false){
+            optionsContainer = true
+        }else if(optionsContainer == true){
+            optionsContainer = false
+        }
+    }
 
 </script>
 
-<frame>
+<frame actionBarHidden={true}>
     <page>
-        <stackLayout class="wrapper backgroundcolorWhite">
-            <cardView class="backgroundcolorWhite" shadowOffsetHeight="2" shadowOpacity="0.1" shadowRadius="8">
-                <ElegantTopBar 
-                leftIconSrc={'~/assets/icons/left-arrow.png'} 
-                onTap={ () => closeModal() }
-                title={source.name}
-                rightIconSrc={'~/assets/icons/heart.png'}
-                rightOnTap={ () => LocalStorage.addToLibrary(source) }/>
-            </cardView>
-            <PrimaryList
+        <ElegantTopBar
+            onTapLeft={() => closeModal()}
+            leftIconSrc='~/assets/icons/left-arrow.png'
+            title={source.name}
+            rightIconSrc='~/assets/icons/more2.png'
+            onTapRight={ () => isOptionsContainerActive() }/>
+        <PrimaryList
             bind:value={$inModal}
             items={articles}/>
-        </stackLayout>
     </page>
 </frame>
-
-<style>
-    cardView{
-        z-index: 10;
-    }
-</style>

@@ -5,6 +5,8 @@
     import { LocalStorage } from '~/services/LocalStorage'
     import SecondaryCard from '~/components/universal/cards/SecondaryCard'
     import EmptyContainer from '~/components/universal/containers/EmptyContainer'
+    import ElegantTopBar from '~/components/universal/bars/ElegantTopBar'
+
 
     export let sources
 
@@ -16,35 +18,36 @@
 </script>
 
 
+
 <page actionBarHidden={false}>
     <stackLayout>
         <searchBar hint="Search newspapers" bind:text={searchQuery}/>
-                {#if searchQuery}
-                    <scrollView>
-                        <stackLayout class="heightAuto container">
-                            {#each searches as search}
-                                <scrollView
-                                orientation="horizontal" 
-                                scrollBarIndicatorVisible={false}>
-                                    <SecondaryCard 
-                                    class="widthAuto"
-                                    onTap={async() => await ModalService.showNewspaperModal(search)}
-                                    imgSrc={`https://logo.clearbit.com/${SourceService.trimURL(search.url)}`}
-                                    title={search.name}
-                                    description={search.description}
-                                    btnOnTap={() => LocalStorage.addToLibrary(search)}/> 
-                                </scrollView>
-                            {:else}
-                                    <EmptyContainer
-                                    class="heightAuto"
-                                    text="Shoot! It looks like {searchQuery} isn't available. Maybe double-check the spelling?"/>
-                            {/each}
-                        </stackLayout>
-                    </scrollView>   
-                {:else}
-                        <EmptyContainer
-                        text="Start looking for your favorite newspaper"/>
-                {/if}
+        {#if searchQuery}
+            <scrollView>
+                <stackLayout class="heightAuto container">
+                    {#each searches as search}
+                        <scrollView
+                        orientation="horizontal" 
+                        scrollBarIndicatorVisible={false}>
+                            <SecondaryCard 
+                            class="widthAuto"
+                            onTap={async() => await ModalService.showNewspaperModal(search)}
+                            imgSrc={`https://logo.clearbit.com/${SourceService.trimURL(search.url)}`}
+                            title={search.name}
+                            description={search.description}
+                            btnOnTap={() => LocalStorage.addToLibrary(search)}/> 
+                        </scrollView>
+                    {:else}
+                            <EmptyContainer
+                            class="heightAuto"
+                            text="Shoot! It looks like {searchQuery} isn't available. Maybe double-check the spelling?"/>
+                    {/each}
+                </stackLayout>
+            </scrollView>   
+        {:else}
+                <EmptyContainer
+                text="Start looking for your favorite newspaper"/>
+        {/if}
     </stackLayout>
 </page>
 

@@ -14,7 +14,7 @@ export const ModalService = {
             {
                 page: Article,
                 props:{
-                    article:item
+                    article: item
                 }, 
             }
         )
@@ -33,12 +33,35 @@ export const ModalService = {
                 })
         })
     },
-    showConfirmedModal: async(item) => {
+    showConfirmedLibraryModal: async(item) => {
         await showModal(
             {
                 page: ConfirmedModal,
                 props:{
-                    source:item
+                    title: item.name,
+                    text: "has been added to your library"
+                },
+            }
+        )
+    },
+    showConfirmedBookmarkModal: async(item) => {
+        await showModal(
+            {
+                page: ConfirmedModal,
+                props:{
+                    title: item.title,
+                    text: "has been added as a bookmark"
+                },
+            }
+        )
+    },
+    showConfirmedRemoveModal: async(item) =>{
+        await showModal(
+            {
+                page: ConfirmedModal,
+                props:{
+                    title: item.title,
+                    text: "has been removed from list"
                 },
             }
         )
@@ -48,15 +71,31 @@ export const ModalService = {
             {
                 page: FilterModal,
                 props:{
-                    source:item
+                    source: item
                 },
             }
         )
     },
-    showOptionsModal: async() => {
+    showLibraryOptionsModal: async() => {
         await showModal(
             {
-                page: OptionsModal
+                page: OptionsModal,
+                props:{
+                    show:"Show more",
+                    list: "Library"
+                }
+            }
+        )
+    },
+    showBookmarkOptionsModal: async(item) => {
+        await showModal(
+            {
+                page: OptionsModal,
+                props:{
+                    show: "Read article",
+                    list: "Bookmarks",
+                    article: item
+                }
             }
         )
     }

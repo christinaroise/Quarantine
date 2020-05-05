@@ -1,30 +1,35 @@
 <script>
     import { closeModal } from 'svelte-native'
     import RegularButton from '~/components/universal/buttons/RegularButton'
-    export let source
+    export let title
+    export let text
 </script>
 
-
-<cardView shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="8">
-    <flexBoxLayout class="card">
-        <stackLayout class="content">
-            <stackLayout class="textContent">
-                <label
-                class="h2 timesNewRoman"
-                text="{source.name}"/> 
-                <label 
-                class="OpenSans"
-                textWrap="{true}"
-                text="has been added to your library"/>
-            </stackLayout>
-            <flexBoxLayout class="buttonContainer">
-                <RegularButton 
-                onTap={ () => closeModal() }
-                text="OK"/>
+<frame actionBarHidden={true}>
+    <page>
+        <cardView shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="8">
+            <flexBoxLayout class="card">
+                <stackLayout class="content">
+                    <stackLayout class="textContent">
+                        <label
+                        class="h2 timesNewRoman"
+                        text="{title}"/> 
+                        <label 
+                        class="OpenSans"
+                        textWrap="{true}"
+                        text="{text}"/>
+                    </stackLayout>
+                    <flexBoxLayout class="buttonContainer">
+                        <RegularButton 
+                        onTap={ () => closeModal() }
+                        text="OK"/>
+                    </flexBoxLayout>
+                </stackLayout>
             </flexBoxLayout>
-        </stackLayout>
-    </flexBoxLayout>
-</cardView>
+        </cardView>
+    </page>
+</frame>
+
 
 <style>
     .card{

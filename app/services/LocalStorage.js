@@ -2,9 +2,10 @@ import { ApplicationSettings } from "tns-core-modules";
 import { ModalService } from './ModalService'
 import { SourceService } from './SourceService'
 import { ApiService } from './ApiService'
-import { api_key, bookmarkList } from './store'
+import { api_key, bookmarkList, saveOrRemoveText } from './store'
 
 const appSettings = require('tns-core-modules/application-settings')
+
 
 export const LocalStorage = {
     //ADDS AND SHOWS NEWSPAPERS
@@ -29,7 +30,7 @@ export const LocalStorage = {
         }
         if(!doesExist){
             list.push(sourceItem)
-            ModalService.showConfirmedModal(sourceItem)
+            ModalService.showConfirmedLibraryModal(sourceItem)
         }
         return list
     },
@@ -54,6 +55,7 @@ export const LocalStorage = {
                 }
             }) 
         }
+        newspaperList = newspaperList
         return newspaperList  
     },
     //ADDS AND SHOWS ARTICLES
@@ -62,25 +64,45 @@ export const LocalStorage = {
             appSettings.setString("SavedArticles","[]")
         }
         let articleList = appSettings.getString("SavedArticles")
-        let articleListAsJson = this.pushNewSourceToList(articleItem, articleList)
-        
+        let articleListAsJson = this.pushArticleToList(articleItem, articleList)
         appSettings.setString("SavedArticles", JSON.stringify(articleListAsJson))
+
         return  JSON.parse(appSettings.getString("SavedArticles"))
     },
     pushArticleToList: function(articleItem, articleListAsJson){
         let list = JSON.parse(articleListAsJson)
         let doesExist = false
         for(var i = 0; i < list.length; i ++){
-            if(list[i].name == articleItem.name){
+            if(list[i].url == articleItem.url){
                 doesExist = true
             }
         }
         if(!doesExist){
+            //saveOrRemoveText = "Remove"
             list.push(articleItem)
-            ModalService.showConfirmedModal(articleItem)
+            ModalService.showConfirmedBookmarkModal(articleItem)
             // THIS MODAL NEEDS WORK
         }
         return list
+    },
+    popArticleFromList: function(articleItem, bookmarkList){
+        let list = bookmarkList
+        let newList = []
+        let isRemoved = false
+        for(var i = 0; i < list.length; i ++){
+            if(list[i].url != articleItem.url){
+                isRemoved = true
+                newList.push(list[i])
+            }
+        }
+        if(isRemoved == true){
+            ModalService.showConfirmedRemoveModal(articleItem)
+        }
+
+        let newListAsString = JSON.stringify(newList)
+        appSettings.setString("SavedArticles", newListAsString)
+
+        return newList
     },
     getBookmarks: async () => {
         if(appSettings.getString("SavedArticles") == null ||   appSettings.getString("SavedArticles").length == 0){
@@ -91,5 +113,5 @@ export const LocalStorage = {
         let bookmarkList = JSON.parse(articleListAsJson)
 
         return bookmarkList  
-    },
+    }, 
 }

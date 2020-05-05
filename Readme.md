@@ -13,7 +13,7 @@ Other used add-ons/plug-ins:
 ## To-do list
 - Universal:
     - active-style color of icons in BottomNavigation
-    - addToList buttons needs appropriate functions and styling
+    - article/newspaper needs "heart" on img when saved to LocalStorage
 - Dashboard:
     - reset scroll position in filteredComponent(read: PrimaryList)
     - Recommended section
@@ -25,22 +25,14 @@ Other used add-ons/plug-ins:
     - Filtermodal:
         - Buttons need active-styling
         - cancle button different styling
-- Library: 
+- Library/Bookmarks: 
     - missing working functions in optionsModal
-- Bookmarks:
-    - Articles need to be saved to localStorage and shown in Bookmarks
-    - List of articles in bookmarks may need a new component as the styling will be different than previous lists. 
-    - articles will have a showArticle Modal
-    - add share/copy url button to articles
 - FilterBar:
     - Buttons need active-styling
     - add "all/reset" option to filterBar
-- Modals:
-    - modals in modals does not work (first modal needs to be force closed when second modal is activated). this link might be the answer:
-    https://play.nativescript.org/?template=play-ng&id=RbISYY&v=2
 - Android/iOS:
     - Button styling on Android needs changing
-    - a few topBars need style changing on Android  
+    - font does not set??? 
 
 ## Set up
 ```html
