@@ -4,15 +4,19 @@
     import PrimaryCardSmall from '~/components/universal/cards/PrimaryCardSmall'
 
     export let header 
+    export let onTapHeader
     export let items
     export let onTapIcon
     export let imgSrc
-
 </script>
 
 <stackLayout>
     <flexBoxLayout class="titleBar">
-        <label class="h2 timesNewRoman marginLeft" text="{header}"/>
+        <stackLayout on:tap={onTapHeader}>
+            <label 
+            class="h2 timesNewRoman marginLeft" 
+            text="{header}"/>
+        </stackLayout>
         <flexBoxLayout 
         class="iconContainer"
         on:tap={onTapIcon}>
@@ -42,7 +46,7 @@
 </stackLayout>
 
 <style>
-    .titleBar > label{
+    .titleBar > stackLayout{
         flex: 1;
     }
     .iconContainer{

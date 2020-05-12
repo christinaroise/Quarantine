@@ -11,8 +11,10 @@ Other used add-ons/plug-ins:
 
 ## NB! This app is NOT finished and is missing a few major methods and some cleaning up
 ## To-do list
+- add an intro animation when starting app
 - Universal:
     - active-style color of icons in BottomNavigation
+    - make favorites
     - article/newspaper needs "heart" on img when saved to LocalStorage
 - Dashboard:
     - reset scroll position in filteredComponent(read: PrimaryList)
@@ -24,15 +26,18 @@ Other used add-ons/plug-ins:
     - Buttons need to change text or icon and color when source(newspaper) is added to Library
     - Filtermodal:
         - Buttons need active-styling
-        - cancle button different styling
+        - cancle button different styling  
 - Library/Bookmarks: 
-    - missing working functions in optionsModal
+    - unsave function in Library
+    - add heart icons to columnlist ? Last step.
 - FilterBar:
     - Buttons need active-styling
     - add "all/reset" option to filterBar
 - Android/iOS:
     - Button styling on Android needs changing
     - font does not set??? 
+    - border-radius does not work on android
+    - Modals width is not 100%
 
 ## Set up
 ```html

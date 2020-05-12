@@ -1,5 +1,4 @@
 <script>
-    import {goBack} from 'svelte-native'
     import { ModalService } from '~/services/ModalService'
     import { SourceService } from '~/services/SourceService'
     import { LocalStorage } from '~/services/LocalStorage'
@@ -19,7 +18,8 @@
 
 
 
-<page actionBarHidden={false}>
+<page>
+    <actionBar title="" flat="false"/>
     <stackLayout>
         <searchBar hint="Search newspapers" bind:text={searchQuery}/>
         {#if searchQuery}
@@ -40,7 +40,7 @@
                     {:else}
                             <EmptyContainer
                             class="heightAuto"
-                            text="Shoot! It looks like {searchQuery} isn't available. Maybe double-check the spelling?"/>
+                            text="Oh no! It looks like {searchQuery} isn't available. Maybe double-check the spelling?"/>
                     {/each}
                 </stackLayout>
             </scrollView>   

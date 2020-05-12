@@ -67,11 +67,6 @@
         geolocation.enableLocationRequest().then(() => {
             var gg = geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.any, maximumAge: 5000, timeout: 20000 })
         })
-
-
-          /*  ApiService.get(`https://api.openweathermap.org/data/2.5/weather?q=Oslo&units=metric&appid=${weather_api_key}`).then(result => {
-            articles = result.articles
-        }) */
     })
 
 /* radius = 2;

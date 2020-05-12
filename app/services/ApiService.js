@@ -10,6 +10,13 @@ export const ApiService = {
             .then( response => {
                 if(response.fault){
                     console.log(response.fault.faultstring)
+                    alert({
+                        title: "We're sorry",
+                        message: "It looks like we cant fetch any data at the moment",
+                        okButtonText: "OK"
+                    }).then(() => {
+                        console.log("Alert dialog closed")
+                    })
                 }else{
                     return resolve(response)
                 }
@@ -25,6 +32,7 @@ export const ApiService = {
                     console.log(response.fault.faultstring)
                 }else{
                     let sources = response
+                    
                     return resolve(sources)
                 }
             })

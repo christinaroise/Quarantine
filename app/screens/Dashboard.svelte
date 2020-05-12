@@ -1,5 +1,5 @@
 <script>
-    import { filterComponent, articles, categories, dashboardFilterIsActive} from '~/services/store.js'
+    import { filterComponent, articles, todaysArticles, categories, dashboardFilterIsActive} from '~/services/store.js'
     import { showModal } from 'svelte-native'
     import { ApiService } from '~/services/ApiService'
     import { ArticleService } from '~/services/ArticleService'
@@ -20,6 +20,7 @@
     $dashboardFilterIsActive = true
 
 </script>
+
 
 <stackLayout>
     <cardView shadowOffsetHeight="2" shadowOpacity="0.1" shadowRadius="8">
@@ -57,12 +58,13 @@
                     items={$articles}/>
                     <SecondarySlider 
                     header="Today's news"
-                    items={$articles}/> 
+                    items={$todaysArticles}/> 
                 </stackLayout>
             {/if}
         </scrollView>
     </stackLayout>
-</stackLayout>
+</stackLayout>    
+
 
 <style>
     cardView{

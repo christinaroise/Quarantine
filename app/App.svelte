@@ -7,7 +7,8 @@ import {
     filterComponent, 
     dashboardFilterIsActive, 
     libraryFilterIsActive, 
-    articles, 
+    articles,
+    todaysArticles, 
     sources, 
     newspaperList, 
     sourceList, 
@@ -36,11 +37,21 @@ $: {
 onMount(async () => {
     ApiService.getTopHeadlinesData().then((res)=>{
         $articles = res.articles
-        todaysArticles = articles.filter(a => ArticleService.isCurrentDate(a.publishedAt))
+        $todaysArticles = res.articles.filter(a => ArticleService.isCurrentDate(a.publishedAt))
+        /* $articles.forEach(function (element) {
+            element.favorite = false;
+            console.log(element)
+        });
+        $todaysArticles.forEach(function (element) {
+            element.favorite = false;
+        }); */
     })
 
     ApiService.getNewspaperData().then((res)=>{
         $sources = res.sources
+        /* $sources.forEach(function (element) {
+            element.favorite = false;
+        }); */
     })
     $newspaperList = await LocalStorage.getLibraryList()
     $bookmarkList = await LocalStorage.getBookmarks()

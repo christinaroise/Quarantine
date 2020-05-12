@@ -2,7 +2,6 @@
     import { closeModal } from 'svelte-native'
     import { ModalService } from '~/services/ModalService'
     import { ArticleService } from '~/services/ArticleService'
-    import { inModal } from '~/services/store'
     import PrimaryCard from '~/components/universal/cards/PrimaryCard'
     
     export let items

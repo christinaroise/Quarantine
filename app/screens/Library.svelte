@@ -1,14 +1,14 @@
 <script>
     import { onMount } from 'svelte'
-    import { api_key, sourceList, newspaperList, libraryFilterIsActive, filteredLibList, filterComponent } from '~/services/store'
+    import { newspaperList, libraryFilterIsActive, filteredLibList, filterComponent } from '~/services/store'
     import { ModalService } from '~/services/ModalService'
     import TopBar from '../components/universal/bars/TopBar'
     import FilterBar from '../components/universal/bars/FilterBar'
     import PrimarySlider from '~/components/universal/sliders/PrimarySlider'
     import EmptyContainer from '../components/universal/containers/EmptyContainer'
-    import Article from '~/modals/Article'
 
     $libraryFilterIsActive = true
+    
 </script>
 
 <stackLayout>
@@ -31,10 +31,11 @@
                         <PrimarySlider
                         onTapIcon={() => ModalService.showLibraryOptionsModal()}
                         header={filteredLibList.name}
+                        onTapHeader={ () => ModalService.showNewspaperInLibraryModal(filteredLibList) }
                         items={filteredLibList.articles}
                         imgSrc={"~/assets/icons/more2.png"}/>
                     </stackLayout>
-                {/each}
+                {/each} 
             </stackLayout>
         </scrollView>
         {:else}
@@ -51,15 +52,15 @@
                         <PrimarySlider
                         onTapIcon={() => ModalService.showLibraryOptionsModal()}
                         header={newspaper.name}
-                        items={newspaper.articles}
-                        imgSrc={"~/assets/icons/more2.png"}/>
+                        onTapHeader={ () => ModalService.showNewspaperInLibraryModal(newspaper) }
+                        items={newspaper.articles}/>
                     </stackLayout>
                 {/each}
             </stackLayout>
         </scrollView>
         {:else}
         <EmptyContainer
-            text="Your list is empty"/>
+            text="Your library is empty"/>
         {/if}
     {/if}
 </stackLayout>

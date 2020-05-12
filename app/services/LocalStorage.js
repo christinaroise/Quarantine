@@ -1,8 +1,9 @@
 import { ApplicationSettings } from "tns-core-modules";
+import { alert } from '@nativescript/core/ui/dialogs'
 import { ModalService } from './ModalService'
 import { SourceService } from './SourceService'
 import { ApiService } from './ApiService'
-import { api_key, bookmarkList, saveOrRemoveText } from './store'
+import { api_key, heartIcon, favorites } from './store'
 
 const appSettings = require('tns-core-modules/application-settings')
 
@@ -10,6 +11,7 @@ const appSettings = require('tns-core-modules/application-settings')
 export const LocalStorage = {
     //ADDS AND SHOWS NEWSPAPERS
     addToLibrary: function(sourceItem){
+        console.log('Hei')
         if(appSettings.getString("SavedNewspapers") == null || appSettings.getString("SavedNewspapers").length == 0 || appSettings.getString("SavedNewspapers") == "[null]"){
             appSettings.setString("SavedNewspapers","[]")
         }
@@ -17,7 +19,7 @@ export const LocalStorage = {
         let sourceListAsJson = this.pushNewSourceToList(sourceItem, sourceList)
         
         appSettings.setString("SavedNewspapers", JSON.stringify(sourceListAsJson))
-        
+
         return JSON.parse(appSettings.getString("SavedNewspapers"))
     },
     pushNewSourceToList: function(sourceItem, sourceListAsString){
@@ -26,11 +28,24 @@ export const LocalStorage = {
         for(var i = 0; i < list.length; i ++){
             if(list[i].name == sourceItem.name){
                 doesExist = true
+                alert({
+                    title: sourceItem.name,
+                    message: "has already been added to your library",
+                    okButtonText: "OK"
+                }).then(() => {
+                    console.log("Alert dialog closed")
+                })
             }
         }
         if(!doesExist){
             list.push(sourceItem)
-            ModalService.showConfirmedLibraryModal(sourceItem)
+            alert({
+                title: sourceItem.name,
+                message: "has been added to your library",
+                okButtonText: "OK"
+            }).then(() => {
+                console.log("Alert dialog closed")
+            })
         }
         return list
     },
@@ -59,17 +74,17 @@ export const LocalStorage = {
         return newspaperList  
     },
     //ADDS AND SHOWS ARTICLES
-    saveArticle: function(articleItem){
+    createBookmarks: function(articleItem){
         if(appSettings.getString("SavedArticles") == null || appSettings.getString("SavedArticles").length == 0 || appSettings.getString("SavedArticles") == "[null]"){
             appSettings.setString("SavedArticles","[]")
         }
         let articleList = appSettings.getString("SavedArticles")
-        let articleListAsJson = this.pushArticleToList(articleItem, articleList)
+        let articleListAsJson = this.pushOrPopArticle(articleItem, articleList)
         appSettings.setString("SavedArticles", JSON.stringify(articleListAsJson))
 
         return  JSON.parse(appSettings.getString("SavedArticles"))
     },
-    pushArticleToList: function(articleItem, articleListAsJson){
+    pushArticle: function(articleItem, articleListAsJson){
         let list = JSON.parse(articleListAsJson)
         let doesExist = false
         for(var i = 0; i < list.length; i ++){
@@ -78,31 +93,61 @@ export const LocalStorage = {
             }
         }
         if(!doesExist){
-            //saveOrRemoveText = "Remove"
+            favorites.toggleFavorite(articleItem.id)
             list.push(articleItem)
-            ModalService.showConfirmedBookmarkModal(articleItem)
-            // THIS MODAL NEEDS WORK
+            alert({
+                title: articleItem.title,
+                message: "has been added to your bookmarks",
+                okButtonText: "OK"
+            }).then(() => {
+                console.log("Alert dialog closed")
+            })
         }
         return list
     },
-    popArticleFromList: function(articleItem, bookmarkList){
-        let list = bookmarkList
+    popArticle: function(articleItem, articleListAsJson){
+        let list = JSON.parse(articleListAsJson)
         let newList = []
-        let isRemoved = false
+        let remove = false
         for(var i = 0; i < list.length; i ++){
             if(list[i].url != articleItem.url){
-                isRemoved = true
+                remove = true
                 newList.push(list[i])
             }
         }
-        if(isRemoved == true){
-            ModalService.showConfirmedRemoveModal(articleItem)
+        if(remove == true){
+            console.log(articleItem.title)
+            favorites.toggleFavorite(articleItem.id)
+            alert({
+                title: articleItem.title,
+                message: "has been removed from your bookmarks",
+                okButtonText: "OK"
+            }).then(() => {
+                console.log("Alert dialog closed")
+            })
         }
 
         let newListAsString = JSON.stringify(newList)
         appSettings.setString("SavedArticles", newListAsString)
 
         return newList
+    },
+    pushOrPopArticle: function(articleItem, articleListAsJson){
+        let list = JSON.parse(articleListAsJson)
+        let doesExist = false
+        for(var i = 0; i < list.length; i ++){
+            if(list[i].url == articleItem.url){
+                doesExist = true
+            }
+        }        
+        if(!doesExist){
+            list = this.pushArticle(articleItem, articleListAsJson)
+            console.log('item has been added')
+        }else{
+            list = this.popArticle(articleItem, articleListAsJson)
+            console.log('item has been removed')
+        }
+        return list
     },
     getBookmarks: async () => {
         if(appSettings.getString("SavedArticles") == null ||   appSettings.getString("SavedArticles").length == 0){

@@ -1,41 +1,37 @@
 <script>
+    import {screen} from "tns-core-modules/platform/platform"
     import { closeModal } from 'svelte-native'
     import { LocalStorage } from '~/services/LocalStorage'
-    import { inModal } from '~/services/store'
-    import { ArticleService } from '~/services/ArticleService'
-    import { ModalService } from '~/services/ModalService'
-    import { ApiService } from '~/services/ApiService'
+    import { sourceList, heartIcon } from '~/services/store'
     import ElegantTopBar from '~/components/universal/bars/ElegantTopBar'
     import PrimaryList from '~/components/universal/lists/PrimaryList'
     
     export let source
     export let articles
-
-    const utilsModule = require('tns-core-modules/utils/utils')
-    const appSettings = require('tns-core-modules/application-settings')
-
+    
     let optionsContainer = false
 
-    function isOptionsContainerActive(){
-        if(optionsContainer == false){
-            optionsContainer = true
-        }else if(optionsContainer == true){
-            optionsContainer = false
-        }
-    }
+    const fullWidth = screen.mainScreen.widthPixels
 
 </script>
 
 <frame actionBarHidden={true}>
-    <page>
+    <page class="page">
         <ElegantTopBar
             onTapLeft={() => closeModal()}
             leftIconSrc='~/assets/icons/left-arrow.png'
             title={source.name}
-            rightIconSrc='~/assets/icons/more2.png'
-            onTapRight={ () => isOptionsContainerActive() }/>
-        <PrimaryList
-            bind:value={$inModal}
+            rightIconSrc={$heartIcon}
+            onTapRight={() => LocalStorage.addToLibrary(source)}/>
+        <stackLayout>
+            <PrimaryList
             items={articles}/>
+        </stackLayout>
     </page>
 </frame>
+
+<style>
+    .page{
+        width: 100%;
+    }
+</style>

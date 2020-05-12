@@ -1,12 +1,13 @@
 <script>
-export let onTapLeft
-export let leftIconSrc
-export let title
-export let onTapRight
-export let rightIconSrc
-
+    import { favorites } from '~/services/store'
+    
+    export let obj
+    export let onTapFav
+    export let onTapLeft
+    export let leftIconSrc
+    export let title
+    export let isFavorited = undefined
 </script>
-
 
 <actionBar flat="true" class="actionbarContainer">
     <flexBoxLayout class="wrapper">
@@ -14,9 +15,23 @@ export let rightIconSrc
             <image on:tap={onTapLeft} width="20" src='{leftIconSrc}' class=" button fas icon1" />
         </stackLayout>
         <label class="title" text={title}/>
-            <stackLayout>
-                <image on:tap={onTapRight} width="20" src="{rightIconSrc}" class=" button fas icon1" />
-            <stackLayout/>
+        <stackLayout>
+            {#if $favorites.has(obj.id)}
+                <image
+                on:tap={onTapFav}
+                width="20" 
+                src='~/assets/icons/heartDark.png' 
+                class=" button fas icon1" 
+                class:fav={isFavorited}/>
+            {:else}
+                <image 
+                on:tap={onTapFav}
+                width="20" 
+                src='~/assets/icons/heart.png' 
+                class=" button fas icon1" 
+                class:fav={isFavorited}/>
+            {/if}
+        </stackLayout>
     </flexBoxLayout>
 </actionBar>
 
@@ -37,5 +52,8 @@ export let rightIconSrc
         color: #232323;
         font-family: 'montserrat';
         height: 100%;
+    }
+    .fav{
+        width: 40;
     }
 </style>

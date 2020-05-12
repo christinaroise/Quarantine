@@ -2,9 +2,9 @@ import { showModal } from 'svelte-native'
 import { ApiService } from './ApiService.js'
 import Article from '~/modals/Article'
 import Newspaper from '~/modals/Newspaper'
-import ConfirmedModal from '~/modals/cardModals/ConfirmedModal'
 import FilterModal from '~/modals/cardModals/FilterModal'
 import OptionsModal from '~/modals/cardModals/OptionsModal'
+import Search from '~/modals/Search'
 
 const utilsModule = require('tns-core-modules/utils/utils')
 
@@ -33,36 +33,15 @@ export const ModalService = {
                 })
         })
     },
-    showConfirmedLibraryModal: async(item) => {
+    showNewspaperInLibraryModal: async(item) => {
+        console.log(item)
         await showModal(
             {
-                page: ConfirmedModal,
+                page: Newspaper,
                 props:{
-                    title: item.name,
-                    text: "has been added to your library"
-                },
-            }
-        )
-    },
-    showConfirmedBookmarkModal: async(item) => {
-        await showModal(
-            {
-                page: ConfirmedModal,
-                props:{
-                    title: item.title,
-                    text: "has been added as a bookmark"
-                },
-            }
-        )
-    },
-    showConfirmedRemoveModal: async(item) =>{
-        await showModal(
-            {
-                page: ConfirmedModal,
-                props:{
-                    title: item.title,
-                    text: "has been removed from list"
-                },
+                    articles: item.articles,
+                    source: item
+                }, 
             }
         )
     },
@@ -87,14 +66,12 @@ export const ModalService = {
             }
         )
     },
-    showBookmarkOptionsModal: async(item) => {
+    goToSearch: async (item) => {
         await showModal(
             {
-                page: OptionsModal,
+                page: Search,
                 props:{
-                    show: "Read article",
-                    list: "Bookmarks",
-                    article: item
+                    sources: item,
                 }
             }
         )

@@ -29,83 +29,87 @@
 
 </script>
 
-<frame actionBarHidden={true}>
-    <page>
-        <cardView shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="8">
-            <stackLayout class="container">
-                <stackLayout class="emptyContainer">
+
+
+<cardView shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="8">
+    <stackLayout class="container">
+        <stackLayout class="emptyContainer">
+        </stackLayout>
+        <flexBoxLayout class="card flexColumn">
+            <flexBoxLayout class="filterWrapper flexColumn">
+                <label
+                class="h2 OpenSans"
+                text="Filter"/> 
+                <stackLayout>
+                    <stackLayout class="borderBottom">
+                        <flexBoxLayout class="filterContainer">
+                            <label text="Country"/>
+                            <button 
+                            id="showMoreBtn"
+                            on:Tap={() => enableCountries() }
+                            text="{countryBtnText}"/>
+                        </flexBoxLayout>
+                        {#if countryIsEnabled}
+                            <flexBoxLayout class="smallButtonContainer">
+                                <scrollView 
+                                scrollBarIndicatorVisible={false}>
+                                    <wrapLayout class="heightAuto">
+                                        {#each countries as country}
+                                            <SmallButton 
+                                            width="auto" 
+                                            text={country.name}/>
+                                        {:else}
+                                            <label text="Ops!"/>
+                                        {/each}
+                                    </wrapLayout>
+                                </scrollView>
+                            </flexBoxLayout>
+                        {/if}
+                    </stackLayout>
+                    <stackLayout>
+                        <flexBoxLayout class="filterContainer">
+                            <label text="Category"/>
+                            <button 
+                            id="showMoreBtn"
+                            on:Tap={() => enableCategories() }
+                            text="{categoryBtnText}"/>
+                        </flexBoxLayout> 
+                        {#if categoryIsEnabled}
+                            <flexBoxLayout class="smallButtonContainer">
+                                <scrollView
+                                scrollBarIndicatorVisible={false}>
+                                    <wrapLayout class="heightAuto">
+                                        {#each $categories as category}
+                                            <SmallButton 
+                                            width="auto" 
+                                            text={category}/>
+                                        {:else}
+                                            <label text="Ops!"/>
+                                        {/each}
+                                    </wrapLayout>
+                                </scrollView>
+                            </flexBoxLayout>
+                        {/if}
+                    </stackLayout>
                 </stackLayout>
-                <flexBoxLayout class="card flexColumn">
-                    <flexBoxLayout class="filterWrapper flexColumn">
-                        <label
-                        class="h2 OpenSans"
-                        text="Filter"/> 
-                        <stackLayout>
-                            <stackLayout class="borderBottom">
-                                <flexBoxLayout class="filterContainer">
-                                    <label text="Country"/>
-                                    <button 
-                                    id="showMoreBtn"
-                                    on:Tap={() => enableCountries() }
-                                    text="{countryBtnText}"/>
-                                </flexBoxLayout>
-                                {#if countryIsEnabled}
-                                    <flexBoxLayout class="smallButtonContainer">
-                                        <scrollView 
-                                        scrollBarIndicatorVisible={false}>
-                                            <wrapLayout class="heightAuto">
-                                                {#each countries as country}
-                                                    <SmallButton 
-                                                    width="auto" 
-                                                    text={country.name}/>
-                                                {:else}
-                                                    <label text="Ops!"/>
-                                                {/each}
-                                            </wrapLayout>
-                                        </scrollView>
-                                    </flexBoxLayout>
-                                {/if}
-                            </stackLayout>
-                            <stackLayout>
-                                <flexBoxLayout class="filterContainer">
-                                    <label text="Category"/>
-                                    <button 
-                                    id="showMoreBtn"
-                                    on:Tap={() => enableCategories() }
-                                    text="{categoryBtnText}"/>
-                                </flexBoxLayout> 
-                                {#if categoryIsEnabled}
-                                    <flexBoxLayout class="smallButtonContainer">
-                                        <scrollView
-                                        scrollBarIndicatorVisible={false}>
-                                            <wrapLayout class="heightAuto">
-                                                {#each $categories as category}
-                                                    <SmallButton 
-                                                    width="auto" 
-                                                    text={category}/>
-                                                {:else}
-                                                    <label text="Ops!"/>
-                                                {/each}
-                                            </wrapLayout>
-                                        </scrollView>
-                                    </flexBoxLayout>
-                                {/if}
-                            </stackLayout>
-                        </stackLayout>
-                    </flexBoxLayout>
-                    <flexBoxLayout class="buttonContainer">
-                        <RegularButton 
-                        onTap={ () => closeModal() }
-                        text="Set filter"/>
-                        <RegularButton 
-                        onTap={ () => closeModal() }
-                        text="Cancle"/>
-                    </flexBoxLayout>
-                </flexBoxLayout>
-            </stackLayout>
-        </cardView>
-    </page>
-</frame>
+            </flexBoxLayout>
+            <wrapLayout class="buttonContainer">
+                <stackLayout
+                width="45%">
+                    <RegularButton
+                    onTap={ () => closeModal() }
+                    text="Set filter"/> 
+                </stackLayout>
+                <stackLayout
+                width="45%">
+                    <RegularButton
+                    onTap={ () => closeModal() }
+                    text="Cancle"/>
+                </stackLayout>
+            </wrapLayout>
+        </flexBoxLayout>
+    </stackLayout>
+</cardView>
 
 
 <style>
@@ -147,8 +151,9 @@
         height: 100;
     }
     .buttonContainer{
-        justify-content: space-evenly;
-        margin-bottom: 10;
+        width: 100%;
+        background: lightgoldenrodyellow;
+        justify-content: flex-end;
     }
 
 </style>
