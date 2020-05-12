@@ -1,9 +1,9 @@
 import { ApplicationSettings } from "tns-core-modules";
 import { alert } from '@nativescript/core/ui/dialogs'
-import { ModalService } from './ModalService'
+import { bookmarkList } from './store'
 import { SourceService } from './SourceService'
 import { ApiService } from './ApiService'
-import { api_key, heartIcon, favorites } from './store'
+import { api_key } from './store'
 
 const appSettings = require('tns-core-modules/application-settings')
 
@@ -11,7 +11,6 @@ const appSettings = require('tns-core-modules/application-settings')
 export const LocalStorage = {
     //ADDS AND SHOWS NEWSPAPERS
     addToLibrary: function(sourceItem){
-        console.log('Hei')
         if(appSettings.getString("SavedNewspapers") == null || appSettings.getString("SavedNewspapers").length == 0 || appSettings.getString("SavedNewspapers") == "[null]"){
             appSettings.setString("SavedNewspapers","[]")
         }
@@ -82,6 +81,8 @@ export const LocalStorage = {
         let articleListAsJson = this.pushOrPopArticle(articleItem, articleList)
         appSettings.setString("SavedArticles", JSON.stringify(articleListAsJson))
 
+        //bookmarkList.set(JSON.parse(appSettings.getString("SavedArticles")))
+
         return  JSON.parse(appSettings.getString("SavedArticles"))
     },
     pushArticle: function(articleItem, articleListAsJson){
@@ -93,7 +94,6 @@ export const LocalStorage = {
             }
         }
         if(!doesExist){
-            favorites.toggleFavorite(articleItem.id)
             list.push(articleItem)
             alert({
                 title: articleItem.title,
@@ -103,6 +103,8 @@ export const LocalStorage = {
                 console.log("Alert dialog closed")
             })
         }
+        bookmarkList.set(list)
+        console.log(bookmarkList)
         return list
     },
     popArticle: function(articleItem, articleListAsJson){
@@ -116,8 +118,6 @@ export const LocalStorage = {
             }
         }
         if(remove == true){
-            console.log(articleItem.title)
-            favorites.toggleFavorite(articleItem.id)
             alert({
                 title: articleItem.title,
                 message: "has been removed from your bookmarks",
@@ -129,7 +129,7 @@ export const LocalStorage = {
 
         let newListAsString = JSON.stringify(newList)
         appSettings.setString("SavedArticles", newListAsString)
-
+        bookmarkList.set(newList)    
         return newList
     },
     pushOrPopArticle: function(articleItem, articleListAsJson){
@@ -155,8 +155,8 @@ export const LocalStorage = {
         }
     
         let articleListAsJson = appSettings.getString("SavedArticles")
-        let bookmarkList = JSON.parse(articleListAsJson)
-
-        return bookmarkList  
+        let list = JSON.parse(articleListAsJson)
+        bookmarkList.set(list)  
+        return list
     }, 
 }

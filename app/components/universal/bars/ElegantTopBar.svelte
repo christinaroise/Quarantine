@@ -1,12 +1,33 @@
 <script>
-    import { favorites } from '~/services/store'
-    
+    import { bookmarkList } from '~/services/store'
+    import { LocalStorage } from '~/services/LocalStorage'
+
     export let obj
     export let onTapFav
     export let onTapLeft
     export let leftIconSrc
     export let title
-    export let isFavorited = undefined
+
+    let promise = isArticleBookmarked();
+    let iconUrl = '~/assets/icons/heart.png'
+
+    async function isArticleBookmarked(){
+        var bookmarks = await LocalStorage.getBookmarks();
+        if(bookmarks.some(article => article.url == obj.url)){
+            iconUrl = '~/assets/icons/heartDark.png'
+        }
+    }
+
+    function switchIcon() {
+        if(iconUrl == '~/assets/icons/heart.png'){
+            iconUrl = '~/assets/icons/heartDark.png'
+        }else{
+            iconUrl = '~/assets/icons/heart.png'
+        }
+    }
+
+    //$bookmarkList does not automatically update
+
 </script>
 
 <actionBar flat="true" class="actionbarContainer">
@@ -16,21 +37,13 @@
         </stackLayout>
         <label class="title" text={title}/>
         <stackLayout>
-            {#if $favorites.has(obj.id)}
-                <image
+            <image
                 on:tap={onTapFav}
+                on:tap={() => switchIcon()}
                 width="20" 
-                src='~/assets/icons/heartDark.png' 
-                class=" button fas icon1" 
-                class:fav={isFavorited}/>
-            {:else}
-                <image 
-                on:tap={onTapFav}
-                width="20" 
-                src='~/assets/icons/heart.png' 
-                class=" button fas icon1" 
-                class:fav={isFavorited}/>
-            {/if}
+                src={iconUrl}
+                class=" button fas icon1"/>
+
         </stackLayout>
     </flexBoxLayout>
 </actionBar>
@@ -52,8 +65,5 @@
         color: #232323;
         font-family: 'montserrat';
         height: 100%;
-    }
-    .fav{
-        width: 40;
     }
 </style>

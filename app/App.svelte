@@ -12,7 +12,8 @@ import {
     sources, 
     newspaperList, 
     sourceList, 
-    bookmarkList} from '~/services/store.js'
+    bookmarkList,
+    listToBeDisplayed} from '~/services/store.js'
 import { LocalStorage } from '~/services/LocalStorage'
 
 import Dashboard from './screens/Dashboard'
@@ -38,23 +39,29 @@ onMount(async () => {
     ApiService.getTopHeadlinesData().then((res)=>{
         $articles = res.articles
         $todaysArticles = res.articles.filter(a => ArticleService.isCurrentDate(a.publishedAt))
-        /* $articles.forEach(function (element) {
-            element.favorite = false;
-            console.log(element)
-        });
-        $todaysArticles.forEach(function (element) {
-            element.favorite = false;
-        }); */
     })
 
     ApiService.getNewspaperData().then((res)=>{
         $sources = res.sources
-        /* $sources.forEach(function (element) {
-            element.favorite = false;
-        }); */
     })
     $newspaperList = await LocalStorage.getLibraryList()
     $bookmarkList = await LocalStorage.getBookmarks()
+
+    for(let i = 0; i < $articles.length; i++){
+        if($bookmarkList.includes($articles[i])){
+            $listToBeDisplayed.push($articles[i])
+        }
+//        console.log($listToBeDisplayed)
+    }
+    /*
+    for(let i = 0; i < $todaysArticles.length; i++){
+        if($bookmarkList.includes($todaysArticles[i])){
+
+            $listToBeDisplayed.push($todaysArticles[i])
+        }
+    } */
+    
+
     //theres an error in sourceList
     $sourceList = await LocalStorage.getLibraryList()
 }) 

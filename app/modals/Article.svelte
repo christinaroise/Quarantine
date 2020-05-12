@@ -5,6 +5,7 @@
     import ElegantTopBar from '~/components/universal/bars/ElegantTopBar'
 
     export let article
+
 </script>
 
 <frame actionBarHidden={false}>
@@ -14,8 +15,7 @@
             leftIconSrc='~/assets/icons/left-arrow.png'
             title="Quarantine"
             obj={article}
-            onTapFav={() => LocalStorage.createBookmarks(article)}
-            isFavorited={$favorites.has(article.id)}/>
+            onTapFav={() => LocalStorage.createBookmarks(article)}/>
         <webView src='{article.url}'/>
     </page>
 </frame>

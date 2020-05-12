@@ -14,7 +14,6 @@ Other used add-ons/plug-ins:
 - add an intro animation when starting app
 - Universal:
     - active-style color of icons in BottomNavigation
-    - make favorites
     - article/newspaper needs "heart" on img when saved to LocalStorage
 - Dashboard:
     - reset scroll position in filteredComponent(read: PrimaryList)

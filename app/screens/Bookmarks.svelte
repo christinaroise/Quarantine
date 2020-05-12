@@ -2,12 +2,11 @@
     import { ApiService } from '~/services/ApiService'
     import { FilterService } from '~/services/ApiService'
     import { ArticleService } from '~/services/ArticleService'
+    import { LocalStorage } from '~/services/LocalStorage'
     import { articles, bookmarkList } from '~/services/store'
     import TopBar from '~/components/universal/bars/TopBar'
     import ColumnList from '~/components/universal/lists/ColumnList'
     import EmptyContainer from '~/components/universal/containers/EmptyContainer'
-
-    let hasContent = true
 
 </script> 
 

@@ -25,32 +25,10 @@ export let newspaperList = writable([])
 export let filteredLibList = writable([])
 export let sourceList = writable([])
 export let bookmarkList = writable([])
+export let listToBeDisplayed = writable([])
 
 export let onTapFav = writable("")
 
 export let coronaRegExp = /\s*(\w*((C|c|K|k)ovid)|((C|c|K|k)orona)|((Q|q)uarantine)|((K|k)arantene)|((P|p)andemi)|((E|e)pidemi)|((V|v)irus)\w*)\s*/
-
-let favs = new Set();
-
-function createStore(){
-    const { subscribe, set, update } = writable(favs);
-
-    return {
-        subscribe,
-        set, 
-        update, 
-        toggleFavorite: (id) => {
-            if(favs.has(id)){
-                favs.delete(id);
-            }else{
-                favs.add(id);
-            }
-
-            set(favs);
-        }
-    };
-}
-
-export const favorites = createStore()
     
 
