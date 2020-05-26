@@ -1,23 +1,37 @@
 <script>
-
     export let onTap
     export let imgSrc
     export let tagName
     export let title
     export let subtitle
-
+        //Needs a new name
 </script>
 
 <stackLayout 
 on:tap={onTap} 
 class='article'>
-<absoluteLayout>
-        <image class='image rounded' width="166" height='100' src={imgSrc} alt='cover' stretch='aspectFill' />
-        <label class="sourceTag body" text={tagName}/>
+    <absoluteLayout>
+        <image 
+        class='image rounded' 
+        width="166" 
+        height='100' 
+        src={imgSrc} 
+        alt='cover' 
+        stretch='aspectFill' />
+        {#if tagName}
+            <label 
+            class="sourceTag body" 
+            text={tagName}/>
+        {/if}
     </absoluteLayout>
     <stackLayout>
-        <label textWrap="{true}" class='h4 timesNewRoman' text={title}/>
-        <label class='body timesNewRoman' text={subtitle}/>
+        <label 
+        textWrap="{true}" 
+        class='h4 timesNewRoman' 
+        text={title}/>
+        <label 
+        class='body timesNewRoman' 
+        text={subtitle}/>
     </stackLayout>
 </stackLayout>
 

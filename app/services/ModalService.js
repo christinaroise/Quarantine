@@ -3,7 +3,6 @@ import { ApiService } from './ApiService.js'
 import Article from '~/modals/Article'
 import Newspaper from '~/modals/Newspaper'
 import FilterModal from '~/modals/cardModals/FilterModal'
-import OptionsModal from '~/modals/cardModals/OptionsModal'
 import Search from '~/modals/Search'
 
 const utilsModule = require('tns-core-modules/utils/utils')
@@ -16,13 +15,15 @@ export const ModalService = {
                 props:{
                     article: item
                 }, 
+                fullscreen: true,
+                animated: true
             }
         )
     },
     showNewspaperModal: async(item) => {
         let articles = []
-        ApiService.getNewspaperSourceData(item).then(async (res)=>{
-            articles = res.articles
+        ApiService.getNewspaperSourceData(item).then(async (res) =>{
+            articles = res
             await showModal(
                 {
                     page: Newspaper,
@@ -30,11 +31,12 @@ export const ModalService = {
                         articles: articles,
                         source: item
                     },
+                    animated: true,
+                    fullscreen: true
                 })
         })
     },
     showNewspaperInLibraryModal: async(item) => {
-        console.log(item)
         await showModal(
             {
                 page: Newspaper,
@@ -42,6 +44,8 @@ export const ModalService = {
                     articles: item.articles,
                     source: item
                 }, 
+                animated: true,
+                fullscreen: true
             }
         )
     },
@@ -52,17 +56,7 @@ export const ModalService = {
                 props:{
                     source: item
                 },
-            }
-        )
-    },
-    showLibraryOptionsModal: async() => {
-        await showModal(
-            {
-                page: OptionsModal,
-                props:{
-                    show:"Show more",
-                    list: "Library"
-                }
+                animated: true,
             }
         )
     },
@@ -72,7 +66,9 @@ export const ModalService = {
                 page: Search,
                 props:{
                     sources: item,
-                }
+                },
+                fullscreen: true,
+                animated: true
             }
         )
     }

@@ -1,6 +1,6 @@
 # Svelte-Native Firestore & NewsAPI & OpenWeatherAPI & NativeScript GeoLocation
 
-This is a news App, developed during the COVID-19 lockdown, for iOS/Android that connects to firebase/firestore with fetch call to the built in REST API.
+This is a news App, developed during the COVID-19 lockdown, for iOS/Android. It uses local storage, connects to firebase/firestore, and has a fetch-call to the built in REST APIs.
 
 It uses the <a href='https://svelte-native.technology/docs'>svelte-native</a> framework to build a native application. Svelte-native is built on top of <a href="https://nativescript.ord">Nativescript</a>, so you need to go through the setup guide there in order to install the TNS CLI Tools.
 
@@ -13,30 +13,21 @@ Other used add-ons/plug-ins:
 ## To-do list
 - add an intro animation when starting app
 - Universal:
-    - active-style color of icons in BottomNavigation
-    - article/newspaper needs "heart" on img when saved to LocalStorage
+    - clean up code (add btn on:taps in store to make compomnents 100% reusable)
 - Dashboard:
     - reset scroll position in filteredComponent(read: PrimaryList)
     - Recommended section
-        - this will be run by the kind of newspapers and articles that are saved to localStorage
     - geoLocation does not fetch the device's position
     - add Discover component
-- Browse:
-    - Buttons need to change text or icon and color when source(newspaper) is added to Library
-    - Filtermodal:
-        - Buttons need active-styling
-        - cancle button different styling  
 - Library/Bookmarks: 
-    - unsave function in Library
-    - add heart icons to columnlist ? Last step.
+    - unsave function and styling in Library and Bookmarks
 - FilterBar:
     - Buttons need active-styling
-    - add "all/reset" option to filterBar
-- Android/iOS:
-    - Button styling on Android needs changing
-    - font does not set??? 
-    - border-radius does not work on android
-    - Modals width is not 100%
+    - add "all" option to filterBar
+- Search/Browse
+    - make add/removebutton universal (or add to secondary card)
+    - move functions from SimpleList to Browse
+    - filter does not reset sources ??
 
 ## Set up
 ```html
@@ -45,9 +36,9 @@ tns run [ios|android]
 ```
 
 ## Project structure [NOT 100% COMPLETE]
-This is a multi page application.
-- app/App.svelte handles the navigation between screens by using a bottomNavigation bar.
-- screens:
+This is a single page application.
+- app/App.svelte handles the navigation between tabs by using a Tabs bar.
+- tabs/screens:
     - Dashboard.svelte
     - Browse.svelte
     - Library.svelte
@@ -58,9 +49,8 @@ This is a multi page application.
 - The weather compoent consist of the card that shows in Dashboard.svelte only, and gets data in onMount from OpenWeather api. Theres also a setTimeAndDate function as well as GeoLocation. GeoLocation currently has a bug - this will be fixed. I chose a folder of its own for weather in case I'd expand the app's features at a later time. 
 - The universal folder contains all the components that are shared accross the different screens and modals. Bars, buttons, cards, containers, lists, sliders.. They all carry props from parent. I suspect some props could be placed in stores.js, but I haven't gotten to take a look at it just yet. 
 - getData functions can also be stored in stores.js. In other words: there's some cleaning up to do. 
-- Two jsons have been created, they hold the information about country names and code, and categories so to simplify the overall code. 
 - The Modals-folder are broken into smaller components in cardModal-folder and larger Modals that covers the entire screen. 
-- Most JavaScript is put in files under the services-folder as many components and screens share the same js. 
+- Most JavaScript is put in files under the services-folder as many components and screens share the same methods. 
 
 You are not able to do anything further with the items - i.e delete, update or add - so the example just serves as a demo of how you can include data in a semi advanced app
 

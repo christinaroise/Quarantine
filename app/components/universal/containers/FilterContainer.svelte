@@ -1,16 +1,25 @@
 <script>
 
+//This filter container is currently not in use, but the idea is for it to pop-up when filtering in Browse is activated. 
 
 </script>
 
 <stackLayout class="container backgroundColorWhite">
     <flexBoxLayout class="borderBottom">
-        <label class="filterLabel marginLeft" text="Country"/>
-        <button text="more"/>
+        <label 
+        class="filterLabel marginLeft" 
+        text="Country"/>
+        <button
+        androidElevation="0" 
+        text="more"/>
     </flexBoxLayout>
     <flexBoxLayout class="borderBottom">
-        <label class="filterLabel marginLeft" text="Category"/>
-        <button text="more"/>
+        <label 
+        class="filterLabel marginLeft" 
+        text="Category"/>
+        <button 
+        androidElevation="0"
+        text="more"/>
     </flexBoxLayout>
 </stackLayout>
 

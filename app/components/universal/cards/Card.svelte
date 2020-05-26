@@ -6,23 +6,40 @@
     export let title
     export let subtitle
     export let date
-
+    
+    //Needs a new name
 </script>
 
 <stackLayout 
     on:tap={onTap} 
     class='article'>
-        <absoluteLayout>
-            <image class='image rounded' width="235" height='140' src='{imgSrc}' alt='cover' stretch='aspectFill' />
-            <label class="sourceTag body timesNewRoman" text='{tagName}'/>
-        </absoluteLayout>
+        <stackLayout>
+            <absoluteLayout>
+                <image 
+                class='image rounded' 
+                width="235" height='140' 
+                src='{imgSrc}' 
+                alt='cover image' 
+                stretch='aspectFill' />
+                <label 
+                class="sourceTag body timesNewRoman" 
+                text='{tagName}'/>
+            </absoluteLayout>
+        </stackLayout>
         <flexBoxLayout class="infoWrapper">
             <stackLayout class="articleInfo">
-                <label textWrap="{true}" class='h4 timesNewRoman' text='{title}' />
-                <label class='body timesNewRoman' text='{subtitle}'/>
+                <label 
+                textWrap="{true}" 
+                class='h4 timesNewRoman' 
+                text='{title}' />
+                <label 
+                class='body timesNewRoman' 
+                text='{subtitle}'/>
             </stackLayout>
             <stackLayout>
-                <label class="articleDate timesNewRoman" text='{date}'/>
+                <label 
+                class="articleDate timesNewRoman" 
+                text='{date}'/>
             </stackLayout>
         </flexBoxLayout>
     </stackLayout>
@@ -30,10 +47,13 @@
 <style>
     .article{
         width: 235;
+        height: auto;
         margin-left: 15;
+        padding-bottom: 5;
         margin-bottom: 10;
         justify-content: space-between;
         border-radius: 5%;
+        background-color: white;
     }
     .sourceTag{
         background-color: #C8A374;

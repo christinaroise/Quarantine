@@ -1,21 +1,23 @@
 <script>
     import { closeModal } from 'svelte-native'
-    import { LocalStorage } from '~/services/LocalStorage'
-    import { favorites } from '~/services/store'
-    import ElegantTopBar from '~/components/universal/bars/ElegantTopBar'
+    import { LocalStorage } from '~/services/localStorage/LocalStorage'
+    import { favorites } from '~/services/stores/store'
+    import ModalTopBar from '~/components/universal/bars/ModalTopBar'
 
     export let article
+
+//This modal shows articles in webView
 
 </script>
 
 <frame actionBarHidden={false}>
     <page>
-        <ElegantTopBar
+        <ModalTopBar
             onTapLeft={() => closeModal()}
             leftIconSrc='~/assets/icons/left-arrow.png'
             title="Quarantine"
             obj={article}
-            onTapFav={() => LocalStorage.createBookmarks(article)}/>
+            onTapFav={() => LocalStorage.addOrRemoveItemTo(article, "SavedArticles")}/>
         <webView src='{article.url}'/>
     </page>
 </frame>

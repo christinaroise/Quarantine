@@ -1,32 +1,107 @@
 <script>
     import { closeModal } from 'svelte-native'
-    import RegularButton from '~/components/universal/buttons/RegularButton'
-    import SmallButton from '~/components/universal/buttons/SmallButton'
-    import countries from '~/json/countries.json'
-    import { categories } from '~/services/store'
+    import { ApplicationSettings } from "tns-core-modules";
+    import { Template } from 'svelte-native/components'
+    import { ApiService } from '~/services/ApiService'
+    import { api_key, sources, categories, filterCountryCode, filterCountryName, filterCategoryValue, filterCategory, thereAreNoSources} from '~/services/stores/store'
+    import { countries } from '~/services/stores/countryStore'
 
+    const appSettings = require('tns-core-modules/application-settings')
+
+    let country = ""
     let countryIsEnabled = false
     let categoryIsEnabled = false
-    let categoryBtnText="+"
-    let countryBtnText="+"
+    let categoryBtnText="All"
+    let countryBtnText="All"
+    $filterCategoryValue = "All"
+    $filterCountryName = "All"
 
-    function enableCategories(){
-        categoryIsEnabled = !categoryIsEnabled
-        if(categoryBtnText=="+"){
-            categoryBtnText="-"
-        }else{
-            categoryBtnText="+"
-        }
+    $:{
+        country = $filterCountryCode 
+        console.log("filterCountryCode: " + $filterCountryCode)
     }
+
+//The next two functions toggles between enable-/disableing Countries' and Categories' listView. 
     function enableCountries(){
         countryIsEnabled = !countryIsEnabled
-        if(countryBtnText=="+"){
+        categoryIsEnabled = false
+        if(countryBtnText == "All"){
             countryBtnText="-"
+        }else if($filterCountryName == ""){
+            countryBtnText = "All"
         }else{
-            countryBtnText="+"
+            countryBtnText = $filterCountryName
+        }
+    }
+    function enableCategories(){
+        categoryIsEnabled = !categoryIsEnabled
+        countryIsEnabled = false
+        if(categoryBtnText == "All"){
+            categoryBtnText="-"
+        }else if($filterCategory == ""){
+            countryBtnText = "All"
+        }else{
+            categoryBtnText = $filterCategory
         }
     }
 
+//The next two functions picks what country or category the "filter" will look for. 
+    function onCountryItemTap(event){
+        $filterCountryCode = $countries[event.index].code
+        $filterCountryName = $countries[event.index].name
+        enableCountries()
+    }
+    function onCategoryItemTap(event){
+        $filterCategory = $categories[event.index]
+        $filterCategoryValue = $categories[event.index]
+        enableCategories()
+    }
+    
+//This functions sets the new source data.
+//THIS FUNCTION NEEDS TIDYING UP - ALSO TO RESET $SOURCES ??
+    const setNewSourceData = () =>{
+        let response = []
+        let sourceURL = ""
+        let newList = []
+        //Here it checks the countryBtnText in order to pick what URL to go with.
+        if(countryBtnText == "All"){
+            sourceURL = `https://newsapi.org/v2/sources?&apiKey=${api_key}`
+        }else if($filterCountryName == "All"){
+            sourceURL = `https://newsapi.org/v2/sources?&apiKey=${api_key}`
+        }else{
+            //Notice here where the country (code) is used when country is picked
+            sourceURL = `https://newsapi.org/v2/sources?country=${country}&apiKey=${api_key}`
+        }
+
+        fetch(sourceURL)
+            .then( response => response.json() )
+            .then( response => {
+                if(response.fault){
+                    console.log(response.fault.faultstring)
+                }else{
+                    //Here the #if checks what value filterCategoryValue has, if its NOT "ALL" then it will filter out by category. If it is all then it will NOT filter out categories.
+                    if(response.sources.length > 0){
+                        if(filterCategoryValue == "All"){
+                            $sources = response.sources
+                        }
+                        if(filterCategoryValue!= "All"){
+                            $sources = response.sources
+                            for(var i = 0; i < $sources.length; i++){
+                                if($sources[i].category = filterCategoryValue){
+                                newList.push($sources[i]) 
+                                }
+                            }
+                            $sources = newList
+                        }
+                    }else if(response.sources.length == 0){
+                        $thereAreNoSources = true
+                    }
+                    
+                }
+            })
+        .catch( error => console.log(error) )  
+        closeModal()
+    }
 </script>
 
 
@@ -34,6 +109,7 @@
 <cardView shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="8">
     <stackLayout class="container">
         <stackLayout class="emptyContainer">
+            <!-- This empty container is not visible on android but on iOS. I've placed it here in order to force the modal in to vertically-align: bottom -->
         </stackLayout>
         <flexBoxLayout class="card flexColumn">
             <flexBoxLayout class="filterWrapper flexColumn">
@@ -43,76 +119,74 @@
                 <stackLayout>
                     <stackLayout class="borderBottom">
                         <flexBoxLayout class="filterContainer">
-                            <label text="Country"/>
+                            <stackLayout>
+                                <label text="Country"/>
+                            </stackLayout>
                             <button 
+                            androidElevation="0"
                             id="showMoreBtn"
                             on:Tap={() => enableCountries() }
                             text="{countryBtnText}"/>
                         </flexBoxLayout>
-                        {#if countryIsEnabled}
-                            <flexBoxLayout class="smallButtonContainer">
-                                <scrollView 
-                                scrollBarIndicatorVisible={false}>
-                                    <wrapLayout class="heightAuto">
-                                        {#each countries as country}
-                                            <SmallButton 
-                                            width="auto" 
-                                            text={country.name}/>
-                                        {:else}
-                                            <label text="Ops!"/>
-                                        {/each}
-                                    </wrapLayout>
-                                </scrollView>
-                            </flexBoxLayout>
+                        {#if countryIsEnabled == true}
+                            <listView 
+                            items="{$countries}"
+                            on:itemTap="{onCountryItemTap}">
+                                <Template 
+                                let:item>
+                                    <label text="{item.name}"/>
+                                </Template>
+                            </listView>
                         {/if}
                     </stackLayout>
                     <stackLayout>
                         <flexBoxLayout class="filterContainer">
-                            <label text="Category"/>
+                            <stackLayout>
+                                <label text="Category"/>
+                            </stackLayout>
                             <button 
+                            androidElevation="0"
                             id="showMoreBtn"
                             on:Tap={() => enableCategories() }
                             text="{categoryBtnText}"/>
                         </flexBoxLayout> 
-                        {#if categoryIsEnabled}
-                            <flexBoxLayout class="smallButtonContainer">
-                                <scrollView
-                                scrollBarIndicatorVisible={false}>
-                                    <wrapLayout class="heightAuto">
-                                        {#each $categories as category}
-                                            <SmallButton 
-                                            width="auto" 
-                                            text={category}/>
-                                        {:else}
-                                            <label text="Ops!"/>
-                                        {/each}
-                                    </wrapLayout>
-                                </scrollView>
-                            </flexBoxLayout>
+                        {#if categoryIsEnabled == true}
+                            <listView 
+                            items="{$categories}"
+                            on:itemTap="{onCategoryItemTap}">
+                                <Template 
+                                let:item>
+                                    <label text="{item}"/>
+                                </Template>
+                            </listView>
                         {/if}
                     </stackLayout>
                 </stackLayout>
             </flexBoxLayout>
-            <wrapLayout class="buttonContainer">
-                <stackLayout
-                width="45%">
-                    <RegularButton
-                    onTap={ () => closeModal() }
-                    text="Set filter"/> 
-                </stackLayout>
-                <stackLayout
-                width="45%">
-                    <RegularButton
-                    onTap={ () => closeModal() }
-                    text="Cancle"/>
-                </stackLayout>
-            </wrapLayout>
+            <flexBoxLayout class="buttonContainer">
+                <button 
+                androidElevation="0"
+                on:tap={ () => setNewSourceData() }
+                text="Set filter"
+                class="regularButton mustard"/>
+                <button 
+                androidElevation="0"
+                on:tap={ () => closeModal() }
+                text="Cancle"
+                class="regularButton lightGray"/>
+            </flexBoxLayout>
         </flexBoxLayout>
     </stackLayout>
 </cardView>
 
 
 <style>
+    listView{
+        height: 180;
+        margin: 15;
+        margin-top: 0;
+        text-align: center;
+    }
     .container{
         width: 100%;
         height: 100%;
@@ -130,30 +204,38 @@
         border-top-right-radius: 10%;
     }
     .filterWrapper{
-        padding: 20;
+        margin: 15;
+        padding-top: 10;
         height: auto;
         vertical-align: bottom;
     }
     button{
-        color: #C8A374;
-        font-size: 40;
-        font-weight: 200;
+        font-size: 18;
+        font-weight: 300;
+        color: #232323;
         text-align: right;
+        margin: 0;
     }
     .flexColumn{
         flex-direction: column;
     }
-    .filterContainer > label{
-        flex: 2;
+    .filterContainer{
+        vertical-align: center;
+        height: 50;
     }
-    .smallButtonContainer{
-        margin-bottom: 10;
-        height: 100;
+    .filterContainer > stackLayout{
+        flex: 2;
+        vertical-align: center;
     }
     .buttonContainer{
         width: 100%;
-        background: lightgoldenrodyellow;
-        justify-content: flex-end;
     }
-
+    .regularButton{
+        color: white;
+        border-radius: 10%;
+        width: 100%;
+        text-align: center;
+        font-weight: 500;
+        margin: 5;
+    }
 </style>

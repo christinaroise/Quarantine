@@ -1,36 +1,49 @@
 <script>
-export let leftOnTap
-export let rightOnTap
+
 export let leftIconSrc
-export let rightIconSrc
+export let leftOnTap
 export let title
+export let rightOnTap
+export let rightIconSrc
+
+//I created a custom actionBar. It is not 100% ideal as it was hard to find the correct styling in order to make the bar 100% responsive. (The "width: 100%"" is not functionable for whatever reason).
 
 </script>
 
-<stackLayout>
-    <flexBoxLayout class="topBarWrapper">
-        <stackLayout 
-        on:tap={leftOnTap}>
-            <image width="20" src='{leftIconSrc}' class=" button fas icon1" />
-        </stackLayout>
-        <label class="h1 montserrat" text='{title}'/>
-        <stackLayout
-        on:tap={rightOnTap}>
-            <image width="20" src='{rightIconSrc}' class=" button fas icon1" />
-        </stackLayout>
-    </flexBoxLayout>
-</stackLayout>
-
+<actionBar flat="true">
+    <stackLayout
+        orientation="horizontal">
+        <image 
+            width="20" 
+            height="20" 
+            verticalAlignment="center" 
+            src='{leftIconSrc}'
+            on:tap={leftOnTap}/>
+        <label 
+            text='{title}'
+            class="title montserrat" 
+            fontSize="24" 
+            verticalAlignment="center"/>
+        <image 
+            width="20" 
+            height="20" 
+            verticalAlignment="center"  
+            src='{rightIconSrc}'
+            on:tap={rightOnTap}/>
+    </stackLayout>
+</actionBar>
 
 <style>
-    .topBarWrapper{
-        height: 10%;
-        text-align: center;
-        padding: 15;
-        vertical-align: center;
+    actionBar{
+        width: 100%;
     }
-    .h1{
-        flex: 2;
+    stackLayout{
+        width: 100%;
+    }
+    label{
+        font-weight: 500;
+        width: 80%;
         text-transform: uppercase;
+        text-align: center;
     }
 </style>

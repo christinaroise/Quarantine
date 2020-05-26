@@ -1,6 +1,8 @@
-[
+import { writable } from 'svelte/store'
+
+export const countries = writable([
     {
-        "code": "ae",
+        "code": "ae", 
         "name": "United Arab Emirates"
     },
     {
@@ -214,5 +216,9 @@
     {
         "code": "za",
         "name": "South Africa"
+    },
+    { 
+        "code" : "",
+        "name": "All"
     }
-]
+])

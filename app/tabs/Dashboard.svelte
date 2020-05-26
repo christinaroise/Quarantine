@@ -1,26 +1,18 @@
 <script>
-    import { filterComponent, articles, todaysArticles, categories, dashboardFilterIsActive} from '~/services/store.js'
-    import { showModal } from 'svelte-native'
-    import { ApiService } from '~/services/ApiService'
-    import { ArticleService } from '~/services/ArticleService'
-    import { FilterService } from '~/services/FilterService'
-    import PrimaryList from '~/components/universal/lists/PrimaryList'
+    import { filterComponent, articles, todaysArticles, categories, dashboardFilterIsActive} from '~/services/stores/store.js'
+    import MainList from '~/components/universal/lists/MainList'
     import TodaysWeather from '../components/weather/TodaysWeather'
-    import PrimarySlider from '~/components/universal/sliders/PrimarySlider'
-    import SecondarySlider from '~/components/universal/sliders/SecondarySlider'
+    import Slider from '~/components/universal/sliders/Slider'
+    import SliderSmall from '~/components/universal/sliders/SliderSmall'
     import FilterBar from '../components/universal/bars/FilterBar'
-
-    const utilsModule = require('tns-core-modules/utils/utils')
-    const appSettings = require('tns-core-modules/application-settings')
 
     function setToDefault(){
         $filterComponent = false
     }
-
     $dashboardFilterIsActive = true
+    //If dashboard filter is active, then dashboard it self is hidden, while a list of articles in shown. This list is filtered by what category is tapped. 
 
 </script>
-
 
 <stackLayout>
     <cardView shadowOffsetHeight="2" shadowOpacity="0.1" shadowRadius="8">
@@ -47,16 +39,18 @@
         <scrollView 
         scrollBarIndicatorVisible={false}>
             {#if $filterComponent == true  && $articles.length > 0}
-                <PrimaryList
+            <!-- This is what you see when you activate the filter function (which is done by tapping the buttons in FilterBar) -->
+                <MainList
                 class="heightAuto"
                 items={$articles}/>
             {:else if $filterComponent == false && $articles.length > 0}
+            <!-- This is what you see when you first start the app -->
                 <stackLayout class="heightAuto">
                     <TodaysWeather/>
-                    <PrimarySlider
+                    <Slider
                     header='Recommended'
-                    items={$articles}/>
-                    <SecondarySlider 
+                    items={$articles}/> 
+                    <SliderSmall 
                     header="Today's news"
                     items={$todaysArticles}/> 
                 </stackLayout>
@@ -64,7 +58,6 @@
         </scrollView>
     </stackLayout>
 </stackLayout>    
-
 
 <style>
     cardView{

@@ -1,5 +1,4 @@
 
-
 export const SourceService = {
     trimURL: function(path){
         let url = path;

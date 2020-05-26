@@ -1,30 +1,28 @@
 <script>
-    import {screen} from "tns-core-modules/platform/platform"
     import { closeModal } from 'svelte-native'
-    import { LocalStorage } from '~/services/LocalStorage'
-    import { sourceList, heartIcon } from '~/services/store'
-    import ElegantTopBar from '~/components/universal/bars/ElegantTopBar'
-    import PrimaryList from '~/components/universal/lists/PrimaryList'
+    import { LocalStorage } from '~/services/localStorage/LocalStorage'
+    import ModalTopBar from '~/components/universal/bars/ModalTopBar'
+    import MainList from '~/components/universal/lists/MainList'
     
     export let source
     export let articles
     
     let optionsContainer = false
 
-    const fullWidth = screen.mainScreen.widthPixels
+//This modal shows a newspaper's articles as a list. You can further click on an article in order to read it in webview (article.svelte (modal))
 
 </script>
 
 <frame actionBarHidden={true}>
     <page class="page">
-        <ElegantTopBar
+        <ModalTopBar
             onTapLeft={() => closeModal()}
             leftIconSrc='~/assets/icons/left-arrow.png'
             title={source.name}
-            rightIconSrc={$heartIcon}
-            onTapRight={() => LocalStorage.addToLibrary(source)}/>
+            obj={source}
+            onTapFav={() => LocalStorage.addOrRemoveItemTo(source, "SavedNewspapers")}/>
         <stackLayout>
-            <PrimaryList
+            <MainList
             items={articles}/>
         </stackLayout>
     </page>

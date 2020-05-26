@@ -23,7 +23,7 @@
     "font-awesome": "^4.7.0",
     "nativescript-geolocation": "^5.1.0",
     "nativescript-theme-core": "~2.0.24",
-    "svelte-native": "~0.8.0",
+    "svelte-native": "^0.8.4",
     "tns-core-modules": "~6.4.2"
   },
   "devDependencies": {

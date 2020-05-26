@@ -4,21 +4,18 @@ export const ArticleService = {
         let string = title;  
         let length = 32;
         let trimmedString = string.substring(0, length); 
-
         return trimmedString;
     },
-    trimTitleMed: function(title){
+    trimTitle: function(title){
         let string = title;  
         let length = 35;
-        let trimmedString = string.substring(0, length); 
-
+        let trimmedString = string.substring(0, length);
         return trimmedString;
     },
     trimTitleMin: function(title){
         let string = title;  
         let length = 80;
         let trimmedString = string.substring(0, length); 
-
         return trimmedString;
     },
     trimAuthor: function(author){

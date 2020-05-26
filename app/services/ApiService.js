@@ -1,6 +1,6 @@
-import { api_key } from '~/services/store.js'
-import { FilterService } from '~/services/FilterService'
+import { api_key, covid19Filter, trumpFilter } from '~/services/stores/store.js'
 import { SourceService } from './SourceService.js'
+import { get } from 'svelte/store';
 
 export const ApiService = {
     get: function(url){
@@ -46,7 +46,21 @@ export const ApiService = {
                 if(response.fault){
                     console.log(response.fault.faultstring)
                 }else{
-                    let articles = response
+                    let list = response.articles
+                    let filteredList = []
+                    let articles = []
+                    let coronaRegExp = /\s*(\w*((C|c|K|k)ovid)|((C|c|K|k)orona)|((Q|q)uarantine)|((K|k)arantene)|((P|p)andemi)|((E|e)pidemi)|((V|v)irus)\w*)\s*/
+                    let trumpRegExp = /\s*(\w*((T|t|)rump)|((D|d)onald)|(POTUS)\w*)\s*/
+                    
+                    if(get(covid19Filter)){
+                        filteredList = list.filter( a => !coronaRegExp.test(a.title))
+                        articles = filteredList.filter( a => !coronaRegExp.test(a.description))  
+                    }else if(get(trumpFilter)){
+                        filteredList = list.filter( a => !trumpRegExp.test(a.title))
+                        articles = filteredList.filter( a => !trumpRegExp.test(a.description))
+                    }else{
+                        articles = list
+                    }
                     return resolve(articles)
                 }
             })
@@ -54,17 +68,13 @@ export const ApiService = {
     },
     getTopHeadlinesData: function(){
         return new Promise( resolve => {
-            fetch(`https://newsapi.org/v2/top-headlines?country=${FilterService.getSelectedCountry()}&apiKey=${api_key}`)
+            fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${api_key}`)
             .then( response => response.json() )
             .then( response => {
                 if(response.fault){
                     console.log(response.fault.faultstring)
                 }else{
                     let topHeadlines = response
-                    if(FilterService.isCovidEnabled == true){
-                        topHeadlines = topHeadlines.filter( a => !coronaRegExp.test(a.title))
-                        topHeadlines = topHeadlines.filter( a => !coronaRegExp.test(a.description)) 
-                    }
                     return resolve(topHeadlines)
                 }
             })         

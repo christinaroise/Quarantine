@@ -46,6 +46,9 @@ The imported CSS rules must precede all other types of rules.
     font-weight: 700;
     font-size: 18; 
 }
+.italic{
+    font-style: italic;
+}
 
 /* COMPONENT STYLING */
 .wrapper{
@@ -105,6 +108,14 @@ The imported CSS rules must precede all other types of rules.
 /*
 background-color: #F3F3F3;
 */
+
+/* COLORS */
+.lightGray{
+    background-color: lightgray;
+}
+.mustard{
+    background-color: #C8A374;
+}
 
 /* FILTER COMPONENTS */
 .filterLabel{

@@ -1,8 +1,11 @@
 <script>
+// I probably could have broken this component into smaller files, but this is the only component in the app that will ever contain anything related to weather. If Quarantine were to ever evolve as a news app and become somewhat of a news/weather app, then this component would definitely have to adjust accordingly, but for now it's good. 
+
     import { onMount } from 'svelte'
+    import { weather_api_key } from '~/services/stores/store'
     import { ApiService } from '~/services/ApiService'
     import { WeatherService } from '~/services/WeatherService'
-    //GeoLocation
+    //GeoLocation DOES NOT WORK
     import * as geolocation from "nativescript-geolocation"
     import { Accuracy } from "tns-core-modules/ui/enums"
     
@@ -15,8 +18,7 @@
     let today = ""
     let time = ""
 
-    const weather_api_key = '90bffc08d53ce7853e1b33ba0c3c2ba8'
-
+// I don't prefer the default icons that comes with the open weather api, so this function, not only fetches the weather data, it also goes through most of its descriptions in order to set my own icons. The icons are from flaticon. Further information and credit is given in Readme.md
     const getWeatherData = () => {
         const weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=Oslo&units=metric&appid=${weather_api_key}`
         fetch(weatherURL)
@@ -48,6 +50,7 @@
             .catch(error => console.log(error))
     }
 
+//This function sets day and time so that it is visually represented for the user. 
     function setDayAndTime(language){
         let currentDay = new Date()
         let weekdayEN = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -69,35 +72,49 @@
         })
     })
 
-/* radius = 2;
-shadowOffsetWidth = 0;
-shadowOffsetHeight = 2;
-shadowColor = new Color('#000').ios
-shadowOpacity = 0.4;
-shadowRadius = 1; */
-
 </script>
 
 
-<cardView radius="1" shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="5">
+<cardView
+radius="25"
+shadowOffsetHeight="2" 
+shadowOpacity="0.2" 
+shadowRadius="8"
+elevation="10">
     <flexBoxLayout class="weatherWrapper heightAuto">
         <stackLayout class="icon">
-            <image class='icon' height="40" width="40" src='{currentIcon}' alt='cover' stretch='aspectFill'/> 
+            <image 
+            class='icon' 
+            height="40" 
+            width="40" 
+            src='{currentIcon}' 
+            alt='weather icon' 
+            stretch='aspectFill'/> 
         </stackLayout>
         <stackLayout class="weatherContainer">
             <flexBoxLayout class="weatherFlexInfo">
                 <stackLayout>
-                    <label class="temp timesNewRoman" text='{currentTemp}°'/>   
+                    <label 
+                    class="temp timesNewRoman" 
+                    text='{currentTemp}°'/>   
                 </stackLayout>
                 <stackLayout  class="weather">
-                    <label class="timesNewRoman" text='{currentWeather}'/>
+                    <label 
+                    class="timesNewRoman" 
+                    text='{currentWeather}'/>
                 </stackLayout>
             </flexBoxLayout>
-            <label class="body timesNewRoman description" text='{currentDescription}'/>
+            <label 
+            class="body timesNewRoman description" 
+            text='{currentDescription}'/>
         </stackLayout>
         <stackLayout class="locationContainer">
-            <label class="location timesNewRoman" text="Oslo, Norway"/>
-            <label class="body timesNewRoman" text='{today}, {time}' />
+            <label 
+            class="location timesNewRoman" 
+            text="Oslo, Norway"/>
+            <label 
+            class="body timesNewRoman" 
+            text='{today}, {time}' />
         </stackLayout>
     </flexBoxLayout>
 </cardView>
