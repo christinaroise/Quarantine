@@ -1,15 +1,14 @@
 <script>
-    export let onTap
-    export let imgSrc
-    export let tagName
-    export let title
-    export let subtitle
-        //Needs a new name
+    export let onTap;
+    export let imgSrc;
+    export let tagName;
+    export let title;
+    export let subtitle;
 </script>
 
 <stackLayout 
 on:tap={onTap} 
-class='article'>
+class='card'>
     <absoluteLayout>
         <image 
         class='image rounded' 
@@ -20,7 +19,7 @@ class='article'>
         stretch='aspectFill' />
         {#if tagName}
             <label 
-            class="sourceTag body" 
+            class="cardTag body" 
             text={tagName}/>
         {/if}
     </absoluteLayout>
@@ -36,13 +35,13 @@ class='article'>
 </stackLayout>
 
 <style>
-    .article{
+    .card{
         width: 166;
         margin-bottom: 10;
         justify-content: space-between;
         border-radius: 5%;
     }
-    .sourceTag{
+    .cardTag{
         background-color: #C8A374;
         color: white;
         font-size: 12;

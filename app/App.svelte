@@ -1,146 +1,80 @@
 <script>
     import { ApplicationSettings } from "tns-core-modules";
-    import { onMount } from 'svelte'
-    import { navigate }  from 'svelte-native'
-    import { ApiService } from '~/services/ApiService'
-    import { ArticleService } from '~/services/ArticleService'
+    import { registerNativeViewElement } from 'svelte-native/dom' 
+    import { onMount } from 'svelte';
+    import { navigate }  from 'svelte-native';
+    import { ApiService } from '~/services/ApiService';
+    import { ArticleService } from '~/services/ArticleService';
+    import { FilterService } from '~/services/FilterService';
     import {
-        api_key,
-        filterComponent, 
-        dashboardFilterIsActive, 
-        libraryFilterIsActive, 
-        articles,
-        todaysArticles, 
-        sources, 
-        libraryList, 
-        savedSources, 
-        bookmarkList,
-        listToBeDisplayed,
-        covid19Filter,
-        covid19Value,
-        trumpFilter,
-        trumpValue,
-        newestValue,
-        popularValue,
+        isFilterComponentActivated,
+        enableCovid19Filter,
+        enableTrumpFilter,
         country,
         countryCode,
         countryName,
-        articlesCollapse,
-        filterCategoryValue,
-        filterCountryName,
-        thereAreNoSources } from '~/services/stores/store.js'
+        sortByValue,
+        filteredSearchReturnsNoSources } from '~/services/stores/filterStore.js'
+    import {
+        articles, 
+        sources, 
+        libraryList, 
+        savedSources, 
+        bookmarkList, } from '~/services/stores/listsStore.js'
     import { LocalStorage } from '~/services/localStorage/LocalStorage'
     import Dashboard from './tabs/Dashboard'
     import Browse from './tabs/Browse'
     import Library from './tabs/Library'
     import Bookmarks from './tabs/Bookmarks'
-    import Profile from './tabs/Profile'
-    import { registerNativeViewElement } from 'svelte-native/dom' 
+    import Filter from './tabs/Filter'
+
+    let selectedTab = 0
+
+    const appSettings = require('tns-core-modules/application-settings')
+
+    $:{
+        $isFilterComponentActivated = false
+        $filteredSearchReturnsNoSources = false
+        console.log($filteredSearchReturnsNoSources)
+        console.log(selectedTab)
+    }
 
     registerNativeViewElement("cardView", () => 
         require("@nstudio/nativescript-cardview").CardView
     )
-
-    let selectedTab = 0
-    let coronaRegExp = /\s*(\w*((C|c|K|k)ovid)|((C|c|K|k)orona)|((Q|q)uarantine)|((K|k)arantene)|((P|p)andemi)|((E|e)pidemi)|((V|v)irus)\w*)\s*/
-    
-    let trumpRegExp = /\s*(\w*((T|t|)rump)|((D|d)onald)|(POTUS)\w*)\s*/
-
-    const appSettings = require('tns-core-modules/application-settings')
-
-    const updateData = () =>{
-        console.log('*** UPDATING DATA ***')
-        let headlinesList = []
-        let everythingList = []
-        
-        const topHeadlines = `https://newsapi.org/v2/top-headlines?country=${$country}&apiKey=${api_key}`
-        //const everything = `https://newsapi.org/v2/everything?domains=${SourceService.trimURLSource(item.url)}&apiKey=${api_key}`
-        
-        fetch(topHeadlines)
-            .then( headlinesList => headlinesList.json() )
-            .then( headlinesList => {
-                $articles = headlinesList.articles
-                $todaysArticles = $articles.filter(a => ArticleService.isCurrentDate(a.publishedAt))
-                
-                let filteredTitleList = []
-
-                if($covid19Filter == true){
-                    filteredTitleList = headlinesList.articles.filter( a => !coronaRegExp.test(a.title))
-                    $articles = filteredTitleList.filter( a => !coronaRegExp.test(a.description)) 
-
-                    $todaysArticles = $articles.filter(a => ArticleService.isCurrentDate(a.publishedAt))
-                }
-                
-                if($trumpFilter == true){
-                    filteredTitleList = headlinesList.articles.filter( a => !trumpRegExp.test(a.title))
-                    $articles = filteredTitleList.filter( a => !trumpRegExp.test(a.description)) 
-                    
-                    $todaysArticles = $articles.filter(a => ArticleService.isCurrentDate(a.publishedAt))
-                } 
-            })
-            .catch( error => console.log(error) )
-    }
-
-    $:{
-        $filterComponent = false
-        $articlesCollapse = false
-        $thereAreNoSources = false
-        console.log($thereAreNoSources)
-        console.log(selectedTab)
-    }
-
     onMount(async () => {
-        let userHasEnabeledFiltering = false
-    
-        if(appSettings.getBoolean('default-covid19')){
-            $covid19Value = appSettings.getBoolean('default-covid19')
-            userHasEnabeledFiltering = true
-        }
-        if(appSettings.getBoolean('default-trump')){
-            $trumpValue = appSettings.getBoolean('default-trump')
-            userHasEnabeledFiltering = true
-        }
-        if(appSettings.getBoolean('default-newest')){
-            $newestValue = appSettings.getBoolean('default-newest')
-            userHasEnabeledFiltering = true
-        }
-        if(appSettings.getBoolean('default-popular')){
-            $popularValue = appSettings.getBoolean('default-popular')
-            userHasEnabeledFiltering = true
-        }
-        if(appSettings.getString('default-countryCode')){
-            $countryCode = appSettings.getString('default-countryCode')
-            $countryName  = appSettings.getString('default-countryName')
-            userHasEnabeledFiltering = true
+        
+        /*if(appSettings.getBoolean('default-covid19')){
+            $enableCovid19Filter = await appSettings.getBoolean('default-covid19')
         }
 
-        if(userHasEnabeledFiltering == false){
-            ApiService.getTopHeadlinesData().then((res)=>{
-                $articles = res.articles
-                $todaysArticles = res.articles.filter(a => ArticleService.isCurrentDate(a.publishedAt))
-            })
-        }else{
-            updateData()
+        if(appSettings.getBoolean('default-trump')){
+            $enableTrumpFilter = await appSettings.getBoolean('default-trump')
+        }*/
+        if(appSettings.getString('default-countryCode')){
+            $countryCode = await appSettings.getString('default-countryCode')
+            $countryName  = await appSettings.getString('default-countryName')
         }
-    
-        ApiService.getNewspaperData().then((res)=>{
-                $sources = res.sources
-            })
+        if(appSettings.getNumber('default-sortBy')){
+            $sortByValue = await appSettings.getNumber('default-sortBy')
+        }
+
+        FilterService.getArticles()
+
+        ApiService.getNewspaperData()
+        
         $libraryList = await LocalStorage.getCompleteLibraryList()
         $bookmarkList = await LocalStorage.getBookmarks()
         $savedSources = LocalStorage.getLibraryListLTE()
-    }) 
+    })
 
-    const resetSources = () => {
-        ApiService.getNewspaperData().then((res)=>{
-                $sources = res.sources
-            })
-    }
+    //tabsPosition="bottom" iOSTabBarItemsAlignment="center"
 
 </script>
 
 <page actionBarHidden={true}>
-    <tabs bind:selectedIndex={selectedTab} tabsPosition="bottom">
+    <bottomNavigation 
+    bind:selectedIndex={selectedTab} >
         <tabStrip>
             <tabStripItem>
                 <image src="~/assets/icons/homeDark.png" class="fas t-36"/>
@@ -180,10 +114,10 @@
         </tabContentItem>
         <tabContentItem>
             <gridLayout>
-                <Profile/>
+                <Filter/>
             </gridLayout>
         </tabContentItem>
-    </tabs>
+    </bottomNavigation>
 </page>
 
 <style>

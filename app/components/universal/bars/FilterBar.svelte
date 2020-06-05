@@ -1,53 +1,49 @@
 <script>
-    import { ApiService } from '~/services/ApiService'
-    import { ArticleService } from '~/services/ArticleService'
-    import { filterComponent, api_key, categories, dashboardFilterIsActive, libraryFilterIsActive, libraryList, filteredLibList, country, covid19Filter, trumpFilter } from '~/services/stores/store.js'
-    import Dashboard from '~/tabs/Dashboard'
+    import { ApiService } from '~/services/ApiService';
+    import { ArticleService } from '~/services/ArticleService';
+    import { FilterService } from '~/services/FilterService';
+    import { api_key } from '~/services/stores/store.js';
+    import {
+        isFilterComponentActivated,
+        isDashboardFilterActivated, 
+        isLibraryFilterActivated, 
+        countryCode,
+    } from '~/services/stores/filterStore.js'
+    import { filteredLibraryList } from '~/services/stores/listsStore.js'
+    import { categories } from '~/services/stores/categoryStore.js';
+    import Dashboard from '~/tabs/Dashboard';
+    
+    export let value = [];
+    export let setDashboardFilterValue = "";
+    export let setLibraryFilterValue = "";
+    export let libraryList = [];
 
-    export let value = []
-    export let setDashValue = ""
-    export let setLibraryValue = ""
-    export let libList = []
+    function setCategoryInDashboard(category){
+        ApiService.get(`https://newsapi.org/v2/top-headlines?country=${$countryCode}&category=${category == "All" ? "General" : category}&apiKey=${api_key}`).then(result => {
+            value = FilterService.filterArticles(result.articles)
+        }); 
+    };
 
-//This function sets the category filter in Dashboard by fetching data from news api.
-    function setCategoryInDash(category){
-        ApiService.get(`https://newsapi.org/v2/top-headlines?country=${$country}&category=${category}&apiKey=${api_key}`).then(result => {
-            value = result.articles
-
-            let filteredTitleList = []
-
-            //If the user has chosen to filter out covid19 or trump related content these if sentences takes care of that. 
-            if($covid19Filter == true){
-                filteredTitleList = value.articles.filter( a => !coronaRegExp.test(a.title))
-                value = filteredTitleList.filter( a => !coronaRegExp.test(a.description)) 
-            }
-            
-            if($trumpFilter == true){
-                filteredTitleList = value.articles.filter( a => !trumpRegExp.test(a.title))
-                value = filteredTitleList.filter( a => !trumpRegExp.test(a.description)) 
-            } 
-        }) 
-    }
-
-//This function sets the category filter in Library.
     function setCategoryInLib(category){
-        let list = libList.filter( 
-            newspaper => newspaper.category.toLowerCase().includes(category.toLowerCase())
-        )
-        $filteredLibList = list
-    }
+        let list = libraryList.filter( newspaper => newspaper.category.toLowerCase().includes(category.toLowerCase())
+        );
+        $filteredLibraryList = list;
+    };
 
-//This function makes the component universal, so wherever it is being used it knows wheter to filter out categories in Dahboard or Library
     function setCategory(category){
-        if($dashboardFilterIsActive == setDashValue){
-            $filterComponent = true
-            setCategoryInDash(category)
+        if($isDashboardFilterActivated == setDashboardFilterValue){
+            $isFilterComponentActivated = true;
+            setCategoryInDashboard(category);
 
-        }else if($libraryFilterIsActive == setLibraryValue){
-            $filterComponent = true
-            setCategoryInLib(category)
-        }
-    }
+        }else if($isLibraryFilterActivated == setLibraryFilterValue){
+            if(category == "All"){
+                $isFilterComponentActivated = false;
+            }else{
+                $isFilterComponentActivated = true;
+                setCategoryInLib(category);
+            }
+        };
+    };
 
 </script>
 
@@ -62,7 +58,7 @@
                 borderWidth="0"
                 on:Tap={() => setCategory(category)}
                 text="{category}"/>
-            {/each}}
+            {/each}
         </flexBoxLayout>
     </scrollView>
 </stackLayout>
@@ -76,8 +72,8 @@
         font-family: 'Montserrat';
         color: #232323;
     }
-    /*
+    .selected{
         border-bottom-color: #232323;
         border-bottom-width: 2;
-    */
+    }
 </style>

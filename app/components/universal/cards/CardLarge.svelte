@@ -1,11 +1,9 @@
 <script>
-    export let onTap
-    export let imgSrc
-    export let title
-    export let subtitle
-    export let description
-
-    //Needs a new name
+    export let onTap;
+    export let imgSrc;
+    export let title;
+    export let subtitle;
+    export let text;
 </script> 
 
 <cardView 
@@ -17,7 +15,7 @@ shadowRadius="8"
 elevation="5"
 ripple="true">
     <stackLayout 
-    class='article backgroundcolorWhite'>
+    class='card backgroundcolorWhite'>
         <absoluteLayout>
             <image 
             class='image' 
@@ -28,7 +26,7 @@ ripple="true">
             stretch='aspectFill'/>
         </absoluteLayout>
         <stackLayout 
-        class="articleInfo">
+        class="cardInfo">
             <label 
             textWrap="{true}" 
             class='h4 timesNewRoman' 
@@ -41,7 +39,7 @@ ripple="true">
             <label 
             textWrap='{true}' 
             class='body timesNewRoman' 
-            text={description}/>
+            text={text}/>
         </stackLayout>
     </stackLayout>
 </cardView>
@@ -51,10 +49,10 @@ ripple="true">
         margin: 5;
         border-radius: 10%;
     }
-    .article{
+    .card{
         padding: 0;
     }
-    .articleInfo{
+    .cardInfo{
         padding: 10;
     }
     .image{

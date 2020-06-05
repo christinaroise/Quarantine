@@ -1,207 +1,175 @@
 <script>
-    import { closeModal } from 'svelte-native'
+    import { closeModal } from 'svelte-native';
     import { ApplicationSettings } from "tns-core-modules";
-    import { Template } from 'svelte-native/components'
-    import { ApiService } from '~/services/ApiService'
-    import { api_key, sources, categories, filterCountryCode, filterCountryName, filterCategoryValue, filterCategory, thereAreNoSources} from '~/services/stores/store'
-    import { countries } from '~/services/stores/countryStore'
+    import { ApiService } from '~/services/ApiService';
+    import { api_key } from '~/services/stores/store';
+    import { sources } from '~/services/stores/listsStore'
+    import {
+        chosenCountryCode, 
+        chosenCountryName, 
+        chosenCategoryValue, 
+        chosenCategory,
+        filteredSearchReturnsNoSources } from '~/services/stores/filterStore'
+    import { countries } from '~/services/stores/countryStore';
+    import { categories } from '~/services/stores/categoryStore.js';
+    import ListOfOptions from '~/components/universal/lists/ListOfOptions';
+    import OptionsTile from '~/components/universal/tiles/OptionsTile'
+    import Button from '~/components/universal/buttons/Button';
+/*
+    const appSettings = require('tns-core-modules/application-settings');
 
-    const appSettings = require('tns-core-modules/application-settings')
-
-    let country = ""
-    let countryIsEnabled = false
-    let categoryIsEnabled = false
-    let categoryBtnText="All"
-    let countryBtnText="All"
-    $filterCategoryValue = "All"
-    $filterCountryName = "All"
+    let country = "";
+    let countryIsEnabled = false;
+    let categoryIsEnabled = false;
+    let categoryBtnText="All";
+    let countryBtnText="All";
+    $chosenCategoryValue = "All";
+    $chosenCountryName = "All";
 
     $:{
-        country = $filterCountryCode 
-        console.log("filterCountryCode: " + $filterCountryCode)
+        country = $chosenCountryCode;
+        console.log("chosenCountryCode: " + $chosenCountryCode);
     }
 
 //The next two functions toggles between enable-/disableing Countries' and Categories' listView. 
     function enableCountries(){
-        countryIsEnabled = !countryIsEnabled
-        categoryIsEnabled = false
+        countryIsEnabled = !countryIsEnabled;
+        categoryIsEnabled = false;
         if(countryBtnText == "All"){
-            countryBtnText="-"
-        }else if($filterCountryName == ""){
-            countryBtnText = "All"
+            countryBtnText="-";
+        }else if($chosenCountryName == ""){
+            countryBtnText = "All";
         }else{
-            countryBtnText = $filterCountryName
-        }
-    }
+            countryBtnText = $chosenCountryName;
+        };
+    };
     function enableCategories(){
-        categoryIsEnabled = !categoryIsEnabled
-        countryIsEnabled = false
+        categoryIsEnabled = !categoryIsEnabled;
+        countryIsEnabled = false;
         if(categoryBtnText == "All"){
-            categoryBtnText="-"
-        }else if($filterCategory == ""){
-            countryBtnText = "All"
+            categoryBtnText="-";
+        }else if($chosenCategory == ""){
+            countryBtnText = "All";
         }else{
-            categoryBtnText = $filterCategory
-        }
-    }
+            categoryBtnText = $chosenCategory;
+        };
+    };
 
 //The next two functions picks what country or category the "filter" will look for. 
     function onCountryItemTap(event){
-        $filterCountryCode = $countries[event.index].code
-        $filterCountryName = $countries[event.index].name
-        enableCountries()
-    }
+        $chosenCountryCode = $countries[event.index].code;
+        $chosenCountryName = $countries[event.index].name;
+        enableCountries();
+    };
     function onCategoryItemTap(event){
-        $filterCategory = $categories[event.index]
-        $filterCategoryValue = $categories[event.index]
-        enableCategories()
-    }
+        $chosenCategory = $categories[event.index];
+        $chosenCategoryValue = $categories[event.index];
+        enableCategories();
+    };
     
 //This functions sets the new source data.
 //THIS FUNCTION NEEDS TIDYING UP - ALSO TO RESET $SOURCES ??
     const setNewSourceData = () =>{
-        let response = []
-        let sourceURL = ""
-        let newList = []
+        let response = [];
+        let sourceURL = "";
+        let newList = [];
         //Here it checks the countryBtnText in order to pick what URL to go with.
         if(countryBtnText == "All"){
-            sourceURL = `https://newsapi.org/v2/sources?&apiKey=${api_key}`
-        }else if($filterCountryName == "All"){
-            sourceURL = `https://newsapi.org/v2/sources?&apiKey=${api_key}`
+            sourceURL = `https://newsapi.org/v2/sources?&apiKey=${api_key}`;
+        }else if($chosenCountryName == "All"){
+            sourceURL = `https://newsapi.org/v2/sources?&apiKey=${api_key}`;
         }else{
             //Notice here where the country (code) is used when country is picked
-            sourceURL = `https://newsapi.org/v2/sources?country=${country}&apiKey=${api_key}`
-        }
+            sourceURL = `https://newsapi.org/v2/sources?country=${country}&apiKey=${api_key}`;
+        };
 
         fetch(sourceURL)
             .then( response => response.json() )
             .then( response => {
                 if(response.fault){
-                    console.log(response.fault.faultstring)
+                    console.log(response.fault.faultstring);
                 }else{
                     //Here the #if checks what value filterCategoryValue has, if its NOT "ALL" then it will filter out by category. If it is all then it will NOT filter out categories.
                     if(response.sources.length > 0){
                         if(filterCategoryValue == "All"){
-                            $sources = response.sources
-                        }
+                            $sources = response.sources;
+                        };
                         if(filterCategoryValue!= "All"){
-                            $sources = response.sources
+                            $sources = response.sources;
                             for(var i = 0; i < $sources.length; i++){
                                 if($sources[i].category = filterCategoryValue){
-                                newList.push($sources[i]) 
-                                }
-                            }
-                            $sources = newList
+                                newList.push($sources[i]);
+                                };
+                            };
+                            $sources = newList;
                         }
                     }else if(response.sources.length == 0){
-                        $thereAreNoSources = true
-                    }
-                    
-                }
+                        $filteredSearchReturnsNoSources = true;
+                    }; 
+                };
             })
-        .catch( error => console.log(error) )  
+        .catch( error => console.log(error) ) 
         closeModal()
     }
+    onTap={() => setNewSourceData()}
+    */
 </script>
 
-
-
-<cardView shadowOffsetHeight="2" shadowOpacity="0.2" shadowRadius="8">
-    <stackLayout class="container">
-        <stackLayout class="emptyContainer">
-            <!-- This empty container is not visible on android but on iOS. I've placed it here in order to force the modal in to vertically-align: bottom -->
-        </stackLayout>
-        <flexBoxLayout class="card flexColumn">
-            <flexBoxLayout class="filterWrapper flexColumn">
-                <label
-                class="h2 OpenSans"
-                text="Filter"/> 
-                <stackLayout>
-                    <stackLayout class="borderBottom">
-                        <flexBoxLayout class="filterContainer">
-                            <stackLayout>
-                                <label text="Country"/>
-                            </stackLayout>
-                            <button 
-                            androidElevation="0"
-                            id="showMoreBtn"
-                            on:Tap={() => enableCountries() }
-                            text="{countryBtnText}"/>
-                        </flexBoxLayout>
-                        {#if countryIsEnabled == true}
-                            <listView 
-                            items="{$countries}"
-                            on:itemTap="{onCountryItemTap}">
-                                <Template 
-                                let:item>
-                                    <label text="{item.name}"/>
-                                </Template>
-                            </listView>
-                        {/if}
-                    </stackLayout>
-                    <stackLayout>
-                        <flexBoxLayout class="filterContainer">
-                            <stackLayout>
-                                <label text="Category"/>
-                            </stackLayout>
-                            <button 
-                            androidElevation="0"
-                            id="showMoreBtn"
-                            on:Tap={() => enableCategories() }
-                            text="{categoryBtnText}"/>
-                        </flexBoxLayout> 
-                        {#if categoryIsEnabled == true}
-                            <listView 
-                            items="{$categories}"
-                            on:itemTap="{onCategoryItemTap}">
-                                <Template 
-                                let:item>
-                                    <label text="{item}"/>
-                                </Template>
-                            </listView>
-                        {/if}
-                    </stackLayout>
-                </stackLayout>
-            </flexBoxLayout>
-            <flexBoxLayout class="buttonContainer">
-                <button 
-                androidElevation="0"
-                on:tap={ () => setNewSourceData() }
-                text="Set filter"
-                class="regularButton mustard"/>
-                <button 
-                androidElevation="0"
-                on:tap={ () => closeModal() }
-                text="Cancle"
-                class="regularButton lightGray"/>
-            </flexBoxLayout>
+<cardView 
+shadowOffsetHeight="2" 
+shadowOpacity="0.2" 
+shadowRadius="8">
+    <stackLayout class="card flexColumn">
+        <flexBoxLayout class="filterWrapper flexColumn">
+            <label
+            class="h2 OpenSans"
+            text="Filter"/> 
+            <!-- 
+            <stackLayout class="borderBottom">
+                <OptionsTile
+                title="Country"
+                onTap={() => enableCountries()}
+                optionChosen={countryBtnText}/>
+                {#if countryIsEnabled == true}
+                    <ListOfOptions
+                    test={$countries}
+                    onItemTap={onCountryItemTap}/>
+                {/if}
+            </stackLayout>
+            <stackLayout>
+                <OptionsTile
+                title="Category"
+                onTap={() => enableCategories()}
+                optionChosen={categoryBtnText}/>
+                {#if categoryIsEnabled == true}
+                    <ListOfOptions
+                    test={$categories}
+                    onItemTap={onCategoryItemTap}/>
+                {/if}
+            </stackLayout>
+            -->
+        </flexBoxLayout>
+        <flexBoxLayout class="buttonContainer">
+            <Button
+            
+            buttonText="Set filter"
+            backgroundColor="mustard"/>
+            <Button
+            onTap={() => closeModal() }
+            buttonText="Cancle"
+            backgroundColor="lightGray"/>
         </flexBoxLayout>
     </stackLayout>
 </cardView>
 
-
 <style>
-    listView{
-        height: 180;
-        margin: 15;
-        margin-top: 0;
-        text-align: center;
-    }
-    .container{
-        width: 100%;
-        height: 100%;
-        border-radius: 10%;
-        background-color: transparent;
-        vertical-align: bottom;
-        padding: 10;
-    }
     .card{
-        flex: 2;
         background-color: white;
         width: 100%;
         height: auto;
         border-top-left-radius: 10%;
         border-top-right-radius: 10%;
+        padding: 0 10 20 10;
     }
     .filterWrapper{
         margin: 15;
@@ -209,33 +177,10 @@
         height: auto;
         vertical-align: bottom;
     }
-    button{
-        font-size: 18;
-        font-weight: 300;
-        color: #232323;
-        text-align: right;
-        margin: 0;
-    }
     .flexColumn{
         flex-direction: column;
     }
-    .filterContainer{
-        vertical-align: center;
-        height: 50;
-    }
-    .filterContainer > stackLayout{
-        flex: 2;
-        vertical-align: center;
-    }
     .buttonContainer{
         width: 100%;
-    }
-    .regularButton{
-        color: white;
-        border-radius: 10%;
-        width: 100%;
-        text-align: center;
-        font-weight: 500;
-        margin: 5;
     }
 </style>

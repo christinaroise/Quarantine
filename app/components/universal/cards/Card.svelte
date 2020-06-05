@@ -1,18 +1,17 @@
 <script>
 
-    export let onTap
-    export let imgSrc
-    export let tagName
-    export let title
-    export let subtitle
-    export let date
-    
-    //Needs a new name
+    export let onTap;
+    export let imgSrc;
+    export let tagName;
+    export let title;
+    export let subtitle;
+    export let date;
+
 </script>
 
 <stackLayout 
     on:tap={onTap} 
-    class='article'>
+    class='card'>
         <stackLayout>
             <absoluteLayout>
                 <image 
@@ -20,32 +19,32 @@
                 width="235" height='140' 
                 src='{imgSrc}' 
                 alt='cover image' 
-                stretch='aspectFill' />
+                stretch='aspectFill'/>
                 <label 
-                class="sourceTag body timesNewRoman" 
+                class="cardTag body timesNewRoman" 
                 text='{tagName}'/>
             </absoluteLayout>
         </stackLayout>
-        <flexBoxLayout class="infoWrapper">
-            <stackLayout class="articleInfo">
+        <flexBoxLayout class="textWrapper">
+            <stackLayout class="cardText">
                 <label 
                 textWrap="{true}" 
                 class='h4 timesNewRoman' 
-                text='{title}' />
+                text='{title}'/>
                 <label 
                 class='body timesNewRoman' 
                 text='{subtitle}'/>
             </stackLayout>
             <stackLayout>
                 <label 
-                class="articleDate timesNewRoman" 
+                class="cardDate timesNewRoman" 
                 text='{date}'/>
             </stackLayout>
         </flexBoxLayout>
     </stackLayout>
 
 <style>
-    .article{
+    .card{
         width: 235;
         height: auto;
         margin-left: 15;
@@ -55,7 +54,7 @@
         border-radius: 5%;
         background-color: white;
     }
-    .sourceTag{
+    .cardTag{
         background-color: #C8A374;
         color: white;
         font-size: 12;
@@ -63,13 +62,13 @@
         padding: 2 10;
         border-radius: 5%;
     }
-    .infoWrapper{
+    .textWrapper{
         padding-top: 5;
     }
-    .articleInfo{
+    .cardText{
         width: 75%;
     }
-    .articleDate{
+    .cardDate{
         color: #C8A374;
         text-align: right;
         font-size: 12;

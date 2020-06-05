@@ -1,11 +1,11 @@
 <script>
-    import { ModalService } from '~/services/ModalService'
-    import { ArticleService } from '~/services/ArticleService'
-    import CardSmall from '~/components/universal/cards/CardSmall'
-    import ErrorContainer from '~/components/universal/containers/ErrorContainer'
+    import { ModalService } from '~/services/ModalService';
+    import { ArticleService } from '~/services/ArticleService';
+    import CardSmall from '~/components/universal/cards/CardSmall';
+    import ErrorContainer from '~/components/universal/containers/ErrorContainer';
 
-    export let header
-    export let items
+    export let title;
+    export let items;
 
     //This is just a smaller version of the main slider but with small size cards. It is mainly used as the "Todays news" component.
 
@@ -14,7 +14,7 @@
 <stackLayout>
     <label 
     class="h2 timesNewRoman marginLeft" 
-    text={header}/>
+    text={title}/>
     <scrollView 
     orientation="horizontal" 
     scrollBarIndicatorVisible={false}>
@@ -22,7 +22,6 @@
         orientation="horizontal" 
         class='widthAuto paddingRight'>  
             {#each items as item}
-                <!--onTap is not yet universal-->
                 <stackLayout
                 class="paddingLeft">
                     <CardSmall 

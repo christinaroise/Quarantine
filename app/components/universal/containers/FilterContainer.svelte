@@ -4,10 +4,10 @@
 
 </script>
 
-<stackLayout class="container backgroundColorWhite">
+<stackLayout class="backgroundColorWhite">
     <flexBoxLayout class="borderBottom">
         <label 
-        class="filterLabel marginLeft" 
+        class="marginLeft" 
         text="Country"/>
         <button
         androidElevation="0" 
@@ -15,7 +15,7 @@
     </flexBoxLayout>
     <flexBoxLayout class="borderBottom">
         <label 
-        class="filterLabel marginLeft" 
+        class="marginLeft" 
         text="Category"/>
         <button 
         androidElevation="0"
@@ -24,12 +24,12 @@
 </stackLayout>
 
 <style>
-    .container{
+    stackLayout{
         justify-content: center;
         padding-top: 10;
         padding-bottom: 10;
     }
-    .filterLabel{
+    label{
         text-transform: uppercase;
     }
     button{

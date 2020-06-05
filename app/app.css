@@ -117,12 +117,6 @@ background-color: #F3F3F3;
     background-color: #C8A374;
 }
 
-/* FILTER COMPONENTS */
-.filterLabel{
-    flex: 1;
-    font-weight: 500;
-}
-
 /* scrollView */
 .heightAuto{
     height: auto;

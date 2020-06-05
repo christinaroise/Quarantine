@@ -1,42 +1,38 @@
 <script>
-    export let onTap
-    export let imgSrc
-    export let title
-    export let description
-        //Needs a new name
+    export let onTap;
+    export let imgSrc;
+    export let title;
+    export let text;
 </script>
 
-<stackLayout
-class="one">
-    <flexBoxLayout 
-    on:tap={onTap}
-    class="article">
-        <flexBoxLayout class="imageContainer">
-            <image 
-            class='icon rounded' 
-            src={imgSrc} alt='cover' 
-            stretch='aspectFit'/>
-        </flexBoxLayout>
-        <stackLayout class="articleInfo">
-            <label 
-            textWrap="{true}" 
-            class='h4 timesNewRoman' 
-            text={title}/>
-            <label 
-            textWrap='{true}' 
-            class='body timesNewRoman' 
-            text={description}/>
-        </stackLayout>
+<flexBoxLayout 
+on:tap={onTap}
+class="tile">
+    <flexBoxLayout class="iconContainer">
+        <image 
+        class='icon rounded' 
+        src={imgSrc} alt='cover' 
+        stretch='aspectFit'/>
     </flexBoxLayout>
-</stackLayout>
+    <stackLayout class="tileInfo">
+        <label 
+        textWrap="{true}" 
+        class='h4 timesNewRoman' 
+        text={title}/>
+        <label 
+        textWrap='{true}' 
+        class='body timesNewRoman' 
+        text={text}/>
+    </stackLayout>
+</flexBoxLayout>
 
 <style>
-    .article{
+    .tile{
         width: 380;
         margin: 5;
         height: 130;
     }
-    .imageContainer{
+    .iconContainer{
         width: 150;
         justify-content: center;
         vertical-align: center;
@@ -48,7 +44,7 @@ class="one">
     .h4{
         padding-left: 17;
     }
-    .articleInfo{
+    .tileInfo{
         width: 350;
         padding-left: 0;
         padding-bottom: 5;
@@ -57,9 +53,6 @@ class="one">
     .body{
         width: 250;
         margin: 0;
-    }
-    .one{
-        flex: 2;
     }
 </style>
 

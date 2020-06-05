@@ -1,38 +1,39 @@
 <script>
-    import { bookmarkList } from '~/services/stores/store'
-    import { LocalStorage } from '~/services/localStorage/LocalStorage'
+    import { bookmarkList } from '~/services/stores/listsStore';
+    import { LocalStorage } from '~/services/localStorage/LocalStorage';
 
-    export let obj
-    export let onTapFav
-    export let onTapLeft
-    export let leftIconSrc
-    export let title
+    export let obj;
+    export let onTapFav;
+    export let onTapLeft;
+    export let leftIconSrc;
+    export let title;
 
     let promise = isItemSavedToLocalStorage();
-    let iconUrl = '~/assets/icons/heart.png'
+    let iconUrl = '~/assets/icons/heart.png';
 
-// This function checks local storage to make sure the item (article or newspaper) is saved. If is is saved the image src (iconUrl) changes. That way the user is visually aware of what's saved and what's not. 
+    // This function checks local storage to make sure the item (article or newspaper) is saved. If it is saved, the image src (iconUrl) changes. That way the user is visually aware of what's saved and what's not. 
 
-// There seems to be a problem with the css on iOS devices. As if theres a left margin that I cant work around. 
+    // There seems to be a problem with the css on iOS devices. As if theres a left margin that I cant work around. 
 
     async function isItemSavedToLocalStorage(){
         let bookmarks = await LocalStorage.getBookmarks();
         let savedSources = await LocalStorage.getLibraryListLTE();
         if(bookmarks.some(article => article.url == obj.url)){
-            iconUrl = '~/assets/icons/heartDark.png'
-        }
+            iconUrl = '~/assets/icons/heartDark.png';
+        };
         if(savedSources.some(source => source.name == obj.name)){
-            iconUrl = '~/assets/icons/heartDark.png'
-        }
-    }
+            iconUrl = '~/assets/icons/heartDark.png';
+        };
+    };
 
     function switchIcon() {
         if(iconUrl == '~/assets/icons/heart.png'){
-            iconUrl = '~/assets/icons/heartDark.png'
+            iconUrl = '~/assets/icons/heartDark.png';
         }else{
-            iconUrl = '~/assets/icons/heart.png'
-        }
-    }
+            iconUrl = '~/assets/icons/heart.png';
+        };
+    };
+    
 </script>
 
 <actionBar flat="true">
@@ -59,7 +60,7 @@
     </stackLayout>
 </actionBar>
 
-
+ 
 <style>
     actionBar{
         width: 100%;

@@ -1,10 +1,10 @@
 <script>
-    export let text
+    export let text;
     //This is an empty container used when there are no data to be fetched. For example in Library or Bookmarks when the user has yet to save items to local storage. 
 </script>
 
 
-<stackLayout class="emptyContainer">
+<stackLayout>
     <label 
     textWrap="{true}"
     class="text-centered body openSans" 
@@ -12,7 +12,7 @@
 </stackLayout>
 
 <style>
-    .emptyContainer{
+    stackLayout{
         width: 100%;
         height: 100%;
         padding-left: 50;

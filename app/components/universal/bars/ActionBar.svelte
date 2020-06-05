@@ -43,7 +43,7 @@ export let rightIconSrc
     label{
         font-weight: 500;
         width: 80%;
-        text-transform: uppercase;
+        text-transform: uppercase; 
         text-align: center;
     }
 </style>

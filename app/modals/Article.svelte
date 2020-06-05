@@ -1,10 +1,9 @@
 <script>
-    import { closeModal } from 'svelte-native'
-    import { LocalStorage } from '~/services/localStorage/LocalStorage'
-    import { favorites } from '~/services/stores/store'
-    import ModalTopBar from '~/components/universal/bars/ModalTopBar'
+    import { closeModal } from 'svelte-native';
+    import { LocalStorage } from '~/services/localStorage/LocalStorage';
+    import ModalActionBar from '~/components/universal/bars/ModalActionBar';
 
-    export let article
+    export let article;
 
 //This modal shows articles in webView
 
@@ -12,7 +11,7 @@
 
 <frame actionBarHidden={false}>
     <page>
-        <ModalTopBar
+        <ModalActionBar
             onTapLeft={() => closeModal()}
             leftIconSrc='~/assets/icons/left-arrow.png'
             title="Quarantine"
@@ -21,6 +20,3 @@
         <webView src='{article.url}'/>
     </page>
 </frame>
-
-<style>
-</style>

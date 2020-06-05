@@ -3,7 +3,7 @@
     //This is an error container used when theres an error in fetching data from news api. It has the activityIndicator and a label with text as prop. 
 </script>
 
-<stackLayout class="errorContainer">
+<stackLayout>
     <activityIndicator 
     busy={true} 
     color="#C8A374"/>
@@ -11,13 +11,13 @@
 </stackLayout>
 
 <style>
-    .errorContainer{
+    stackLayout{
         justify-content: center;
         vertical-align: center;
         text-align: center;
         height: 600;
     }
-    .body{
+    label{
         padding: 10;
     }
 </style>

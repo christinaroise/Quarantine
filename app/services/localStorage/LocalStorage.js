@@ -1,36 +1,44 @@
 import { ApplicationSettings } from "tns-core-modules";
 import { alert } from '@nativescript/core/ui/dialogs'
 import { get } from 'svelte/store';
-import { 
+import { api_key } from '~/services/stores/store'
+import {
     bookmarkList, 
     savedSources, 
-    libraryList, 
-    popularValue, 
-    covid19Filter, 
-    trumpFilter, 
-    api_key, 
-    coronaRegExp, 
-    trumpRegExp } from '~/services/stores/store'
+    libraryList,
+    sources } from '~/services/stores/listsStore'
+import {
+    sortByValue } from '~/services/stores/filterStore'
 import { SourceService } from '~/services/SourceService'
 import { ApiService } from '~/services/ApiService'
+import { FilterService } from '~/services/FilterService'
 
 const appSettings = require('tns-core-modules/application-settings')
 
-var customObj = {}
-
 function createEmptyStringInLocalStorage(stringName){
+    let string = ""
     if(appSettings.getString(stringName) == null || appSettings.getString(stringName).length == 0 || appSettings.getString(stringName) == "[null]"){
-        appSettings.setString(stringName,"[]")
+        string = appSettings.setString(stringName,"[]")
     }
+    return string
 }
 
 function doesItemExistInList(list, item){
-
+    if(list == null || list.length == 0){
+        return false
+    }
     let doesExist = false
     for(var i = 0; i < list.length; i ++){
-        if(list[i].url == item.url){
-            doesExist = true
+        if(item.url != "undefined" && item.url != null){
+            if(list[i].url == item.url){
+                doesExist = true
+            }
+        }else{
+            if(list[i].id == item.id){
+                doesExist = true
+            }
         }
+    
     }
     return doesExist
 }
@@ -39,10 +47,18 @@ function createNewList(list, item){
     let removed = false
     let newList = []
     for(var i = 0; i < list.length; i++){
-        if(list[i].url != item.url){
-            newList.push(list[i])
+        if(item.url != "undefined" && item.url != null){
+            if(list[i].url != item.url){
+                newList.push(list[i])
+            }else{
+                removed = true
+            }
         }else{
-            removed = true
+            if(list[i].id != item.id){
+                newList.push(list[i])
+            }else{
+                removed = true
+            }
         }
     }
     if(removed){
@@ -55,8 +71,8 @@ function pushItemToList(list, item){
     if(!doesItemExistInList(list, item)){
         list.push(item)
         alert({
-            title: item.name, /*item.title,*/
-            message: "has been added to your location",
+            title: "Saved",
+            message: "Now you'll be able to find it easily",
             okButtonText: "OK"
         }).then(() => {
             console.log("Alert dialog closed")
@@ -66,8 +82,8 @@ function pushItemToList(list, item){
 
 function showRemovedDialogue(item){
     alert({
-        title: item.name,
-        message: "has been removed from your library",
+        title: "Done",
+        message: "it is no longer saved on your app",
         okButtonText: "OK"
     }).then(() => {
         console.log("Alert dialog closed")
@@ -76,42 +92,13 @@ function showRemovedDialogue(item){
 
 function getSortBy(){
     let sortBy = "publishedAt"
-    if(get(popularValue)){
+    if(get(sortByValue) == "popularity" ){
         sortBy = "popularity"
     }else{
         sortBy = "publishedAt"
     }
     return sortBy
 }
-
-function getFilteredArticles(articles){
-    let filterListStage1 = []
-    let filterListStage2= []
-    let filterListStage3 = []
-
-    let result = []
-
-    if(get(covid19Filter) && !get(trumpFilter)){
-        filterListStage1 = articles.filter( a => !coronaRegExp.test(a.title))
-        result = filterListStage1.filter( a => !coronaRegExp.test(a.description))
-    }
-    else if(get(trumpFilter) && !get(covid19Filter)){
-        filterListStage1 = articles.filter( a => !trumpRegExp.test(a.title))
-        result = filterListStage1.filter( a => !trumpRegExp.test(a.description))
-    }
-    else if(get(covid19Filter) && get(trumpFilter)){
-        filterListStage1 = articles.filter( a => !coronaRegExp.test(a.title))
-        filterListStage2 = filterListStage1.filter( a => !coronaRegExp.test(a.description))
-        filterListStage3 = filterListStage2.filter( a => !trumpRegExp.test(a.title))
-        result = filterListStage3.filter( a => !trumpRegExp.test(a.description))
-    }
-    else{
-        result = result.articles
-    }
-
-    return result
-}
-
 async function getArticlesForEachSource(list){
     let newList = []
     for(var i = 0; i < list.length; i++){
@@ -121,7 +108,7 @@ async function getArticlesForEachSource(list){
                 customObj.id = list[i].id
                 customObj.name = list[i].name
                 customObj.category = list[i].category
-                customObj.articles = getFilteredArticles(articles)
+                customObj.articles = FilterService.filterArticles(result.articles)
                 newList.push(customObj)
             }
         }) 
@@ -129,16 +116,38 @@ async function getArticlesForEachSource(list){
     return newList
 }
 
-export const LocalStorage = {
-    addOrRemoveItemTo: function(item, string){
-        createEmptyStringInLocalStorage(string)
-        
-        let list = appSettings.getString(string)
-        let array = this.pushOrPopNewItem(item, list)
-        
-        appSettings.setString(string, JSON.stringify(array))
+async function isSourceInList(){
+    let listOfSources = get(sources)
+    let list = await LocalStorage.getLibraryListLTE();
 
-        return  JSON.parse(appSettings.getString(string))
+    for(var i = 0; i < listOfSources.length; i++){
+        listOfSources[i].isAdded = false;
+    };
+
+    for(var i = 0; i < list.length; i++){
+        for(var j = 0; j < listOfSources.length; j++){
+            if(list[i].name == listOfSources[j].name){
+                listOfSources[j].isAdded = true;
+            };
+        };
+    };
+    sources.set(listOfSources)
+};
+
+export const LocalStorage = {
+    addOrRemoveItemTo: function(item, localStorageReference){
+        createEmptyStringInLocalStorage(localStorageReference)
+
+        let list = appSettings.getString(localStorageReference)
+        let array = this.pushOrPopNewItemToString(item, list)
+
+        appSettings.setString(localStorageReference, JSON.stringify(array))
+
+        this.getCompleteLibraryList()
+        this.getBookmarks()
+        isSourceInList()
+
+        return  JSON.parse(appSettings.getString(localStorageReference))
     },
     pushItem: function(item, listAsString){
         let list = JSON.parse(listAsString)
@@ -146,7 +155,6 @@ export const LocalStorage = {
         pushItemToList(list, item)
         
         savedSources.set(list)
-        
         return list
     },
     popItem: function(item, listAsString){
@@ -154,35 +162,34 @@ export const LocalStorage = {
 
         var newList = createNewList(list, item)
 
-        let newListAsString = JSON.stringify(newList)
-        appSettings.setString("SavedNewspapers", newListAsString)
         savedSources.set(newList)
         return newList
     },
-    pushOrPopNewItem: function(item, listAsString){
+    pushOrPopNewItemToString: function(item, listAsString){
         let list = JSON.parse(listAsString)
         
         if(doesItemExistInList(list, item)){
-            list = this.pushItem(item, listAsString)
-        }else{
             list = this.popItem(item, listAsString)
+        }else{
+            list = this.pushItem(item, listAsString)
         }
+        
         return list
     },
     getLibraryListLTE: () => {
         createEmptyStringInLocalStorage("SavedNewspapers")
         let listAsString = appSettings.getString("SavedNewspapers")
-        return JSON.parse(listAsString)
+        let list = JSON.parse(listAsString)
+        return list
     },
-    getCompleteLibraryList: () => {
+    getCompleteLibraryList: async () => {
         createEmptyStringInLocalStorage("SavedNewspapers")
     
         let listAsString = appSettings.getString("SavedNewspapers")
         let list = JSON.parse(listAsString)
-        
-        let newList = getArticlesForEachSource(list)
-
-        libraryList.set(newList) 
+        let newList = await getArticlesForEachSource(list)
+      
+        libraryList.set(newList)
         return newList  
     },
     getBookmarks: async () => {

@@ -1,46 +1,54 @@
 <script>
-    import { ModalService } from '~/services/ModalService'
-    import EmptyContainer from '../components/universal/containers/EmptyContainer'
-    import { sources, thereAreNoSources } from '~/services/stores/store'
-    import TopBar from '../components/universal/bars/TopBar'
-    //import Filter from '~/components/universal/containers/FilterContainer'
-    import FilterModal from '~/modals/cardModals/FilterModal'
-    import SimpleList from '~/components/universal/lists/SimpleList'
+    import { ModalService } from '~/services/ModalService';
+    import EmptyContainer from '../components/universal/containers/EmptyContainer';
+    import { sources } from '~/services/stores/listsStore';
+    import { filteredSearchReturnsNoSources } from '~//services/stores/filterStore';
+    import ActionBar from '../components/universal/bars/ActionBar';
+    import FilterModal from '~/modals/cardModals/FilterModal';
+    import TileList from '~/components/universal/lists/TileList';
 
-//Browse is the tab where you can browse and search for newspapers, look what articles they have (on:tap showModal) and add or remove articles to Library (local storage). You can also filter out what newspapers to be shown (this is set to all by default and will reset it self once you switch tab.)
-
+/*
+This all belongs to filterOption in Browse. I descovered it had some buggs and chose to omit this part of the code.  
     $:{
-        $thereAreNoSources = false
-        console.log($thereAreNoSources)
-        //CODE IS BUGGY
+        $filteredSearchReturnsNoSources = false
+        console.log($filteredSearchReturnsNoSources)
     }
+
+    belongs to ActionBar:
+    rightIconSrc="~/assets/icons/filter.png"
+    rightOnTap={() => ModalService.showFilterModal()}     
+*/
 
 </script> 
 
 <frame actionBarHidden={false}>
     <page>
-        <TopBar 
+        <ActionBar 
         leftIconSrc="~/assets/icons/search.png"
         leftOnTap={() => ModalService.goToSearch($sources)}
-        title={'Browse'}
-        rightIconSrc="~/assets/icons/filter.png"
-        rightOnTap={() => ModalService.showFilterModal()}
-        />
+        title={'Browse'}/>
         <stackLayout>
-            <cardView
+        <cardView 
             shadowOffsetHeight="2" 
             shadowOpacity="0.2" 
             shadowRadius="8"
             elevation="10">
-                <label class="OpenSans" text="Find newspapers from across the globe"/>
+                <stackLayout class="backgroundcolorWhite">
+                     <label class="OpenSans" text="Find newspapers from across the globe"/>
+                </stackLayout>
             </cardView>
-            {#if $thereAreNoSources}
+            <TileList 
+                items={$sources}/>
+            <!-- 
+                This also belongs to the filter option 
+            {#if $filteredSearchReturnsNoSources}
                 <EmptyContainer
                     text="Ops! It looks like we don't have any newspapers that matches your search."/>
             {:else}
-                <SimpleList 
+                <TileList 
                 items={$sources}/>
             {/if}
+            -->
         </stackLayout>
     </page>
 </frame>
